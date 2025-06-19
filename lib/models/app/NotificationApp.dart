@@ -12,6 +12,7 @@ class Notification{
   final Student? student;
   final NotificationType? type;
   final bool? isRead;
+  final DateTime? createdAt;
   Notification({
     this.id,
     this.title,
@@ -21,6 +22,7 @@ class Notification{
     this.student,
     this.type,
     this.isRead,
+    this.createdAt
   });
   factory Notification.fromJson(Map<String, dynamic> json) {
     return Notification(
@@ -32,6 +34,7 @@ class Notification{
       student: json['student'] != null ? Student.fromJson(json['student']) : null,
       type: json['type'] != null ? NotificationType.fromString(json['type'] as String) : null,
       isRead: json['isRead'] as bool?,
+      createdAt: json['createdAt'] != null ? DateTime.parse(json['createdAt']) : null,
     );
   }
 
@@ -45,7 +48,8 @@ class Notification{
       'receiver': receiver?.toJson(),
       'student': student?.toJson(),
       'type': type?.toJson(),
-      'isRead': isRead
+      'isRead': isRead,
+      'createdAt':createdAt,
     };
   }
 }
