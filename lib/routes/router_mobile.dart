@@ -18,7 +18,9 @@ import 'package:study_pulse_edu/views/mobile/Teacher/classes/class_teacher_scree
 import 'package:study_pulse_edu/views/mobile/Teacher/classes/view_class_teacher_screen.dart';
 import 'package:study_pulse_edu/views/mobile/Teacher/home/home_teacher_screen.dart';
 import 'package:study_pulse_edu/views/mobile/Teacher/schedule/schedule_teacher_screen.dart';
+import 'package:study_pulse_edu/views/mobile/Teacher/score/enter_score_teacher_screen.dart';
 import 'package:study_pulse_edu/views/mobile/Teacher/score/score_teacher_screen.dart';
+import 'package:study_pulse_edu/views/mobile/Teacher/score/view_score_teacher_screen.dart';
 import 'package:study_pulse_edu/views/mobile/login_mobile_screen.dart';
 import 'package:study_pulse_edu/views/mobile/user/assignment/assignment_user_screen.dart';
 import 'package:study_pulse_edu/views/mobile/user/assignment/submission_user_screen.dart';
@@ -27,9 +29,11 @@ import 'package:study_pulse_edu/views/mobile/user/home/home_user_screen.dart';
 import 'package:study_pulse_edu/routes/route_const.dart';
 import 'package:study_pulse_edu/views/mobile/user/message/message_user_screen.dart';
 import 'package:study_pulse_edu/views/mobile/user/notification/notification_user_screen.dart';
+import 'package:study_pulse_edu/views/mobile/user/notification/view_notification_user_screen.dart';
 import 'package:study_pulse_edu/views/mobile/user/schedule/schedule_user_screen.dart';
 
 import '../models/app/Account.dart';
+import '../models/app/NotificationApp.dart';
 import '../models/app/Student.dart';
 import '../views/mobile/Teacher/assignment/assign_assignment_teacher_screen.dart';
 
@@ -159,10 +163,35 @@ class MyRouterMobile {
         GoRoute(
           name: RouteConstants.teacherScoreRouteName,
           path: '/home_teacher/teacher_score',
-          pageBuilder: (context, state) =>
-              MyRouterMobile.buildSlideTransitionPage(
-                  const ScoreTeacherScreen()),
-        ),
+            pageBuilder: (context, state) {
+              final account = state.extra as Account?;
+              return MyRouterMobile.buildSlideTransitionPage(
+                ScoreTeacherScreen(account: account),
+              );
+            }),
+        GoRoute(
+            name: RouteConstants.teacherEnterScoreRouteName,
+            path: '/home_teacher/teacher_score/teacher_enter_score',
+            pageBuilder: (context, state) {
+              final map = state.extra as Map<String, dynamic>?;
+              final account = map?['account'] as Account?;
+              final classA = map?['classA'] as ClassA?;
+              final onClose = map?['onClose'] as VoidCallback?;
+              return MyRouterMobile.buildSlideTransitionPage(
+                EnterScoreTeacherScreen(account: account, classA: classA, onClose: onClose,),
+              );
+            }),
+        GoRoute(
+            name: RouteConstants.teacherViewScoreRouteName,
+            path: '/home_teacher/teacher_score/teacher_view_score',
+            pageBuilder: (context, state) {
+              final map = state.extra as Map<String, dynamic>?;
+              final account = map?['account'] as Account?;
+              final classId = map?['classId'] as String?;
+              return MyRouterMobile.buildSlideTransitionPage(
+                ViewScoreTeacherScreen(account: account, classId: classId),
+              );
+            }),
         GoRoute(
             name: RouteConstants.teacherAttendanceRouteName,
             path: '/home_teacher/teacher_attendance',
@@ -250,9 +279,21 @@ class MyRouterMobile {
           path: '/home_user/user_notification',
           pageBuilder: (context, state) {
             final map = state.extra as Map<String, dynamic>?;
+            final accountId = map?['accountId'] as String?;
             final onClose = map?['onClose'] as VoidCallback?;
             return MyRouterMobile.buildSlideTransitionPage(
-                NotificationUserScreen(onClose: onClose));
+                NotificationUserScreen(accountId :accountId, onClose: onClose));
+          },
+        ),
+        GoRoute(
+          name: RouteConstants.userViewNotificationRouteName,
+          path: '/home_user/user_notification/user_view_notification',
+          pageBuilder: (context, state) {
+            final map = state.extra as Map<String, dynamic>?;
+            final notificationApp = map?['notificationApp'] as NotificationApp?;
+            final onClose = map?['onClose'] as VoidCallback?;
+            return MyRouterMobile.buildSlideTransitionPage(
+                ViewNotificationUserScreen(notificationApp :notificationApp, onClose: onClose));
           },
         ),
         GoRoute(

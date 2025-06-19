@@ -10,14 +10,15 @@ import 'package:study_pulse_edu/routes/route_const.dart';
 import 'package:study_pulse_edu/viewmodels/mobile/count_notification_mobile_user_view_model.dart';
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-FlutterLocalNotificationsPlugin();
+    FlutterLocalNotificationsPlugin();
 
 Future<void> firebaseBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp();
   print('Nhận thông báo (background): ${message.messageId}');
 }
 
-Future<void> setupFlutterNotifications(GlobalKey<NavigatorState> navigatorKey) async {
+Future<void> setupFlutterNotifications(
+    GlobalKey<NavigatorState> navigatorKey) async {
   const androidSettings = AndroidInitializationSettings('@mipmap/ic_launcher');
   const initSettings = InitializationSettings(android: androidSettings);
 
@@ -63,12 +64,17 @@ Future<void> handleFCMEvents(GlobalKey<NavigatorState> navigatorKey) async {
 
   FirebaseMessaging.onMessage.listen((RemoteMessage message) {
     showFlutterNotification(message);
-    final context = navigatorKey.currentContext;
-    final accountId = message.data['accountId'];
-    if (context != null) {
-      final container = ProviderScope.containerOf(context);
-      container.read(countNotificationMobileUserViewModelProvider.notifier).refreshUnreadCount(accountId);
+    if(message.data['type'] == 'ATTENDANCE' || message.data['type'] == 'SCORE' || message.data['type'] == 'TUITION' || message.data['type'] == 'RESULT') {
+      final context = navigatorKey.currentContext;
+      final accountId = message.data['accountId'];
+      if (context != null) {
+        final container = ProviderScope.containerOf(context);
+        container
+            .read(countNotificationMobileUserViewModelProvider.notifier)
+            .refreshUnreadCount(accountId);
+      }
     }
+
   });
 
   FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) async {
@@ -82,18 +88,20 @@ Future<void> handleFCMEvents(GlobalKey<NavigatorState> navigatorKey) async {
 }
 
 Future<void> _handleNotificationTap(
-    GlobalKey<NavigatorState> navigatorKey,
-    Map<String, dynamic> data,
-    ) async {
+  GlobalKey<NavigatorState> navigatorKey,
+  Map<String, dynamic> data,
+) async {
   final context = navigatorKey.currentContext!;
-  // kiểm tra nếu đang ở trang thông báo thì ko làm gì
-  final matches = GoRouter.of(context).routerDelegate.currentConfiguration.matches;
-  final isAtNotificationScreen = matches.any((match) {
-    final route = match.route;
-    return route is GoRoute && route.name == RouteConstants.userNotificationRouteName;
-  });
 
-  if (data['type'] == 'ATTENDANCE') {
+  if(data['type'] == 'ATTENDANCE' || data['type'] == 'SCORE' || data['type'] == 'TUITION' || data['type'] == 'RESULT') {
+
+    final matches =
+      GoRouter.of(context).routerDelegate.currentConfiguration.matches;
+    final isAtNotificationScreen = matches.any((match) {
+    final route = match.route;
+    return route is GoRoute &&
+        route.name == RouteConstants.userNotificationRouteName;
+  });
     final parentCode = data['parentCode'];
     if (isAtNotificationScreen) {
       return;
@@ -101,9 +109,35 @@ Future<void> _handleNotificationTap(
 
     final enteredCode = await showParentVerificationDialog(context);
     if (enteredCode == parentCode) {
-      context.pushNamed(RouteConstants.userNotificationRouteName);
+      context.pushNamed(RouteConstants.userNotificationRouteName, extra: {
+        "accountId": data['accountId'],
+        "onClose": () {
+          final container = ProviderScope.containerOf(context);
+          container
+              .read(countNotificationMobileUserViewModelProvider.notifier)
+              .refreshUnreadCount(data['accountId']);
+        }
+      });
     } else if (enteredCode != null) {
       showErrorToast("Mã xác nhận phụ huynh không chính xác");
     }
+  }
+
+  if (data['type'] == 'ASSIGNMENT') {
+    final matches =
+        GoRouter.of(context).routerDelegate.currentConfiguration.matches;
+    final isAtNotificationScreen = matches.any((match) {
+      final route = match.route;
+      return route is GoRoute &&
+          route.name == RouteConstants.userAssignmentRouteName;
+    });
+    if (isAtNotificationScreen) {
+      return;
+    }
+      context.pushNamed(RouteConstants.userAssignmentRouteName, extra: {
+        "studentId": data['studentId'],
+        "studentName": data['studentName'],
+        "studentCode": data['studentCode'],
+      },);
   }
 }

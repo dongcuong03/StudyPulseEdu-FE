@@ -26,6 +26,7 @@ class _HomeUserScreenState extends ConsumerState<HomeUserScreen>
   bool isLoading = false;
   Account? account;
   String accountName = "";
+  String accountId = "";
   String parentCode = "";
   String accountPhone = "";
 
@@ -57,6 +58,7 @@ class _HomeUserScreenState extends ConsumerState<HomeUserScreen>
       setState(() {
         account = fetchedAccount;
         accountName = parent.fullName ?? "";
+        accountId = account?.id ?? "";
         accountPhone = account?.phone ?? "";
         parentCode = parent.verificationCode ?? "";
         _tabController = TabController(length: _students.length, vsync: this);
@@ -115,7 +117,7 @@ class _HomeUserScreenState extends ConsumerState<HomeUserScreen>
                   context: context,
                   title: 'Thông báo',
                   content: 'Bạn có muốn đăng xuất?',
-                  icon: Icons.warning,
+                  icon: Icons.notifications,
                   confirmColor: Colors.blue,
                   onConfirm: () async {
                     await _authViewModel.logout();
@@ -137,7 +139,7 @@ class _HomeUserScreenState extends ConsumerState<HomeUserScreen>
                     UserInforWidget(
                       scaffoldContext: scaffoldContext,
                       accountName: accountName,
-                      accountId: account?.id.toString() ?? '',
+                      accountId: accountId,
                       parentCode: parentCode,
                     ),
                     SizedBox(height: 20.h),
@@ -225,6 +227,7 @@ class _HomeUserScreenState extends ConsumerState<HomeUserScreen>
                               height: 200.h,
                               child: TabBarView(
                                 controller: _tabController,
+                                physics: const NeverScrollableScrollPhysics(),
                                 children: _studentWidgets,
                               ),
                             ),

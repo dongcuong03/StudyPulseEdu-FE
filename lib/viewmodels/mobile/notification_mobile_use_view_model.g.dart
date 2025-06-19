@@ -7,12 +7,12 @@ part of 'notification_mobile_use_view_model.dart';
 // **************************************************************************
 
 String _$notificationMobileUseViewModelHash() =>
-    r'0611a1e8456f8cebf7a6ca3239b3045a5b60a7cf';
+    r'ee0cbf6f5a84110ab13849069907ec0de61cbddd';
 
 /// See also [NotificationMobileUseViewModel].
 @ProviderFor(NotificationMobileUseViewModel)
 final notificationMobileUseViewModelProvider = AutoDisposeAsyncNotifierProvider<
-    NotificationMobileUseViewModel, List<Notification>>.internal(
+    NotificationMobileUseViewModel, List<NotificationApp>>.internal(
   NotificationMobileUseViewModel.new,
   name: r'notificationMobileUseViewModelProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -23,6 +23,6 @@ final notificationMobileUseViewModelProvider = AutoDisposeAsyncNotifierProvider<
 );
 
 typedef _$NotificationMobileUseViewModel
-    = AutoDisposeAsyncNotifier<List<Notification>>;
+    = AutoDisposeAsyncNotifier<List<NotificationApp>>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

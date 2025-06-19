@@ -12,6 +12,8 @@ class RouteConstants {
   static const String teacherGradeAssignmentRouteName = 'teacher_grade_assignment';
   static const String teacherGradeTwoAssignmentRouteName = 'teacher_grade_two_assignment';
   static const String teacherScoreRouteName = 'teacher_score';
+  static const String teacherEnterScoreRouteName = 'teacher_enter_score';
+  static const String teacherViewScoreRouteName = 'teacher_view_score';
   static const String teacherAttendanceRouteName = 'teacher_attendance';
   static const String teacherAttendanceTwoRouteName = 'teacher_attendance_two';
   static const String teacherAttendanceThreeRouteName = 'teacher_attendance_three';
@@ -21,6 +23,7 @@ class RouteConstants {
 
   static const String userMessageRouteName = 'user_message';
   static const String userNotificationRouteName = 'user_notification';
+  static const String userViewNotificationRouteName = 'user_view_notification';
   static const String userScheduleRouteName = 'user_schedule';
   static const String userAssignmentRouteName = 'user_assignment';
   static const String userSubmissionRouteName = 'user_submisstion';

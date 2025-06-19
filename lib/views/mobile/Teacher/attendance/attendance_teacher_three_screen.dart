@@ -50,6 +50,7 @@ class _AttendanceTeacherThreeScreenState
     }
     super.dispose();
   }
+
   Future<void> _loadDataAttendace() async {
     final classId = widget.classA?.id;
     final date = widget.date;
@@ -68,8 +69,7 @@ class _AttendanceTeacherThreeScreenState
         // Tìm attendance ứng với học sinh
         Attendance? attendance;
         try {
-          attendance =
-              response.firstWhere((a) => a.student?.id == student.id);
+          attendance = response.firstWhere((a) => a.student?.id == student.id);
         } catch (_) {
           attendance = null;
         }
@@ -93,37 +93,42 @@ class _AttendanceTeacherThreeScreenState
     }
   }
 
-
   void _attendance() async {
     final classId = widget.classA?.id;
     final List<Attendance> attendanceList =
         widget.classA!.students!.map((student) {
       final status = _attendanceStatus[student.id!] ?? AttendanceStatus.PRESENT;
       final note = _noteControllers[student.id!]?.text;
-      print('status: $status');
-      print('note: $note');
       return Attendance(
         student: Student(id: student.id, studentCode: student.studentCode),
         classA: ClassA(className: widget.classA?.className, id: classId),
         teacher: Teacher(
-          id: widget.classA?.teacher?.id,
-          fullName: widget.classA?.teacher?.fullName
-        ),
+            id: widget.classA?.teacher?.id,
+            fullName: widget.classA?.teacher?.fullName),
         attendanceDatetime: DateTime.now(),
         status: status,
         note: note?.trim().isEmpty ?? true ? null : note?.trim(),
       );
     }).toList();
-    showLoading(context, show: true);
-    final result = await ref.read(attendanceTeacherViewModelProvider.notifier)
-        .markAttendanceBulk(attendanceList);
-    showLoading(context, show: false);
-    if (result == null) {
-      widget.onClose?.call();
-      context.pop();
-    } else {
-      showErrorToast(result);
-    }
+    final confirm = await showConfirmDialogMobile(
+        context: context,
+        title: 'Thông báo',
+        content: 'Bạn có muốn lưu điểm danh và gửi thông báo đến phụ huynh?',
+        icon: Icons.notifications,
+        confirmColor: Colors.blue,
+        onConfirm: () async {
+          showLoading(context, show: true);
+          final result = await ref
+              .read(attendanceTeacherViewModelProvider.notifier)
+              .markAttendanceBulk(attendanceList);
+          showLoading(context, show: false);
+          if (result == null) {
+            widget.onClose?.call();
+            context.pop();
+          } else {
+            showErrorToast(result);
+          }
+        });
   }
 
   @override
@@ -180,7 +185,8 @@ class _AttendanceTeacherThreeScreenState
                               ),
                               const SizedBox(height: 4),
                               Text(
-                                DateFormat('EEEE, dd/MM/yyyy', 'vi_VN').format(widget.date!),
+                                DateFormat('EEEE, dd/MM/yyyy', 'vi_VN')
+                                    .format(widget.date!),
                                 style: const TextStyle(
                                   fontSize: 14,
                                   color: Colors.blue,
@@ -277,13 +283,15 @@ class _AttendanceTeacherThreeScreenState
                                       label: Text(
                                         'Vắng',
                                         style: TextStyle(
-                                          color: status == AttendanceStatus.ABSENT
-                                              ? Colors.white
-                                              : Colors.black87,
+                                          color:
+                                              status == AttendanceStatus.ABSENT
+                                                  ? Colors.white
+                                                  : Colors.black87,
                                           fontWeight: FontWeight.w600,
                                         ),
                                       ),
-                                      selected: status == AttendanceStatus.ABSENT,
+                                      selected:
+                                          status == AttendanceStatus.ABSENT,
                                       onSelected: (selected) {
                                         setState(() {
                                           _attendanceStatus[studentId] =
@@ -363,7 +371,9 @@ class _AttendanceTeacherThreeScreenState
                     borderRadius: BorderRadius.circular(25.r),
                   ),
                   child: ElevatedButton(
-                    onPressed: () {_attendance();},
+                    onPressed: () {
+                      _attendance();
+                    },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.transparent,
                       shadowColor: Colors.transparent,

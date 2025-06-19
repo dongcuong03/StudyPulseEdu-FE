@@ -265,7 +265,7 @@ class AssignmentCard extends StatelessWidget with HelperMixin {
                 title: Text(file.split('/').last, style: TextStyle(fontSize: 15)),
                 onTap: () => downloadFile(file),
               ),
-            if (isOverdue)
+            if (isOverdue && !hasSubmitted)
               const Padding(
                 padding: EdgeInsets.only(top: 40.0),
                 child: Center(

@@ -470,7 +470,8 @@ mixin HelperMixin {
                       Text(
                         title,
                         style: const TextStyle(
-                          fontSize: 18,
+                          fontSize: 20,
+                          color: Colors.blue,
                           fontWeight: FontWeight.bold,
                         ),
                       ),

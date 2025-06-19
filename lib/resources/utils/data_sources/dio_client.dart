@@ -131,6 +131,30 @@ class DioClient {
     }
   }
 
+  Future<Response> download(
+      String url,
+      String savePath, {
+        Map<String, dynamic>? queryParameters,
+        ProgressCallback? onReceiveProgress,
+      }) async {
+    try {
+      final response = await _dio.download(
+        url,
+        savePath,
+        queryParameters: queryParameters,
+        onReceiveProgress: onReceiveProgress,
+        options: Options(
+          responseType: ResponseType.bytes,
+          headers: {
+            "Accept": 'application/json',
+          },
+        ),
+      );
+      return response;
+    } on Exception catch (exception) {
+      throw handleError(exception);
+    }
+  }
 
 
   Future<Response> post(String path, {

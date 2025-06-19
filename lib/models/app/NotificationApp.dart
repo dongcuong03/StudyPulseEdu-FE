@@ -3,7 +3,7 @@ import 'package:study_pulse_edu/models/app/Student.dart';
 
 import '../../resources/constains/constants.dart';
 
-class Notification{
+class NotificationApp{
   final String? id;
   final String? title;
   final String? message;
@@ -11,9 +11,9 @@ class Notification{
   final Account? receiver;
   final Student? student;
   final NotificationType? type;
-  final bool? isRead;
+   bool? isRead;
   final DateTime? createdAt;
-  Notification({
+  NotificationApp({
     this.id,
     this.title,
     this.message,
@@ -24,8 +24,8 @@ class Notification{
     this.isRead,
     this.createdAt
   });
-  factory Notification.fromJson(Map<String, dynamic> json) {
-    return Notification(
+  factory NotificationApp.fromJson(Map<String, dynamic> json) {
+    return NotificationApp(
       id: json['id'] as String?,
       title: json['title'] as String?,
       message: json['message'] as String?,

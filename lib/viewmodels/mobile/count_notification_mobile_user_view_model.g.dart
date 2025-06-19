@@ -7,7 +7,7 @@ part of 'count_notification_mobile_user_view_model.dart';
 // **************************************************************************
 
 String _$countNotificationMobileUserViewModelHash() =>
-    r'4caef560f2bc89d70a7defe5449e292872db17ec';
+    r'4bc8452307fc5129ee5d4adf416dd3b770547d79';
 
 /// See also [CountNotificationMobileUserViewModel].
 @ProviderFor(CountNotificationMobileUserViewModel)

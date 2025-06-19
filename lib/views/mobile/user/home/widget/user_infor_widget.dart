@@ -15,11 +15,12 @@ class UserInforWidget extends ConsumerStatefulWidget {
   final String parentCode;
   final String accountId;
 
-  const UserInforWidget({required this.scaffoldContext,
-    required this.accountName,
-    required this.parentCode,
-    required this.accountId,
-    super.key});
+  const UserInforWidget(
+      {required this.scaffoldContext,
+      required this.accountName,
+      required this.parentCode,
+      required this.accountId,
+      super.key});
 
   @override
   ConsumerState createState() => _UserInforWidgetState();
@@ -27,21 +28,20 @@ class UserInforWidget extends ConsumerStatefulWidget {
 
 class _UserInforWidgetState extends ConsumerState<UserInforWidget>
     with HelperMixin {
-
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      ref.read(countNotificationMobileUserViewModelProvider.notifier)
+      ref
+          .read(countNotificationMobileUserViewModelProvider.notifier)
           .refreshUnreadCount(widget.accountId);
     });
   }
 
-
   @override
   Widget build(BuildContext context) {
     final unreadNotifyState =
-    ref.watch(countNotificationMobileUserViewModelProvider);
+        ref.watch(countNotificationMobileUserViewModelProvider);
     final unreadNotify = unreadNotifyState.asData?.value ?? 0;
     final unreadMessage = unreadNotifyState.asData?.value ?? 0;
     return SingleChildScrollView(
@@ -71,7 +71,7 @@ class _UserInforWidgetState extends ConsumerState<UserInforWidget>
                   color: AppTheme.primaryColor,
                   height: 110,
                   padding:
-                  const EdgeInsets.symmetric(vertical: 30, horizontal: 10),
+                      const EdgeInsets.symmetric(vertical: 30, horizontal: 10),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -86,7 +86,8 @@ class _UserInforWidgetState extends ConsumerState<UserInforWidget>
                             ),
                           ),
                           const SizedBox(width: 10),
-                          _userInfoCard(widget.accountName, unreadNotify, unreadMessage),
+                          _userInfoCard(
+                              widget.accountName, unreadNotify, unreadMessage),
                         ],
                       ),
                     ],
@@ -101,7 +102,8 @@ class _UserInforWidgetState extends ConsumerState<UserInforWidget>
     );
   }
 
-  Widget _userInfoCard(String? displayName, int unreadNotify, int unreadMessage) {
+  Widget _userInfoCard(
+      String? displayName, int unreadNotify, int unreadMessage) {
     return Expanded(
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween, // tách 2 bên
@@ -135,7 +137,7 @@ class _UserInforWidgetState extends ConsumerState<UserInforWidget>
     );
   }
 
-  Widget _function( int unreadNotify, int unreadMessage) {
+  Widget _function(int unreadNotify, int unreadMessage) {
     return Padding(
       padding: EdgeInsets.only(top: 8.h, right: 16.w),
       child: Row(
@@ -151,12 +153,6 @@ class _UserInforWidgetState extends ConsumerState<UserInforWidget>
                   pushedName(
                     context,
                     RouteConstants.userMessageRouteName,
-                    extra: {
-                      "onClose": () {
-                        ref.read(countNotificationMobileUserViewModelProvider
-                            .notifier).refreshUnreadCount(widget.accountId);
-                      },
-                    },
                   );
                 } else {
                   showErrorToast("Mã xác nhận phụ huynh không chính xác");
@@ -207,7 +203,16 @@ class _UserInforWidgetState extends ConsumerState<UserInforWidget>
               final code = await showParentVerificationDialog(context);
               if (code != null) {
                 if (code == widget.parentCode.toString()) {
-                  pushedName(context, RouteConstants.userNotificationRouteName);
+                  pushedName(
+                    context,
+                    RouteConstants.userNotificationRouteName,
+                    extra: {
+                      "accountId": widget.accountId,
+                      "onClose": () {
+                        ref.read(countNotificationMobileUserViewModelProvider.notifier).refreshUnreadCount(widget.accountId);
+                      },
+                    },
+                  );
                 } else {
                   showErrorToast("Mã xác nhận phụ huynh không chính xác");
                 }
