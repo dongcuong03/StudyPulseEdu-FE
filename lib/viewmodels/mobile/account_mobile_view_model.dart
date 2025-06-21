@@ -39,4 +39,36 @@ class AccountMobileViewModel extends _$AccountMobileViewModel {
     }
     return null;
   }
+
+  Future<List<Account>> getAllAccountTeacher() async {
+    final url = "${ApiConstants.getBaseUrl}/api/v1/account/getAllAccountTeacher";
+
+    try {
+      final response = await DioClient().get(url);
+
+      if (response.statusCode == 200 && response.data != null) {
+        final List<dynamic> jsonList = response.data;
+        return jsonList.map((json) => Account.fromJson(json)).toList();
+      }
+    } catch (e) {
+      print("Error getAllTeacherAccounts: $e");
+    }
+    return [];
+  }
+
+  Future<List<Account>> getAllAccountParent() async {
+    final url = "${ApiConstants.getBaseUrl}/api/v1/account/getAllAccountParent";
+
+    try {
+      final response = await DioClient().get(url);
+
+      if (response.statusCode == 200 && response.data != null) {
+        final List<dynamic> jsonList = response.data;
+        return jsonList.map((json) => Account.fromJson(json)).toList();
+      }
+    } catch (e) {
+      print("Error getAllParentAccounts: $e");
+    }
+    return [];
+  }
 }

@@ -64,7 +64,7 @@ class _ClassTeacherScreenState extends ConsumerState<ClassTeacherScreen> with He
                   padding: const EdgeInsets.all(12.0),
                   child: ListTile(
                     title: Text(classItem.className.toString(),
-                        style: const TextStyle(fontWeight: FontWeight.bold)),
+                        style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.teal)),
                     subtitle: Text(
                         'Từ ${formatDate(classItem.startDate.toString())} đến ${formatDate(classItem.endDate.toString())}'),
                     trailing: const Icon(Icons.arrow_forward_ios),

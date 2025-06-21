@@ -131,6 +131,31 @@ class DioClient {
     }
   }
 
+  Future<Response<String>> postFile(
+      String path, {
+        Map<String, dynamic>? queryParameters,
+        dynamic data,
+        bool isMultipart = false,
+      }) async {
+    try {
+      if (isMultipart) {
+        _dio.options.headers.remove(Headers.contentTypeHeader);
+      } else {
+        _dio.options.headers[Headers.contentTypeHeader] = 'application/json';
+      }
+
+      final response = await _dio.post<String>(
+        path,
+        queryParameters: queryParameters,
+        data: data,
+        options: Options(responseType: ResponseType.plain), // 🔥 plain text
+      );
+      return response;
+    } on Exception catch (exception) {
+      throw handleError(exception);
+    }
+  }
+
   Future<Response> download(
       String url,
       String savePath, {

@@ -8,6 +8,7 @@ import '../../../../../resources/utils/helpers/helper_mixin.dart';
 import '../../../../../resources/widgets/botton_wavy_clipper.dart';
 import '../../../../../resources/widgets/show_parent_verification_dialog.dart';
 import '../../../../../routes/route_const.dart';
+import '../../../../../viewmodels/mobile/chat_view_model.dart';
 
 class UserInforWidget extends ConsumerStatefulWidget {
   final BuildContext scaffoldContext;
@@ -43,7 +44,7 @@ class _UserInforWidgetState extends ConsumerState<UserInforWidget>
     final unreadNotifyState =
         ref.watch(countNotificationMobileUserViewModelProvider);
     final unreadNotify = unreadNotifyState.asData?.value ?? 0;
-    final unreadMessage = unreadNotifyState.asData?.value ?? 0;
+
     return SingleChildScrollView(
       child: Column(
         children: [
@@ -87,7 +88,7 @@ class _UserInforWidgetState extends ConsumerState<UserInforWidget>
                           ),
                           const SizedBox(width: 10),
                           _userInfoCard(
-                              widget.accountName, unreadNotify, unreadMessage),
+                              widget.accountName, unreadNotify),
                         ],
                       ),
                     ],
@@ -103,10 +104,10 @@ class _UserInforWidgetState extends ConsumerState<UserInforWidget>
   }
 
   Widget _userInfoCard(
-      String? displayName, int unreadNotify, int unreadMessage) {
+      String? displayName, int unreadNotify) {
     return Expanded(
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween, // tách 2 bên
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Expanded(
@@ -131,71 +132,72 @@ class _UserInforWidgetState extends ConsumerState<UserInforWidget>
           ),
 
           const SizedBox(width: 12), // spacing giữa 2 phần
-          _function(unreadNotify, unreadMessage), // các nút icon bên phải
+          _function(unreadNotify), // các nút icon bên phải
         ],
       ),
     );
   }
 
-  Widget _function(int unreadNotify, int unreadMessage) {
+  Widget _function(int unreadNotify) {
     return Padding(
       padding: EdgeInsets.only(top: 8.h, right: 16.w),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          GestureDetector(
-            onTap: () async {
-              final code = await showParentVerificationDialog(context);
-              if (code != null) {
-                print('Mã xác nhận đã nhập: $code');
-                print(widget.parentCode);
-                if (code == widget.parentCode.toString()) {
-                  pushedName(
-                    context,
-                    RouteConstants.userMessageRouteName,
-                  );
-                } else {
-                  showErrorToast("Mã xác nhận phụ huynh không chính xác");
-                }
-              }
-            },
-            child: Stack(
-              clipBehavior: Clip.none,
-              children: [
-                Container(
-                  width: 30,
-                  height: 30,
-                  child: Image.asset(
-                    'assets/images/message_icon.png',
-                    fit: BoxFit.contain,
-                  ),
-                ),
-                if (unreadMessage > 0)
-                  Positioned(
-                    top: -5,
-                    right: -2,
-                    child: Container(
-                      padding: EdgeInsets.all(3),
-                      decoration: BoxDecoration(
-                        color: Colors.red,
-                        shape: BoxShape.circle,
-                      ),
-                      constraints: BoxConstraints(minWidth: 16, minHeight: 16),
-                      child: Center(
-                        child: Text(
-                          unreadMessage > 9 ? '9+' : '$unreadMessage',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 10,
-                            fontWeight: FontWeight.bold,
+          StreamBuilder<int>(
+            stream: ref.read(chatViewModelProvider.notifier).listenUnreadMessageCount(widget.accountId),
+            builder: (context, snapshot) {
+              final unreadMessage = snapshot.data ?? 0;
+              return GestureDetector(
+                onTap: () async {
+                  final code = await showParentVerificationDialog(context);
+                  if (code != null) {
+                    if (code == widget.parentCode.toString()) {
+                      pushedName(context, RouteConstants.userMessageRouteName,
+                          extra: widget.accountId);
+                    } else {
+                      showErrorToast("Mã xác nhận phụ huynh không chính xác");
+                    }
+                  }
+                },
+                child: Stack(
+                  clipBehavior: Clip.none,
+                  children: [
+                    Image.asset(
+                      'assets/images/message_icon.png',
+                      width: 30,
+                      height: 30,
+                      fit: BoxFit.contain,
+                    ),
+                    if (unreadMessage > 0)
+                      Positioned(
+                        top: -5,
+                        right: -2,
+                        child: Container(
+                          padding: EdgeInsets.all(3),
+                          decoration: BoxDecoration(
+                            color: Colors.red,
+                            shape: BoxShape.circle,
+                          ),
+                          constraints: BoxConstraints(minWidth: 16, minHeight: 16),
+                          child: Center(
+                            child: Text(
+                              unreadMessage > 9 ? '9+' : '$unreadMessage',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 10,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  ),
-              ],
-            ),
+                  ],
+                ),
+              );
+            },
           ),
+
 
           const SizedBox(width: 16),
           GestureDetector(

@@ -1,144 +1,208 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:study_pulse_edu/models/app/Account.dart';
+import 'package:study_pulse_edu/models/app/ClassA.dart';
 import 'package:study_pulse_edu/models/app/Score.dart';
-import 'package:study_pulse_edu/viewmodels/mobile/classA_mobile_teacher_view_model.dart';
+import 'package:study_pulse_edu/models/app/Student.dart';
+import 'package:study_pulse_edu/resources/utils/app/app_theme.dart';
 import 'package:study_pulse_edu/viewmodels/mobile/score_mobile_teacher_view_model.dart';
-
-import '../../../../models/app/Account.dart';
-import '../../../../resources/utils/app/app_theme.dart';
-import '../../../../resources/utils/helpers/helper_mixin.dart';
-import '../../../../routes/route_const.dart';
-
 
 class ViewScoreTeacherScreen extends ConsumerStatefulWidget {
   final Account? account;
-  final String? classId;
-  const ViewScoreTeacherScreen({required this.account , required this.classId, super.key});
+  final ClassA? classA;
+
+  const ViewScoreTeacherScreen({
+    super.key,
+    required this.account,
+    required this.classA,
+  });
 
   @override
   ConsumerState createState() => _ViewScoreTeacherScreenState();
 }
 
-class _ViewScoreTeacherScreenState extends ConsumerState<ViewScoreTeacherScreen> with HelperMixin {
-  List<Score> _scores = [];
-  bool _loading = true;
+class _ViewScoreTeacherScreenState extends ConsumerState<ViewScoreTeacherScreen> {
+  bool isLoading = true;
+  String selectedScoreType = 'Kiểm tra 1';
+  final List<String> scoreTypes = ['Kiểm tra 1', 'Kiểm tra 2', 'Giữa khóa', 'Cuối khóa'];
+  final Map<String, Map<String, double>> scoreData = {};
 
   @override
   void initState() {
     super.initState();
-    _fetchScores();
+    _loadScores();
   }
 
-  Future<void> _fetchScores() async {
+  void _loadScores() async {
+    final classId = widget.classA?.id;
+    if (classId == null) return;
+
     try {
       final scores = await ref
           .read(scoreMobileTeacherViewModelProvider.notifier)
-          .fetchScoresByClassId(widget.classId!);
-      setState(() {
-        _scores = scores;
-        _loading = false;
-      });
+          .fetchScoresByClassId(classId);
+
+      for (var score in scores) {
+        final studentId = score.student?.id;
+        if (studentId == null) continue;
+
+        void setScore(String type, double? value) {
+          if (value == null) return;
+          scoreData[type] ??= {};
+          scoreData[type]![studentId] = value;
+        }
+
+        setScore('Kiểm tra 1', score.scoreTest1);
+        setScore('Kiểm tra 2', score.scoreTest2);
+        setScore('Giữa khóa', score.scoreMidterm);
+        setScore('Cuối khóa', score.scoreFinal);
+      }
+
+      setState(() => isLoading = false);
     } catch (e) {
-      setState(() {
-        _loading = false;
-      });
+      setState(() => isLoading = false);
     }
   }
 
-
   @override
   Widget build(BuildContext context) {
+    final List<Student> students = widget.classA?.students ?? [];
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Xem điểm', style: TextStyle(color: Colors.white)),
+        title: const Text('Xem điểm'),
         backgroundColor: Colors.blue,
-        iconTheme: const IconThemeData(color: Colors.white),
+        foregroundColor: Colors.white,
       ),
-      body: _loading
+      body: isLoading
           ? const Center(child: CircularProgressIndicator())
-          : Column(
+          : Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          children: [
+            _buildScoreTypeDropdown(),
+            const SizedBox(height: 16),
+            Expanded(child: _buildScoreTable(students)),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildScoreTypeDropdown() {
+    return  Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        Container(
+          width: 155,
+          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 5),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(10),
+            border: Border.all(color: Colors.grey.shade300),
+            boxShadow: const [
+              BoxShadow(
+                color: Colors.black12,
+                blurRadius: 1,
+                offset: Offset(0, 1),
+              ),
+            ],
+          ),
+          child: DropdownButtonHideUnderline(
+            child: DropdownButton<String>(
+              value: selectedScoreType,
+              style: const TextStyle(
+                color: Colors.black,
+                fontWeight: FontWeight.normal,
+                fontSize: 16,
+              ),
+              icon: const Icon(Icons.arrow_drop_down),
+              isExpanded: true,
+              items: scoreTypes
+                  .map((type) => DropdownMenuItem(
+                value: type,
+                child: Text(type),
+              ))
+                  .toList(),
+              onChanged: (value) {
+                if (value != null) {
+                  setState(() {
+                    selectedScoreType = value;
+                  });
+                }
+              },
+              isDense: true,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildScoreTable(List<Student> students) {
+    final currentScores = scoreData[selectedScoreType] ?? {};
+
+    return Card(
+      color: Colors.white,
+      elevation: 2,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      child: Column(
         children: [
           // Header
           Container(
+            padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
             decoration: BoxDecoration(
               color: Colors.white,
+              borderRadius: BorderRadius.circular(8),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.1),
-                  blurRadius: 2,
+                  color: Colors.grey.withOpacity(0.5),
                   offset: const Offset(0, 2),
+                  blurRadius: 2,
+
                 ),
               ],
             ),
-            padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
             child: Row(
-              children: [
-                scoreHeaderCell('STT', 40),
-                scoreHeaderCell('Học sinh', 160),
-                scoreHeaderCell('KT1', 50),
-                scoreHeaderCell('KT2', 50),
-                scoreHeaderCell('GK', 50),
-                scoreHeaderCell('CK', 50),
+              children: const [
+                Expanded(flex: 1, child: Center(child: Text('STT', style: TextStyle(fontWeight: FontWeight.w600)))),
+                Expanded(flex: 2, child: Center(child: Text('Mã HS', style: TextStyle(fontWeight: FontWeight.w600)))),
+                Expanded(flex: 4, child: Center(child: Text('Họ tên', style: TextStyle(fontWeight: FontWeight.w600)))),
+                Expanded(flex: 2, child: Center(child: Text('Điểm', style: TextStyle(fontWeight: FontWeight.w600)))),
               ],
             ),
           ),
-          const Divider(height: 1),
-          // Data rows
+          const SizedBox(height: 8),
           Expanded(
-            child: ListView.builder(
-              itemCount: _scores.length,
-              itemBuilder: (context, index) {
-                final s = _scores[index];
-                final isEvenRow = (index + 1) % 2 == 0;
-
-                return Container(
-                  padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 8),
-                  decoration: BoxDecoration(
-                    color: isEvenRow ? Colors.white : null,
-                    border: Border(
-                      bottom: BorderSide(color: Colors.grey.shade300),
-                    ),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      scoreCell('${index + 1}', 40),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 16.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            SizedBox(
-                              width: 144,
-                              child: Text(
-                                s.student?.fullName ?? '',
-                                overflow: TextOverflow.ellipsis,
-                                style: const TextStyle(fontSize: 16),
-                              ),
-                            ),
-                            SizedBox(
-                              width: 144,
-                              child: Text(
-                                s.student?.studentCode ?? '',
-                                overflow: TextOverflow.ellipsis,
-                                style: const TextStyle(fontSize: 14, color: Colors.grey),
-                              ),
-                            ),
-                          ],
+            child: Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: ListView.separated(
+                itemCount: students.length,
+                separatorBuilder: (_, __) => Divider(color: Colors.grey.shade300),
+                itemBuilder: (context, index) {
+                  final student = students[index];
+                  final double? score = currentScores[student.id];
+                  return Container(
+                    color: index % 2 == 0 ? Colors.white : Colors.grey.shade100,
+                    padding: const EdgeInsets.symmetric(vertical: 8),
+                    child: Row(
+                      children: [
+                        Expanded(flex: 1, child: Center(child: Text('${index + 1}'))),
+                        Expanded(flex: 2, child: Center(child: Text(student.studentCode ?? ''))),
+                        Expanded(flex: 4, child: Text(student.fullName ?? '')),
+                        Expanded(
+                          flex: 2,
+                          child: Center(
+                            child: Text(formatScore(score)),
+                          ),
                         ),
-                      ),
+                      ],
+                    ),
+                  );
 
-
-                      scoreCell(formatScore(s.scoreTest1), 50),
-                      scoreCell(formatScore(s.scoreTest2), 50),
-                      scoreCell(formatScore(s.scoreMidterm), 50),
-                      scoreCell(formatScore(s.scoreFinal), 50),
-
-                    ],
-                  ),
-                );
-              },
+                },
+              ),
             ),
           ),
         ],
@@ -147,30 +211,11 @@ class _ViewScoreTeacherScreenState extends ConsumerState<ViewScoreTeacherScreen>
   }
 
   String formatScore(double? score) {
-    if (score == null) return '-';
-    final s = score.toStringAsFixed(2);
-    if (s.endsWith('.00')) {
-      return s.replaceAll('.00', '');
-    } else if (s.endsWith('0')) {
-      return s.substring(0, s.length - 1); // bỏ số 0 cuối
-    } else {
-      return s;
+    if (score == null) return '_';
+    if (score % 1 == 0) {
+      return score.toInt().toString(); // Bỏ phần .0
     }
+    return score.toString();
   }
 
-  Widget scoreHeaderCell(String label, double width) {
-    return Container(
-      width: width,
-      alignment: Alignment.center,
-      child: Text(label, style: const TextStyle(fontWeight: FontWeight.w500)),
-    );
-  }
-
-  Widget scoreCell(String content, double width) {
-    return Container(
-      width: width,
-      alignment: Alignment.center,
-      child: Text(content, overflow: TextOverflow.ellipsis),
-    );
-  }
 }

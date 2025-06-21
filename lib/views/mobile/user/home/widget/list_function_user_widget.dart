@@ -44,7 +44,7 @@ class ListFunctionUserWidget extends ConsumerWidget with HelperMixin {
         icon: Icons.grade,
         label: 'Điểm',
         onTap: () {
-          pushedName(context, RouteConstants.teacherScoreRouteName,
+          pushedName(context, RouteConstants.userScoreRouteName,
               extra: studentId);
         },
       ),

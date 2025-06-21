@@ -6,10 +6,12 @@ import '../../../../../resources/utils/app/app_theme.dart';
 import '../../../../../resources/utils/helpers/helper_mixin.dart';
 import '../../../../../resources/widgets/botton_wavy_clipper.dart';
 import '../../../../../routes/route_const.dart';
+import '../../../../../viewmodels/mobile/chat_view_model.dart';
 class TeacherInforWidget extends ConsumerStatefulWidget {
   final BuildContext scaffoldContext;
   final String accountName;
-  const TeacherInforWidget({required this.scaffoldContext,required this.accountName, super.key});
+  final String accountId;
+  const TeacherInforWidget({required this.scaffoldContext,required this.accountName,required this.accountId, super.key});
 
 
   @override
@@ -18,6 +20,7 @@ class TeacherInforWidget extends ConsumerStatefulWidget {
 
 class _TeacherInforWidgetState extends ConsumerState<TeacherInforWidget>
     with HelperMixin {
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -111,63 +114,47 @@ class _TeacherInforWidgetState extends ConsumerState<TeacherInforWidget>
     );
   }
 
-  int unreadCount = 3;
-
   Widget _function() {
     return Padding(
       padding: EdgeInsets.only(top: 8.h, right: 16.w),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          GestureDetector(
-            onTap: () {
-              pushedName(context, RouteConstants.teacherMessageRouteName);
-            },
-            child: Stack(
-              clipBehavior: Clip.none,
-              children: [
-                Container(
-                  width: 30,
-                  height: 30,
-                  child: Image.asset(
-                    'assets/images/message_icon.png',
-                    fit: BoxFit.contain,
-                  ),
-                ),
-                if (unreadCount > 0)
-                  Positioned(
-                    top: -5,
-                    right: -2,
-                    child: Container(
-                      padding: EdgeInsets.all(3),
-                      decoration: BoxDecoration(
-                        color: Colors.red,
-                        shape: BoxShape.circle,
-                      ),
-                      constraints: BoxConstraints(minWidth: 16, minHeight: 16),
-                      child: Center(
-                        child: Text(
-                          unreadCount > 9 ? '9+' : '$unreadCount',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 10,
-                            fontWeight: FontWeight.bold,
+          StreamBuilder<int>(
+            stream: ref.read(chatViewModelProvider.notifier).listenUnreadMessageCount(widget.accountId),
+            builder: (context, snapshot) {
+              final unreadCount = snapshot.data ?? 0;
+              return GestureDetector(
+                onTap: () {
+                  pushedName(context, RouteConstants.teacherMessageRouteName, extra: widget.accountId);
+                },
+                child: Stack(
+                  clipBehavior: Clip.none,
+                  children: [
+                    Image.asset('assets/images/message_icon.png', width: 30, height: 30),
+                    if (unreadCount > 0)
+                      Positioned(
+                        top: -5,
+                        right: -2,
+                        child: Container(
+                          padding: EdgeInsets.all(3),
+                          decoration: BoxDecoration(color: Colors.red, shape: BoxShape.circle),
+                          constraints: BoxConstraints(minWidth: 16, minHeight: 16),
+                          child: Center(
+                            child: Text(
+                              unreadCount > 9 ? '9+' : '$unreadCount',
+                              style: const TextStyle(color: Colors.white, fontSize: 10, fontWeight: FontWeight.bold),
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  ),
-              ],
-            ),
+                  ],
+                ),
+              );
+            },
           ),
-
-
           const SizedBox(width: 16),
-
-          // Nút Draw
           GestureDetector(
             onTap: () {
-
               Scaffold.of(widget.scaffoldContext).openEndDrawer();
             },
             child: Icon(Icons.menu, color: Colors.white, size: 26),
@@ -176,5 +163,6 @@ class _TeacherInforWidgetState extends ConsumerState<TeacherInforWidget>
       ),
     );
   }
+
 
 }

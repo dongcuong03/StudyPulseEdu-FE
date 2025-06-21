@@ -26,6 +26,7 @@ class _HomeTeacherScreenState extends ConsumerState<HomeTeacherScreen>
   bool isLoading = false;
   late Account account;
   String accountName = "";
+  String accountId = "";
   String accountPhone = "";
   String accountAvatarURL = "";
 
@@ -43,6 +44,7 @@ class _HomeTeacherScreenState extends ConsumerState<HomeTeacherScreen>
     if (account != null && account.teacher != null) {
       setState(() {
         accountName = account.teacher!.fullName ?? "";
+        accountId = account.id ?? "";
         accountPhone = account.phone ?? "";
         accountAvatarURL = account.teacher!.avatarUrl != null
             ? "${ApiConstants.getBaseUrl}/uploads/${account.teacher!.avatarUrl}"
@@ -112,7 +114,7 @@ class _HomeTeacherScreenState extends ConsumerState<HomeTeacherScreen>
               ? SizedBox.shrink()
               : Column(
                   children: [
-                    TeacherInforWidget(scaffoldContext: context, accountName: accountName.toString()),
+                    TeacherInforWidget(scaffoldContext: context, accountName: accountName.toString(), accountId: accountId),
                     SizedBox(height: 40.h),
                     Image.asset(
                       'assets/images/trang_chu_giao_vien.png',

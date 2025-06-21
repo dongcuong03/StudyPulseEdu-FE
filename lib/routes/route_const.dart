@@ -20,8 +20,10 @@ class RouteConstants {
   static const String teacherViewAttendanceRouteName = 'teacher_view_attendance';
   static const String teacherAcademicResultRouteName = 'teacher_academic_result';
   static const String teacherMessageRouteName = 'teacher_message';
+  static const String teacherMessageDetailRouteName = 'teacher_message_detail';
 
   static const String userMessageRouteName = 'user_message';
+  static const String userMessageDetailRouteName = 'user_message_detail';
   static const String userNotificationRouteName = 'user_notification';
   static const String userViewNotificationRouteName = 'user_view_notification';
   static const String userScheduleRouteName = 'user_schedule';
