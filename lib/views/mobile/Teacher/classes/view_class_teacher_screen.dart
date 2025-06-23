@@ -73,7 +73,7 @@ class _ViewClassTeacherScreenState extends ConsumerState<ViewClassTeacherScreen>
 
     setState(() {
       _studentMaxController.text = classA.maxStudents?.toString() ?? '';
-      _tuitionController.text = classA.tuitionFee?.toString() ?? '';
+      _tuitionController.text = NumberFormat("#,##0", "en_US").format(classA.tuitionFee) ;
       _descriptionController.text = classA.description ?? '';
 
       _startDateController.text = classA.startDate != null

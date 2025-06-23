@@ -42,7 +42,7 @@ class _HomeAdminScreenState extends ConsumerState<HomeAdminScreen>
     Icons.home,
     Icons.supervisor_account,
     Icons.class_,
-    Icons.payment,
+    Icons.monetization_on_rounded,
     Icons.notifications_active,
     Icons.add_chart
   ];
@@ -73,7 +73,7 @@ class _HomeAdminScreenState extends ConsumerState<HomeAdminScreen>
       child: Column(
         children: [
           Container(
-            height: 200.h,
+            height: 180.h,
             width: double.infinity,
             color: const Color(0xFF25303C),
             child: Image.asset(
@@ -189,7 +189,7 @@ class _HomeAdminScreenState extends ConsumerState<HomeAdminScreen>
                         context: context,
                         title: 'Thông báo',
                         content: 'Bạn có muốn đăng xuất?',
-                        icon: Icons.warning,
+                        icon: Icons.notifications,
                         onConfirm: () async {
                           await _authViewModel.logout();
                           goName(context, RouteConstants.loginWebRouteName);

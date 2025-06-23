@@ -1,4 +1,7 @@
+import 'dart:math';
+
 import 'package:dio/dio.dart';
+import 'package:intl/intl.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:study_pulse_edu/models/app/ClassA.dart';
 
@@ -13,6 +16,7 @@ class ClassViewModel  extends _$ClassViewModel {
 
   int _currentPageIndex = 1;
 
+  final dateFormat = DateFormat('yyyy-MM-dd');
   @override
   FutureOr<PagingResponse<ClassA>?> build() async {
     return await _fetchClasses(
@@ -23,6 +27,9 @@ class ClassViewModel  extends _$ClassViewModel {
     int? pageIndex,
     int pageSize = defaultPageSize,
     String? className,
+    String? teacherName,
+    DateTime? startDate,
+    DateTime? endDate
   }) async {
     state = const AsyncLoading();
 
@@ -36,6 +43,9 @@ class ClassViewModel  extends _$ClassViewModel {
         pageIndex: pageIndex,
         pageSize: pageSize,
         className: className,
+        teacherName:teacherName,
+          startDate:startDate,
+          endDate: endDate
       );
       state = AsyncData(pagingResponse);
     } catch (e, st) {
@@ -48,6 +58,9 @@ class ClassViewModel  extends _$ClassViewModel {
     int? pageIndex,
     int pageSize = defaultPageSize,
     String? className,
+    String? teacherName,
+    DateTime? startDate,
+    DateTime? endDate
   }) async {
     final url = "${ApiConstants.getBaseUrl}/api/v1/class/paging";
 
@@ -61,6 +74,15 @@ class ClassViewModel  extends _$ClassViewModel {
 
     if (className != null && className.isNotEmpty) {
       data['className'] = className;
+    }
+    if (teacherName != null && teacherName.isNotEmpty) {
+      data['teacherName'] = teacherName;
+    }
+    if (startDate != null) {
+      data['formDate'] = dateFormat.format(startDate);
+    }
+    if (endDate != null) {
+      data['toDate'] = dateFormat.format(endDate);
     }
 
     final response = await DioClient().post(url, data: data);

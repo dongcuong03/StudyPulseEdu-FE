@@ -1,3 +1,4 @@
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -13,6 +14,7 @@ import 'package:study_pulse_edu/views/web/account_management/widget/view_account
 
 import '../../../models/app/Account.dart';
 import '../../../models/app/PagingResponse.dart';
+import '../../../resources/constains/constants.dart';
 import '../../../resources/utils/app/app_theme.dart';
 import '../../../resources/utils/helpers/helper_mixin.dart';
 import '../../../resources/widgets/pagination_widget.dart';
@@ -31,15 +33,17 @@ class _AccountManagementScreeenState
   int currentPageIndex = 1;
   final TextEditingController _searchController = TextEditingController();
   String? searchPhone;
+  Role? _selectedRole;
+  Role? tempSelectedRole;
 
-  void _fetchPage({int? pageIndex, String? phone}) {
+  void _fetchPage({int? pageIndex, String? phone, Role? role}) {
     final viewModel = ref.read(accountViewModelProvider.notifier);
 
-    if (phone != null && phone.isNotEmpty) {
-      // Nếu có tìm kiếm
-      viewModel.fetchAccounts(phone: phone);
+    if (phone != null && phone.isNotEmpty || role != null ){
+
+      viewModel.fetchAccounts(phone: phone, role: role);
     } else {
-      // Nếu không tìm kiếm
+
       viewModel.fetchAccounts(pageIndex: pageIndex ?? 1);
     }
     setState(() {
@@ -100,7 +104,7 @@ class _AccountManagementScreeenState
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),
-              borderRadius: BorderRadius.circular(10.r),
+              borderRadius: BorderRadius.circular(15.r),
             ),
             child: ElevatedButton(
               onPressed: () {
@@ -132,47 +136,62 @@ class _AccountManagementScreeenState
             ),
           ),
         ),
-        SizedBox(
-          width: 270.w,
-          child: Container(
-            height: 60.h,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(30.r),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withOpacity(0.1),
-                  blurRadius: 6,
-                  offset: Offset(0, 3),
+        Row(
+          children: [
+            SizedBox(
+              width: 270.w,
+              child: Container(
+                height: 60.h,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(30.r),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.1),
+                      blurRadius: 6,
+                      offset: Offset(0, 3),
+                    ),
+                  ],
+                  border: Border.all(color: Colors.grey.shade500),
                 ),
-              ],
-              border: Border.all(color: Colors.grey.shade500),
-            ),
-            alignment: Alignment.center,
-            child: TextField(
-              controller: _searchController,
-              keyboardType: TextInputType.number,
-              inputFormatters: [
-                FilteringTextInputFormatter.digitsOnly,
-              ],
-              decoration: InputDecoration(
-                hintText: 'Nhập số điện thoại',
-                hintStyle: TextStyle(color: Colors.grey),
-                prefixIcon: Icon(
-                  Icons.search,
-                  color: Colors.grey,
-                  size: 20.sp,
+                alignment: Alignment.center,
+                child: TextField(
+                  controller: _searchController,
+                  keyboardType: TextInputType.number,
+                  inputFormatters: [
+                    FilteringTextInputFormatter.digitsOnly,
+                  ],
+                  decoration: InputDecoration(
+                    hintText: 'Nhập số điện thoại',
+                    hintStyle: TextStyle(color: Colors.grey),
+                    prefixIcon: Icon(
+                      Icons.search,
+                      color: Colors.grey,
+                      size: 20.sp,
+                    ),
+                    border: InputBorder.none,
+                    contentPadding: EdgeInsets.symmetric(vertical: 14.h),
+                  ),
+                  style: TextStyle(fontSize: 14.sp),
+                  onSubmitted: (value) {
+                    final phone = value.trim();
+                    _fetchPage(phone: phone);
+                  },
                 ),
-                border: InputBorder.none,
-                contentPadding: EdgeInsets.symmetric(vertical: 14.h),
               ),
-              style: TextStyle(fontSize: 14.sp),
-              onSubmitted: (value) {
-                final phone = value.trim();
-                _fetchPage(phone: phone);
-              },
             ),
-          ),
+            SizedBox(width: 20.w,),
+            GestureDetector(
+              onTap: _showFilterDialog,
+              behavior: HitTestBehavior.translucent,
+              child: Image.asset(
+                'assets/images/icon_filter.png',
+                width: 30.sp,
+                height: 30.sp,
+                color: Colors.grey,
+              ),
+            )
+          ],
         ),
       ],
     );
@@ -304,4 +323,126 @@ class _AccountManagementScreeenState
       error: (_, __) => SizedBox.shrink(),
     );
   }
+
+  void _showFilterDialog() {
+    tempSelectedRole = _selectedRole;
+
+    showGeneralDialog(
+      context: context,
+      barrierDismissible: true,
+      barrierLabel: 'Filter',
+      transitionDuration: const Duration(milliseconds: 200),
+      pageBuilder: (_, __, ___) {
+        return Center(
+          child: Material(
+            color: Colors.transparent,
+            child: StatefulBuilder(
+              builder: (context, setState) {
+                return Container(
+                  width: 380,
+                  constraints: BoxConstraints(
+                    maxHeight: 0.7.sh,
+                  ),
+                  padding: const EdgeInsets.all(24),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Center(child: Text("Bộ lọc tìm kiếm", style: AppTheme.titleMedium)),
+                      const SizedBox(height: 20),
+
+                      Text("Theo vai trò:", style: TextStyle(fontWeight: FontWeight.w500)),
+                      const SizedBox(height: 12),
+                      DropdownButtonHideUnderline(
+                        child: DropdownButton2<Role>(
+                          isExpanded: true,
+                          hint: const Text("Chọn vai trò", style: TextStyle(fontWeight: FontWeight.normal)),
+                          items: Role.values
+                              .where((role) => role != Role.ADMIN)
+                              .map((role) => DropdownMenuItem<Role>(
+                            value: role,
+                            child: Text(role.displayName,style: TextStyle(fontWeight: FontWeight.normal),),
+                          ))
+                              .toList(),
+                          value: tempSelectedRole,
+                          onChanged: (value) => setState(() => tempSelectedRole = value),
+                          buttonStyleData: ButtonStyleData(
+                            height: 40,
+                            padding: const EdgeInsets.symmetric(horizontal: 12),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(12),
+                              border: Border.all(color: Colors.grey.shade400),
+                              color: Colors.white,
+                            ),
+                          ),
+                          iconStyleData: const IconStyleData(
+                            icon: Icon(Icons.arrow_drop_down, color: Colors.blueAccent),
+                            iconSize: 24,
+                          ),
+                          dropdownStyleData: DropdownStyleData(
+                            maxHeight: 200,
+                            decoration: BoxDecoration(
+                              color: Colors.grey.shade100,
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                          ),
+                        ),
+                      ),
+
+                      const Spacer(),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.white70,
+                                foregroundColor: Colors.black87,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                              ),
+                              onPressed: () {
+                                setState(() {
+                                  tempSelectedRole = null;
+                                  _selectedRole = null;
+                                });
+                              },
+                              child: const Text("Đặt lại"),
+                            ),
+                          ),
+                          const SizedBox(width: 12),
+                          Expanded(
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.blue,
+                                foregroundColor: Colors.white,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                              ),
+                              onPressed: () {
+                                _selectedRole = tempSelectedRole;
+                                Navigator.pop(context);
+                                _fetchPage(role: _selectedRole);
+                              },
+                              child: const Text("Áp dụng"),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                );
+              },
+            ),
+          ),
+        );
+      },
+    );
+  }
 }
+

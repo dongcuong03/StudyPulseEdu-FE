@@ -19,6 +19,7 @@ class AppInput extends StatefulWidget {
   final TextInputType? inputType;
   final void Function()? onTap;
   final String? errorText;
+  final ValueChanged<String>? onChanged;
 
   const AppInput({
     super.key,
@@ -38,6 +39,8 @@ class AppInput extends StatefulWidget {
     this.inputType,
     this.onTap,
     this.errorText,
+    this.onChanged,
+
   });
 
   @override
@@ -54,6 +57,7 @@ class _AppInputState extends State<AppInput> {
       mainAxisSize: MainAxisSize.min, // tự động co chiều cao theo nội dung
       children: [
         TextFormField(
+          onChanged: widget.onChanged,
           onTap: widget.onTap,
           maxLines: widget.maxLines ?? 1,
           controller: widget.controller,

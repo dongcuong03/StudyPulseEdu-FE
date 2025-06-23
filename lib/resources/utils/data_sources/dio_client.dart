@@ -118,6 +118,24 @@ class DioClient {
     }
   }
 
+
+  Future<Response> getBytes(String path, {
+    Map<String, dynamic>? queryParameters,
+  }) async {
+    try {
+      final response = await _dio.get(
+        path,
+        queryParameters: queryParameters,
+        options: Options(
+          responseType: ResponseType.bytes,
+        ),
+      );
+      return response;
+    } on Exception catch (exception) {
+      throw handleError(exception);
+    }
+  }
+
   Future<Response<Map<String, dynamic>>> postLogin(String path,
       {Map<String, dynamic>? queryParameters, dynamic data}) async {
     _dio.options.headers.remove(Headers.contentTypeHeader);
@@ -148,7 +166,7 @@ class DioClient {
         path,
         queryParameters: queryParameters,
         data: data,
-        options: Options(responseType: ResponseType.plain), // 🔥 plain text
+        options: Options(responseType: ResponseType.plain),
       );
       return response;
     } on Exception catch (exception) {

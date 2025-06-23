@@ -265,7 +265,7 @@ class _ViewAccountParentWidgetState
                         blendMode: BlendMode.srcIn,
                         child: const Row(
                           children: [
-                            Icon(Icons.person_add),
+                            Icon(Icons.person),
                             SizedBox(width: 8),
                             Text(
                               'Xem tài khoản',

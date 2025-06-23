@@ -1,6 +1,8 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_multi_formatter/formatters/money_input_enums.dart';
+import 'package:flutter_multi_formatter/formatters/money_input_formatter.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:study_pulse_edu/models/app/ClassA.dart';
@@ -375,9 +377,17 @@ class _AddClassFormWidgetState extends ConsumerState<AddClassFormWidget>
                         labelText: "Học phí",
                         inputType: TextInputType.number,
                         inputFormatters: [
-                          FilteringTextInputFormatter.digitsOnly
+                          MoneyInputFormatter(
+                            thousandSeparator: ThousandSeparator.Comma,
+                              mantissaLength: 0,
+                          ),
                         ],
                         prefixIcon: Icon(Icons.monetization_on_outlined),
+                            onChanged: (value) {
+                              if (value.isEmpty || value == "0") {
+                                _tuitionController.clear();
+                              }
+                            },
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return 'Học phí không được để trống.';
@@ -828,6 +838,7 @@ class _AddClassFormWidgetState extends ConsumerState<AddClassFormWidget>
     int? maxLines,
     TextInputType inputType = TextInputType.text,
     List<TextInputFormatter>? inputFormatters,
+    ValueChanged<String>? onChanged,
   }) {
     return AppInput(
         controller: controller,
@@ -837,6 +848,8 @@ class _AddClassFormWidgetState extends ConsumerState<AddClassFormWidget>
         isPasswordField: isPasswordField,
         inputType: inputType,
         inputFormatters: inputFormatters,
-        maxLines: maxLines);
+        maxLines: maxLines,
+      onChanged: onChanged,
+    );
   }
 }

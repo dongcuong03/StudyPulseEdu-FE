@@ -498,7 +498,7 @@ class _EditAccountParentFormWidgetState
                                     begin: Alignment.topLeft,
                                     end: Alignment.bottomRight,
                                   ),
-                                  borderRadius: BorderRadius.circular(10.r),
+                                  borderRadius: BorderRadius.circular(15.r),
                                 ),
                                 child: ElevatedButton(
                                   onPressed: () async {

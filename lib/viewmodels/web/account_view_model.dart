@@ -29,6 +29,7 @@ class AccountViewModel extends _$AccountViewModel {
     int? pageIndex,
     int pageSize = defaultPageSize,
     String? phone,
+    Role? role,
   }) async {
     state = const AsyncLoading();
 
@@ -42,6 +43,7 @@ class AccountViewModel extends _$AccountViewModel {
         pageIndex: pageIndex,
         pageSize: pageSize,
         phone: phone,
+        role: role
       );
       state = AsyncData(pagingResponse);
     } catch (e, st) {
@@ -54,6 +56,7 @@ class AccountViewModel extends _$AccountViewModel {
     int? pageIndex,
     int pageSize = defaultPageSize,
     String? phone,
+    Role? role
   }) async {
     final url = "${ApiConstants.getBaseUrl}/api/v1/account/paging";
 
@@ -67,6 +70,9 @@ class AccountViewModel extends _$AccountViewModel {
 
     if (phone != null && phone.isNotEmpty) {
       data['phone'] = phone;
+    }
+    if (role != null) {
+      data['role'] = role;
     }
 
     final response = await DioClient().post(url, data: data);

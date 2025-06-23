@@ -1,26 +1,27 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'class_view_model.dart';
+part of 'notify_view_model.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$classViewModelHash() => r'70766297aa4a28a92fd46e9a649733b954009416';
+String _$notifyViewModelHash() => r'b702cd3f892231ceb55960805bdd51a8061b7bfe';
 
-/// See also [ClassViewModel].
-@ProviderFor(ClassViewModel)
-final classViewModelProvider = AutoDisposeAsyncNotifierProvider<ClassViewModel,
-    PagingResponse<ClassA>?>.internal(
-  ClassViewModel.new,
-  name: r'classViewModelProvider',
+/// See also [NotifyViewModel].
+@ProviderFor(NotifyViewModel)
+final notifyViewModelProvider = AutoDisposeAsyncNotifierProvider<
+    NotifyViewModel, PagingResponse<NotificationApp>?>.internal(
+  NotifyViewModel.new,
+  name: r'notifyViewModelProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$classViewModelHash,
+      : _$notifyViewModelHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef _$ClassViewModel = AutoDisposeAsyncNotifier<PagingResponse<ClassA>?>;
+typedef _$NotifyViewModel
+    = AutoDisposeAsyncNotifier<PagingResponse<NotificationApp>?>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

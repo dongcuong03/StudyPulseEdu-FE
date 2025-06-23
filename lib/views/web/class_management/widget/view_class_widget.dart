@@ -74,7 +74,7 @@ class _ViewClassWidgetState extends ConsumerState<ViewClassWidget>
 
     setState(() {
       _studentMaxController.text = classA.maxStudents?.toString() ?? '';
-      _tuitionController.text = classA.tuitionFee?.toString() ?? '';
+      _tuitionController.text = NumberFormat("#,##0", "en_US").format(classA.tuitionFee);
       _descriptionController.text = classA.description ?? '';
 
       _startDateController.text = classA.startDate != null
@@ -148,7 +148,7 @@ class _ViewClassWidgetState extends ConsumerState<ViewClassWidget>
                         blendMode: BlendMode.srcIn,
                         child: const Row(
                           children: [
-                            Icon(Icons.person_add),
+                            Icon(Icons.class_),
                             SizedBox(width: 8),
                             Text(
                               'Xem lớp học',

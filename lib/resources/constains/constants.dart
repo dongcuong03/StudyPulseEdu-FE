@@ -65,6 +65,40 @@ enum Role {
   }
 }
 
+enum TuitionStatus {
+  PAID,
+  UNPAID;
+
+  static TuitionStatus fromString(String value) {
+    switch (value.toUpperCase()) {
+      case 'PAID':
+        return TuitionStatus.PAID;
+      case 'UNPAID':
+        return TuitionStatus.UNPAID;
+      default:
+        throw ArgumentError('Unknown tuition status: $value');
+    }
+  }
+
+  String toJson() {
+    switch (this) {
+      case TuitionStatus.PAID:
+        return 'PAID';
+      case TuitionStatus.UNPAID:
+        return 'UNPAID';
+    }
+  }
+
+  String get displayName {
+    switch (this) {
+      case TuitionStatus.PAID:
+        return 'Đã nộp';
+      case TuitionStatus.UNPAID:
+        return 'Chưa nộp';
+    }
+  }
+}
+
 
 enum Gender {
   MALE,
