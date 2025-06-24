@@ -99,7 +99,39 @@ enum TuitionStatus {
   }
 }
 
+enum AcademicResultStatus {
+  PASSED,
+  FAILED;
 
+  static AcademicResultStatus fromString(String value) {
+    switch (value.toUpperCase()) {
+      case 'PASSED':
+        return AcademicResultStatus.PASSED;
+      case 'FAILED':
+        return AcademicResultStatus.FAILED;
+      default:
+        throw ArgumentError('Unknown academic result status: $value');
+    }
+  }
+
+  String toJson() {
+    switch (this) {
+      case AcademicResultStatus.PASSED:
+        return 'PASSED';
+      case AcademicResultStatus.FAILED:
+        return 'FAILED';
+    }
+  }
+
+  String get displayName {
+    switch (this) {
+      case AcademicResultStatus.PASSED:
+        return 'Đạt';
+      case AcademicResultStatus.FAILED:
+        return 'Không đạt';
+    }
+  }
+}
 enum Gender {
   MALE,
   FEMALE;

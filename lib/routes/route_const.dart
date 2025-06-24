@@ -19,6 +19,8 @@ class RouteConstants {
   static const String teacherAttendanceThreeRouteName = 'teacher_attendance_three';
   static const String teacherViewAttendanceRouteName = 'teacher_view_attendance';
   static const String teacherAcademicResultRouteName = 'teacher_academic_result';
+  static const String teacherViewAcademicResultRouteName = 'teacher_view_academic_result';
+
   static const String teacherMessageRouteName = 'teacher_message';
   static const String teacherMessageDetailRouteName = 'teacher_message_detail';
 

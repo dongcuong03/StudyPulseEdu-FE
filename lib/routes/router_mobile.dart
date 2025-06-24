@@ -5,6 +5,7 @@ import 'package:study_pulse_edu/models/app/Assignment.dart';
 import 'package:study_pulse_edu/models/app/ClassA.dart';
 import 'package:study_pulse_edu/resources/constains/constants.dart';
 import 'package:study_pulse_edu/resources/utils/data_sources/local.dart';
+import 'package:study_pulse_edu/views/mobile/Teacher/academic_result/view_academic_result_teacher_screen.dart';
 import 'package:study_pulse_edu/views/mobile/Teacher/attendance/view_attendance_teacher_screen.dart';
 import 'package:study_pulse_edu/views/mobile/Teacher/message/message_teacher_detail_screen.dart';
 import 'package:study_pulse_edu/views/mobile/Teacher/message/message_teacher_screen.dart';
@@ -258,10 +259,21 @@ class MyRouterMobile {
         GoRoute(
           name: RouteConstants.teacherAcademicResultRouteName,
           path: '/home_teacher/teacher_academic_result',
-          pageBuilder: (context, state) =>
-              MyRouterMobile.buildSlideTransitionPage(
-                  const AcademicResultTeacherScreen()),
-        ),
+            pageBuilder: (context, state) {
+              final account = state.extra as Account?;
+              return MyRouterMobile.buildSlideTransitionPage(
+                AcademicResultTeacherScreen(account: account),
+              );
+            }),
+        GoRoute(
+            name: RouteConstants.teacherViewAcademicResultRouteName,
+            path: '/home_teacher/teacher_academic_result/teacher_view_academic_result',
+            pageBuilder: (context, state) {
+              final classId = state.extra as String?;
+              return MyRouterMobile.buildSlideTransitionPage(
+                ViewAcademicResultTeacherScreen(classId: classId),
+              );
+            }),
         GoRoute(
           name: RouteConstants.teacherMessageRouteName,
           path: '/home_teacher/teacher_message',
