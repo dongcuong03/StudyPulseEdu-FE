@@ -158,7 +158,7 @@ mixin HelperMixin {
         });
   }
 
-  void showSuccessToast(String msg, {Toast length = Toast.LENGTH_SHORT}) {
+  void showSuccessToast(String msg, {Toast length = Toast.LENGTH_LONG}) {
     Fluttertoast.showToast(
         msg: msg,
         toastLength: length,
@@ -169,7 +169,7 @@ mixin HelperMixin {
         fontSize: 15.sp);
   }
 
-  void showErrorToast(String msg, {Toast length = Toast.LENGTH_SHORT}) {
+  void showErrorToast(String msg, {Toast length = Toast.LENGTH_LONG}) {
     Fluttertoast.showToast(
       msg: msg,
       toastLength: length,

@@ -51,16 +51,23 @@ class _ViewAcademicResultTeacherScreenState extends ConsumerState<ViewAcademicRe
 
 
   void _submit() async {
-    showLoading(context, show: true);
-    final errorMsg = await ref
-        .read(academicResultMobileTeacherViewModelProvider(widget.classId!).notifier)
-        .saveAcademicResults(_results);
-    showLoading(context, show: false);
-    if (errorMsg == null) {
-      showSuccessToast("Lưu và gửi thông báo thành công");
-    } else {
-      showErrorToast("Lưu và gửi thông bao thất bại");
-    }
+    await showConfirmDialogMobile(
+        context: context,
+        title: 'Thông báo',
+        content: 'Bạn có muốn lưu lại và gửi thông báo kết quả học tập đến phụ huynh?',
+        icon: Icons.notifications,
+        onConfirm: () async {
+          showLoading(context, show: true);
+          final errorMsg = await ref
+              .read(academicResultMobileTeacherViewModelProvider(widget.classId!).notifier)
+              .saveAcademicResults(_results);
+          showLoading(context, show: false);
+          if (errorMsg == null) {
+            showSuccessToast("Lưu và gửi thông báo thành công");
+          } else {
+            showErrorToast("Lưu và gửi thông bao thất bại");
+          }
+        });
   }
 
   @override
