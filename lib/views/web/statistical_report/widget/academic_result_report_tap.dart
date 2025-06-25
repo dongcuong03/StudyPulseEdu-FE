@@ -69,6 +69,7 @@ class _AcademicResultReportTabState extends ConsumerState<AcademicResultReportTa
       });
     }
   }
+
   @override
   void initState() {
     super.initState();
@@ -83,8 +84,9 @@ class _AcademicResultReportTabState extends ConsumerState<AcademicResultReportTa
 
   @override
   Widget build(BuildContext context) {
-    final double chartMaxHeight = 200.h;
-
+    final double chartMaxHeight = 240.h;
+    final int maxStudentCount = classData.map((e) => (e.totalStudents ?? 0)).fold(0, max);
+    final double scaleFactor = chartMaxHeight / (maxStudentCount + 5);
     return SingleChildScrollView(
       padding: EdgeInsets.all(16.w),
       child: Column(
@@ -154,7 +156,7 @@ class _AcademicResultReportTabState extends ConsumerState<AcademicResultReportTa
                 child: Padding(
                   padding: EdgeInsets.only(top: 10.h),
                   child: SizedBox(
-                    height: 60.h,
+                    height: 56.h,
                     child: DecoratedBox(
                       decoration: BoxDecoration(
                         gradient: const LinearGradient(
@@ -165,7 +167,7 @@ class _AcademicResultReportTabState extends ConsumerState<AcademicResultReportTa
                         borderRadius: BorderRadius.circular(15.r),
                       ),
                       child: ElevatedButton(
-                        onPressed: () { fetchReport();},
+                        onPressed: fetchReport,
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.transparent,
                           shadowColor: Colors.transparent,
@@ -188,7 +190,6 @@ class _AcademicResultReportTabState extends ConsumerState<AcademicResultReportTa
             ],
           ),
           SizedBox(height: 40.h),
-
           if (isLoading)
             const Center(child: CircularProgressIndicator()),
           if (!isLoading && hasFetched && classData.isEmpty)
@@ -201,12 +202,12 @@ class _AcademicResultReportTabState extends ConsumerState<AcademicResultReportTa
                 ),
               ),
             ),
-          if (!isLoading && classData.isNotEmpty) ... {
-            /// Stacked Bar Chart
+          if (!isLoading && classData.isNotEmpty) ...[
+
             Card(
               elevation: 8,
               color: Colors.white,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.r)),
               child: Padding(
                 padding: EdgeInsets.all(16.w),
                 child: Column(
@@ -215,10 +216,9 @@ class _AcademicResultReportTabState extends ConsumerState<AcademicResultReportTa
                     SizedBox(height: 20.h),
                     SizedBox(
                       height: chartMaxHeight + 90.h,
-                      child:
-                      BarChart(
+                      child: BarChart(
                         BarChartData(
-                          maxY: classData.map((e) => e.totalStudents ?? 0).reduce(max).toDouble() * 1.2,
+                          maxY: (maxStudentCount + 5) * scaleFactor,
                           barGroups: classData.asMap().entries.map((entry) {
                             final index = entry.key;
                             final data = entry.value;
@@ -228,56 +228,68 @@ class _AcademicResultReportTabState extends ConsumerState<AcademicResultReportTa
 
                             return BarChartGroupData(
                               x: index,
-                              barsSpace: 6,
+                              barsSpace: 8.w,
                               barRods: [
                                 BarChartRodData(
-                                  toY: passed.toDouble(),
+                                  toY: passed * scaleFactor,
                                   color: Colors.teal,
-                                  width: 20,
-                                  borderRadius: BorderRadius.circular(0),
-                                  rodStackItems: [],
+                                  width: 20.w,
+                                  borderRadius: BorderRadius.circular(0.r),
                                 ),
                                 BarChartRodData(
-                                  toY: failed.toDouble(),
+                                  toY: failed * scaleFactor,
                                   color: Colors.orange,
-                                  width: 20,
-                                  borderRadius: BorderRadius.circular(0),
-                                  rodStackItems: [],
+                                  width: 20.w,
+                                  borderRadius: BorderRadius.circular(0.r),
                                 ),
                               ],
                             );
                           }).toList(),
                           barTouchData: BarTouchData(
-                              enabled: true,
-                              touchTooltipData: BarTouchTooltipData(
-                                getTooltipColor: (_)=> Colors.transparent,
-                              )
+                            enabled: true,
+                            touchTooltipData: BarTouchTooltipData(
+                              getTooltipItem: (group, groupIndex, rod, rodIndex) {
+                                final report = classData[group.x.toInt()];
+                                final value = (rod.toY / scaleFactor).round();
+                                final label = rodIndex == 0 ? 'Đạt' : 'Không đạt';
+                                return BarTooltipItem(
+                                  '${report.className}\n$label: $value HS',
+                                  const TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 12,
+                                  ),
+                                );
+                              },
+                            ),
                           ),
                           titlesData: FlTitlesData(
                             leftTitles: AxisTitles(
                               sideTitles: SideTitles(
                                 showTitles: true,
-                                reservedSize: 30,
-                                getTitlesWidget: (value, meta) => Text(
-                                  value.toInt().toString(),
-                                  style: TextStyle(fontSize: 10.sp),
-                                ),
+                                reservedSize: 30.w,
+                                interval: 10 * scaleFactor,
+                                getTitlesWidget: (value, _) {
+                                  final realValue = (value / scaleFactor).round();
+                                  return Text(
+                                    realValue.toString(),
+                                    style: TextStyle(fontSize: 10.sp),
+                                  );
+                                },
                               ),
                             ),
                             bottomTitles: AxisTitles(
                               sideTitles: SideTitles(
                                 showTitles: true,
-                                getTitlesWidget: (value, meta) {
+                                reservedSize: 40.h,
+                                getTitlesWidget: (value, _) {
                                   final index = value.toInt();
                                   if (index < 0 || index >= classData.length) return const SizedBox();
                                   return Padding(
-                                    padding: const EdgeInsets.only(top: 12.0),
-                                    child: Transform.rotate(
-                                      angle: -0.5,
-                                      child: Text(
-                                        classData[index].className ?? '',
-                                        style: TextStyle(fontSize: 10.sp),
-                                      ),
+                                    padding: EdgeInsets.only(top: 8.h),
+                                    child: Text(
+                                      classData[index].className ?? '',
+                                      style: TextStyle(fontSize: 12.sp),
                                     ),
                                   );
                                 },
@@ -289,7 +301,7 @@ class _AcademicResultReportTabState extends ConsumerState<AcademicResultReportTa
                           gridData: FlGridData(
                             show: true,
                             drawVerticalLine: false,
-                            getDrawingHorizontalLine: (value) => FlLine(
+                            getDrawingHorizontalLine: (_) => FlLine(
                               color: Colors.grey.shade300,
                               strokeWidth: 1,
                             ),
@@ -304,9 +316,14 @@ class _AcademicResultReportTabState extends ConsumerState<AcademicResultReportTa
                         ),
                       ),
                     ),
-                    SizedBox(height: 50,),
-                    Center(child: Text('Biểu đồ kết quả học tập của các lớp',  style: TextStyle(fontSize: 16.sp, fontStyle: FontStyle.italic))),
-                    SizedBox(height: 30,),
+                    SizedBox(height: 50.h),
+                    Center(
+                      child: Text(
+                        'Biểu đồ kết quả học tập của các lớp',
+                        style: TextStyle(fontSize: 16.sp, fontStyle: FontStyle.italic),
+                      ),
+                    ),
+                    SizedBox(height: 30.h),
                     Center(
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
@@ -317,20 +334,19 @@ class _AcademicResultReportTabState extends ConsumerState<AcademicResultReportTa
                         ],
                       ),
                     ),
-                    SizedBox(height: 20,),
+                    SizedBox(height: 20.h),
                   ],
                 ),
               ),
             ),
             SizedBox(height: 60.h),
-            /// Table
             Row(
               children: [
                 Expanded(
                   child: Card(
                     color: Colors.white,
                     elevation: 6,
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.r)),
                     child: Padding(
                       padding: EdgeInsets.all(16.w),
                       child: Column(
@@ -338,8 +354,6 @@ class _AcademicResultReportTabState extends ConsumerState<AcademicResultReportTa
                         children: [
                           Text('Bảng kết quả học tập theo lớp', style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w600)),
                           SizedBox(height: 20.h),
-
-                          /// Table header
                           Container(
                             padding: EdgeInsets.symmetric(vertical: 12.h, horizontal: 8.w),
                             color: Colors.grey.shade200,
@@ -347,24 +361,20 @@ class _AcademicResultReportTabState extends ConsumerState<AcademicResultReportTa
                               children: [
                                 _buildHeaderCell('Lớp', flex: 2),
                                 _buildHeaderCell('Giáo viên'),
-                                _buildHeaderCell('Tổng HS', center: true),
+                                _buildHeaderCell('Tổng học sinh', center: true),
                                 _buildHeaderCell('Đạt', center: true),
                                 _buildHeaderCell('Không đạt', center: true),
                               ],
                             ),
                           ),
-
-                          /// Table content scrollable
                           SizedBox(
                             height: 330.h,
                             child: Scrollbar(
                               controller: _tableScrollController,
-
                               child: ListView.separated(
                                 controller: _tableScrollController,
-
                                 itemCount: classData.length,
-                                separatorBuilder: (_, __) => Divider(height: 1),
+                                separatorBuilder: (_, __) => Divider(height: 1.h),
                                 itemBuilder: (context, index) {
                                   final report = classData[index];
                                   final total = report.totalStudents ?? 0;
@@ -387,7 +397,6 @@ class _AcademicResultReportTabState extends ConsumerState<AcademicResultReportTa
                               ),
                             ),
                           ),
-
                         ],
                       ),
                     ),
@@ -396,8 +405,7 @@ class _AcademicResultReportTabState extends ConsumerState<AcademicResultReportTa
               ],
             ),
             SizedBox(height: 60.h),
-          }
-
+          ],
         ],
       ),
     );
@@ -407,15 +415,16 @@ class _AcademicResultReportTabState extends ConsumerState<AcademicResultReportTa
     return Row(
       children: [
         Container(
-          width: 12,
-          height: 12,
+          width: 12.w,
+          height: 12.h,
           decoration: BoxDecoration(color: color),
         ),
-        SizedBox(width: 6),
+        SizedBox(width: 6.w),
         Text(label, style: TextStyle(fontSize: 12.sp)),
       ],
     );
   }
+
   Widget _buildHeaderCell(String label, {int flex = 1, bool center = false}) {
     return Expanded(
       flex: flex,
@@ -423,12 +432,11 @@ class _AcademicResultReportTabState extends ConsumerState<AcademicResultReportTa
         alignment: center ? Alignment.center : Alignment.centerLeft,
         child: Text(
           label,
-          style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.bold),
+          style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w500),
         ),
       ),
     );
   }
-
 
   Widget _buildBodyCell(String value, {int flex = 1, bool center = false}) {
     return Expanded(

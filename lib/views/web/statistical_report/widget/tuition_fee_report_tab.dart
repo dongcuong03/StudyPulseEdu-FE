@@ -150,9 +150,9 @@ class _TuitionFeeReportTabState extends ConsumerState<TuitionFeeReportTab> {
               SizedBox(width: 20),
               Expanded(
                 child: Padding(
-                  padding: const EdgeInsets.only(top: 8.0),
+                  padding:  EdgeInsets.only(top: 5.h),
                   child: SizedBox(
-                  height: 60.h,
+                  height: 56.h,
                   child: DecoratedBox(
                     decoration: BoxDecoration(
                       gradient: const LinearGradient(
@@ -279,14 +279,14 @@ class _TuitionFeeReportTabState extends ConsumerState<TuitionFeeReportTab> {
                         children: [
                           SizedBox(height: 20.h),
                           SizedBox(
-                            height: 200.h,
+                            height: 190.h,
                             child: PieChart(
                               PieChartData(
                                 sections: [
                                   PieChartSectionData(
                                     color: Colors.teal,
                                     value: paid,
-                                    title: '${((paid / total) * 100).toStringAsFixed(1)}%',
+                                    title: formatPercent((paid / total) * 100),
                                     titleStyle: TextStyle(
                                       fontSize: 12.sp,
                                       fontWeight: FontWeight.bold,
@@ -297,7 +297,7 @@ class _TuitionFeeReportTabState extends ConsumerState<TuitionFeeReportTab> {
                                   PieChartSectionData(
                                     color: Colors.orange,
                                     value: unpaid,
-                                    title: '${((unpaid / total) * 100).toStringAsFixed(1)}%',
+                                    title: formatPercent((unpaid / total) * 100),
                                     titleStyle: TextStyle(
                                       fontSize: 12.sp,
                                       fontWeight: FontWeight.bold,
@@ -319,23 +319,25 @@ class _TuitionFeeReportTabState extends ConsumerState<TuitionFeeReportTab> {
                             ),
                           ),
                           SizedBox(height: 35.h),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 8.0),
-                            child: _buildLegendWithValue(Colors.teal, 'Đã nộp', paid, ((paid / total) * 100)),
-                          ),
-                          SizedBox(height: 10.h),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 8.0),
-                            child: _buildLegendWithValue(Colors.orange, 'Chưa nộp', unpaid, ((unpaid / total) * 100)),
-                          ),
-                          SizedBox(height: 10.h),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 8.0),
-                            child: Text(
-                              'Tổng học phí: ${formatNumber(total)}',
-                              style: TextStyle(fontSize: 13.sp, fontStyle: FontStyle.italic),
+                          Center(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                _buildLegendWithValue(Colors.teal, 'Đã nộp', paid, ((paid / total) * 100)),
+                                SizedBox(height: 10.h),
+                                Padding(
+                                  padding:  EdgeInsets.only(left: 15.w),
+                                  child: _buildLegendWithValue(Colors.orange, 'Chưa nộp', unpaid, ((unpaid / total) * 100)),
+                                ),
+                                SizedBox(height: 10.h),
+                                Text(
+                                  'Tổng học phí: ${formatNumber(total)}',
+                                  style: TextStyle(fontSize: 13.sp, fontStyle: FontStyle.italic),
+                                ),
+                              ],
                             ),
                           ),
+
                           SizedBox(height: 30.h),
                         ],
                       ),
@@ -353,12 +355,20 @@ class _TuitionFeeReportTabState extends ConsumerState<TuitionFeeReportTab> {
     final formatter = NumberFormat("#,##0.###", "vi_VN");
     return "${formatter.format(value)} ₫";
   }
+  String formatPercent(double value) {
+    if (value % 1 == 0) {
+      return '${value.toStringAsFixed(0)}%'; // Nếu là số nguyên
+    } else {
+      return '${value.toStringAsFixed(1)}%'; // Nếu là số thập phân
+    }
+  }
 
 
   Widget _buildLegendWithValue(Color color, String label, double value, double percent) {
     return Padding(
       padding: EdgeInsets.only(top: 4.h, bottom: 2.h),
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
             width: 12,
@@ -367,7 +377,7 @@ class _TuitionFeeReportTabState extends ConsumerState<TuitionFeeReportTab> {
           ),
           SizedBox(width: 6.w),
           Text(
-            '$label: ${formatNumber(value)} (${percent.toStringAsFixed(1)}%)',
+            '$label: ${formatNumber(value)} (${formatPercent(percent)})',
             style: TextStyle(fontSize: 12.sp, fontStyle: FontStyle.italic),
           ),
         ],
@@ -380,7 +390,7 @@ class _TuitionFeeReportTabState extends ConsumerState<TuitionFeeReportTab> {
       flex: flex,
       child: Text(
         label,
-        style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.bold),
+        style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w500),
       ),
     );
   }

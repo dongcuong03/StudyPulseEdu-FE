@@ -115,51 +115,76 @@ class _ViewAccountParentWidgetState
           Expanded(
             child: Column(
               children: [
-                _buildInput(
-                    controller: _phoneController,
-                    labelText: "Số điện thoại",
-                    prefixIcon: Icon(Icons.phone),
-                    readOnly: true),
-                SizedBox(
-                  height: 40.h,
+                Row(
+                  children: [
+                    Expanded(
+                      child: _buildInput(
+                          controller: _phoneController,
+                          labelText: "Số điện thoại",
+                          prefixIcon: Icon(Icons.phone),
+                          readOnly: true),
+                    ),
+                    SizedBox(
+                      width: 60.w,
+                    ),
+                    Expanded(
+                      child: _buildInput(
+                          controller: _parentNameController,
+                          labelText: "Họ tên phụ huynh",
+                          prefixIcon: Icon(Icons.person),
+                          readOnly: true),
+                    )
+                  ],
                 ),
-                _buildInput(
-                    controller: _roleController,
-                    labelText: "Vai trò",
-                    prefixIcon: Icon(Icons.switch_account),
-                    readOnly: true),
                 SizedBox(
-                  height: 40.h,
+                  height: 60.h,
                 ),
-                _buildInput(
-                    controller: _activeController,
-                    labelText: "Trạng thái tài khoản",
-                    prefixIcon: Icon(Icons.manage_accounts),
-                    readOnly: true),
+                Row(
+                  children: [
+                    Expanded(
+                      child: _buildInput(
+                          controller: _roleController,
+                          labelText: "Vai trò",
+                          prefixIcon: Icon(Icons.switch_account),
+                          readOnly: true),
+                    ),
+                    SizedBox(
+                      width: 40.w,
+                    ),
+                    Expanded(
+                      child: _buildInput(
+                          controller: _activeController,
+                          labelText: "Trạng thái tài khoản",
+                          prefixIcon: Icon(Icons.manage_accounts),
+                          readOnly: true),
+                    )
+                  ],
+                ),
                 SizedBox(
-                  height: 40.h,
+                  height: 60.h,
                 ),
-                _buildInput(
-                    controller: _parentNameController,
-                    labelText: "Họ tên phụ huynh",
-                    prefixIcon: Icon(Icons.person),
-                    readOnly: true),
-                SizedBox(
-                  height: 40.h,
+                Row(
+                  children: [
+                    Expanded(
+                      child: _buildInput(
+                          controller: _confirmCodeController,
+                          labelText: 'Mã xác nhận phụ huynh',
+                          prefixIcon: const Icon(Icons.verified_user),
+                          readOnly: true),
+                    ),
+                    SizedBox(
+                      width: 40.w,
+                    ),
+                    Expanded(
+                      child: _buildInput(
+                          controller: _relationshipController,
+                          labelText: 'Mối quan hệ với học sinh',
+                          prefixIcon: const Icon(Icons.family_restroom),
+                          readOnly: true),
+                    )
+                  ],
                 ),
-                _buildInput(
-                    controller: _confirmCodeController,
-                    labelText: 'Mã xác nhận phụ huynh',
-                    prefixIcon: const Icon(Icons.verified_user),
-                    readOnly: true),
-                SizedBox(
-                  height: 40.h,
-                ),
-                _buildInput(
-                    controller: _relationshipController,
-                    labelText: 'Mối quan hệ với học sinh',
-                    prefixIcon: const Icon(Icons.family_restroom),
-                    readOnly: true),
+
                 SizedBox(
                   height: 40.h,
                 ),
