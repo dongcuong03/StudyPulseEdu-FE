@@ -324,12 +324,14 @@ class MyRouterMobile {
             final accountId = map?['accountId'] as String?;
             final accountTeacherId = map?['accountTeacherId'] as String?;
             final teacherName = map?['teacherName'] as String?;
+            final avatarUrl = map?['avatarUrl'] as String?;
             final onClose = map?['onClose'] as VoidCallback?;
             return MyRouterMobile.buildSlideTransitionPage(
                 MessageUserDetailScreen(
                     accountId: accountId,
                     accountTeacherId: accountTeacherId,
                     teacherName: teacherName,
+                    avatarUrl: avatarUrl,
                     onClose: onClose));
           },
         ),

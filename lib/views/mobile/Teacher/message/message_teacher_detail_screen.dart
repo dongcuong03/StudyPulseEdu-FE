@@ -107,12 +107,6 @@ class _MessageTeacherDetailScreenState
             context.pop();
           },
         ),
-        actions: [
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(Icons.info_outline),
-          )
-        ],
       ),
       body: Column(
         children: [
@@ -180,57 +174,74 @@ class _MessageTeacherDetailScreenState
                         final hasFile = attachmentUrl != null && attachmentUrl.toString().isNotEmpty;
 
                         return Align(
-                          alignment: fromMe
-                              ? Alignment.centerRight
-                              : Alignment.centerLeft,
-                          child: Container(
-                            margin: const EdgeInsets.symmetric(vertical: 4),
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 12, vertical: 8),
-                            constraints: BoxConstraints(
-                              maxWidth: MediaQuery.of(context).size.width * 0.7,
-                            ),
-                            decoration: BoxDecoration(
-                              color: fromMe
-                                  ? Colors.blue.shade100
-                                  : Colors.grey.shade300,
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              children: [
-                                if (hasFile)
-                                  InkWell(
-                                    onTap: () {
-                                      downloadFile(attachmentUrl);
-                                    },
-                                    child: Row(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        const Icon(Icons.insert_drive_file, size: 18),
-                                        const SizedBox(width: 4),
-                                        Flexible(
-                                          child: Text(
-                                            Uri.parse(attachmentUrl).pathSegments.last,
-                                            overflow: TextOverflow.ellipsis,
-                                          ),
-                                        ),
-                                      ],
+                          alignment: fromMe ? Alignment.centerRight : Alignment.centerLeft,
+                          child: Row(
+                            mainAxisAlignment:
+                            fromMe ? MainAxisAlignment.end : MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              if (!fromMe)
+                                Padding(
+                                  padding: const EdgeInsets.only(right: 8.0, top: 8.0),
+                                  child: CircleAvatar(
+                                    radius: 16,
+                                    backgroundColor:Colors.blue.shade300,
+                                    child: Text(
+                                      'PH',
+                                      style: TextStyle(color: Colors.white, fontSize: 12),
                                     ),
-                                  )
-                                else
-                                  Text(msg['content'] ?? ''),
-                                const SizedBox(height: 4),
-                                Text(
-                                  _formatTime(time),
-                                  style: TextStyle(
-                                      fontSize: 10,
-                                      color: Colors.grey.shade600),
+                                  ),
                                 ),
-                              ],
-                            ),
+                              Flexible(
+                                child: Container(
+                                  margin: const EdgeInsets.symmetric(vertical: 4),
+                                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                                  constraints: BoxConstraints(
+                                    maxWidth: MediaQuery.of(context).size.width * 0.7,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    color:
+                                    fromMe ? Colors.blue.shade100 : Colors.grey.shade300,
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                    children: [
+                                      if (hasFile)
+                                        InkWell(
+                                          onTap: () => downloadFile(attachmentUrl),
+                                          child: Row(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              const Icon(Icons.insert_drive_file, size: 18),
+                                              const SizedBox(width: 4),
+                                              Flexible(
+                                                child: Text(
+                                                  Uri.parse(attachmentUrl)
+                                                      .pathSegments
+                                                      .last,
+                                                  overflow: TextOverflow.ellipsis,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        )
+                                      else
+                                        Text(msg['content'] ?? ''),
+                                      const SizedBox(height: 4),
+                                      Text(
+                                        _formatTime(time),
+                                        style: TextStyle(
+                                            fontSize: 10, color: Colors.grey.shade600),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                         );
+
                       }).toList(),
                     ];
                   }).toList(),

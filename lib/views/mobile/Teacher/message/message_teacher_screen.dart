@@ -23,10 +23,25 @@ class _MessageTeacherScreenState extends ConsumerState<MessageTeacherScreen>
   List<Map<String, String>> parents = [];
   String searchText = "";
 
+
+  Stream<List<Map<String, dynamic>>>? chatStream;
+
   @override
   void initState() {
     super.initState();
     _fetchParents();
+    chatStream = ref.read(chatViewModelProvider.notifier)
+        .listenToRecentChats(widget.accountId!);
+  }
+
+  @override
+  void didUpdateWidget(covariant MessageTeacherScreen oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.accountId != widget.accountId) {
+      chatStream = ref.read(chatViewModelProvider.notifier)
+          .listenToRecentChats(widget.accountId!);
+      setState(() {}); // Cập nhật lại UI với stream mới
+    }
   }
 
   void _fetchParents() async {
@@ -72,9 +87,6 @@ class _MessageTeacherScreenState extends ConsumerState<MessageTeacherScreen>
     final filteredParents = parents
         .where((p) => p["name"]!.toLowerCase().contains(searchText.toLowerCase()))
         .toList();
-
-    final chatStream =
-    ref.read(chatViewModelProvider.notifier).listenToRecentChats(widget.accountId!);
 
     return Scaffold(
       appBar: AppBar(
@@ -137,8 +149,8 @@ class _MessageTeacherScreenState extends ConsumerState<MessageTeacherScreen>
                         "accountParentId": parent['id'],
                         "parentName": parent['name'],
                         "onClose": () {
-                          ref.read(chatViewModelProvider.notifier).setCurrentChatUser(
-                              myAccountId: widget.accountId!, chattingWithId: null);
+                          // ref.read(chatViewModelProvider.notifier).setCurrentChatUser(
+                          //     myAccountId: widget.accountId!, chattingWithId: null);
                         },
                       },
                     );
@@ -241,8 +253,8 @@ class _MessageTeacherScreenState extends ConsumerState<MessageTeacherScreen>
                             "accountParentId": chat["partnerId"],
                             "parentName": parent["name"],
                             "onClose": () {
-                              ref.read(chatViewModelProvider.notifier).setCurrentChatUser(
-                                  myAccountId: widget.accountId!, chattingWithId: null);
+                              // ref.read(chatViewModelProvider.notifier).setCurrentChatUser(
+                              //     myAccountId: widget.accountId!, chattingWithId: null);
                             },
                           },
                         );

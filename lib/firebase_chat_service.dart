@@ -177,8 +177,14 @@ class FirebaseChatService {
 
   /// Cập nhật trạng thái đang chat với ai (ví dụ: khi mở màn chat)
   Future<void> setCurrentChatUserOnFirebase(String userId, String? chattingWithId) async {
-    await _db.child('currentChats/$userId').set(chattingWithId);
+    if (chattingWithId == null) {
+      // Thay vì set null (xóa toàn bộ node), chỉ xóa trường
+      await _db.child('currentChats/$userId').remove();
+    } else {
+      await _db.child('currentChats/$userId').set(chattingWithId);
+    }
   }
+
 
   /// Lấy trạng thái người nhận đang chat với ai
   Future<String?> getCurrentChatUserFromFirebase(String userId) async {

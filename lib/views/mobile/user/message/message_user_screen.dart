@@ -23,12 +23,27 @@ class _MessageUserScreenState extends ConsumerState<MessageUserScreen>
   bool isLoading = true;
   List<Map<String, String>> teachers = [];
   String searchText = "";
+  Stream<List<Map<String, dynamic>>>? chatStream;
 
   @override
   void initState() {
     super.initState();
     _fetchTeachers();
+    chatStream = ref.read(chatViewModelProvider.notifier)
+        .listenToRecentChats(widget.accountId!);
+    print(chatStream);
   }
+
+  @override
+  void didUpdateWidget(covariant MessageUserScreen oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.accountId != widget.accountId) {
+      chatStream = ref.read(chatViewModelProvider.notifier)
+          .listenToRecentChats(widget.accountId!);
+      setState(() {}); // Cập nhật lại UI với stream mới
+    }
+  }
+
 
   void _fetchTeachers() async {
     final result = await ref.read(accountMobileViewModelProvider.notifier).getAllAccountTeacher();
@@ -72,10 +87,6 @@ class _MessageUserScreenState extends ConsumerState<MessageUserScreen>
         .where((t) =>
         t["name"]!.toLowerCase().contains(searchText.toLowerCase()))
         .toList();
-
-    final chatStream = ref
-        .read(chatViewModelProvider.notifier)
-        .listenToRecentChats(widget.accountId!);
 
     return Scaffold(
       appBar: AppBar(
@@ -141,9 +152,10 @@ class _MessageUserScreenState extends ConsumerState<MessageUserScreen>
                         "accountId": widget.accountId,
                         "accountTeacherId": teacher['id'],
                         "teacherName": teacher['name'],
+                        "avatarUrl": teacher["avatar"],
                         "onClose": () {
-                          ref.read(chatViewModelProvider.notifier).setCurrentChatUser(
-                              myAccountId: widget.accountId!, chattingWithId: null);
+                          // ref.read(chatViewModelProvider.notifier).setCurrentChatUser(
+                          //     myAccountId: widget.accountId!, chattingWithId: null);
                         },
                       },
                     );
@@ -188,7 +200,10 @@ class _MessageUserScreenState extends ConsumerState<MessageUserScreen>
                   separatorBuilder: (_, __) =>
                       Divider(color: Colors.grey.shade400),
                   itemBuilder: (context, index) {
+
                     final chat = chats[index];
+
+
                     final teacher = teachers.firstWhere(
                             (t) => t['id'] == chat['partnerId'],
                         orElse: () => {
@@ -229,9 +244,10 @@ class _MessageUserScreenState extends ConsumerState<MessageUserScreen>
                             "accountId": widget.accountId,
                             "accountTeacherId": chat["partnerId"],
                             "teacherName": teacher["name"],
+                            "avatarUrl": teacher["avatar"],
                             "onClose": () {
-                              ref.read(chatViewModelProvider.notifier).setCurrentChatUser(
-                                  myAccountId: widget.accountId!, chattingWithId: null);
+                              // ref.read(chatViewModelProvider.notifier).setCurrentChatUser(
+                              //     myAccountId: widget.accountId!, chattingWithId: null);
                             },
                           },
                         );
