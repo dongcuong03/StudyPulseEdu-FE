@@ -246,6 +246,9 @@ class _ClassManagementScreenState extends ConsumerState<ClassManagementScreen>
                         .read(classViewModelProvider.notifier)
                         .enableClass(classA.id.toString());
                   }
+                  if (success) {
+                    _fetchPage(pageIndex: currentPageIndex);
+                  }
                   return success;
                 },
                 onView: () {

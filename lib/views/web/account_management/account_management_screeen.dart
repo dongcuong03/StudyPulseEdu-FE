@@ -239,6 +239,9 @@ class _AccountManagementScreeenState
                         .read(accountViewModelProvider.notifier)
                         .enableAccount(account.id.toString());
                   }
+                  if (success) {
+                    _fetchPage(pageIndex: currentPageIndex);
+                  }
                   return success;
                 },
                 onView: () {
