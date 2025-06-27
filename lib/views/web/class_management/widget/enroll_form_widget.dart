@@ -110,19 +110,28 @@ class _EnrollFormWidgetState extends ConsumerState<EnrollFormWidget>
   }
 
   void _unenroll(String studentId) async {
-    showLoading(context, show: true);
-    final viewModel = ref.read(classStudentViewModelProvider.notifier);
-    final message = await viewModel.unenrollStudent(
-      classId: widget.classID,
-      studentId: studentId,
+    await showConfirmDialogWeb(
+      context: context,
+      title: 'Thông báo',
+      content: 'Bạn có muốn xóa học sinh khỏi lớp?',
+      icon: Icons.notifications,
+      onConfirm: () async {
+        showLoading(context, show: true);
+        final viewModel = ref.read(classStudentViewModelProvider.notifier);
+        final message = await viewModel.unenrollStudent(
+          classId: widget.classID,
+          studentId: studentId,
+        );
+        showLoading(context, show: false);
+        if (message != null) {
+          showErrorToastWeb(context, message);
+        } else {
+          _fetchPage(pageIndex: currentPageIndex);
+          showSuccessToastWeb(context, "Xóa học sinh khỏi lớp thành công");
+        }
+      },
     );
-    showLoading(context, show: false);
-    if (message != null) {
-      showErrorToastWeb(context, message);
-    } else {
-      _fetchPage(pageIndex: currentPageIndex);
-      showSuccessToastWeb(context, "Xóa học sinh khỏi lớp thành công");
-    }
+
   }
   @override
   Widget build(BuildContext context) {

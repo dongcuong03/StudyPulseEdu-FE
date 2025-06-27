@@ -51,7 +51,7 @@ class _ClassRowWidgetState extends State<ClassRowWidget> with HelperMixin {
       content: _isActive
           ? 'Bạn có muốn ẩn lớp học này?'
           : 'Bạn có muốn bỏ ẩn lớp học này?',
-      icon: Icons.warning,
+      icon: Icons.notifications,
     );
 
     if (confirmed == true) {

@@ -167,20 +167,16 @@ class _ViewAccountParentWidgetState
                   children: [
                     Expanded(
                       child: _buildInput(
-                          controller: _confirmCodeController,
-                          labelText: 'Mã xác nhận phụ huynh',
-                          prefixIcon: const Icon(Icons.verified_user),
+                          controller: _relationshipController,
+                          labelText: 'Mối quan hệ với học sinh',
+                          prefixIcon: const Icon(Icons.family_restroom),
                           readOnly: true),
                     ),
                     SizedBox(
                       width: 40.w,
                     ),
                     Expanded(
-                      child: _buildInput(
-                          controller: _relationshipController,
-                          labelText: 'Mối quan hệ với học sinh',
-                          prefixIcon: const Icon(Icons.family_restroom),
-                          readOnly: true),
+                      child: SizedBox.shrink(),
                     )
                   ],
                 ),

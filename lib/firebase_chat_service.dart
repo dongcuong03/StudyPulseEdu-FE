@@ -91,30 +91,44 @@ class FirebaseChatService {
 
   /// Lắng nghe danh sách các cuộc trò chuyện gần đây của user
   Stream<List<Map<String, dynamic>>> listenToRecentChats(String currentUserId) {
-    return _db.child('chats/$currentUserId').onValue.map((event) {
+    final recentChatsRef = _db.child('chats/$currentUserId');
+
+    return recentChatsRef.onValue.map((event) {
       final data = event.snapshot.value as Map?;
-      if (data == null) return [];
+      final result = <Map<String, dynamic>>[];
 
-      final chats = data.entries.map((entry) {
-        final chatData = Map<String, dynamic>.from(entry.value);
-        final partnerId = entry.key;
-        final lastSenderId = chatData['lastMessageSenderId'] ?? '';
-        final isFromMe = lastSenderId == currentUserId;
+      if (data != null) {
+        final chats = data.entries
+            .where((entry) {
+          final chatData = Map<String, dynamic>.from(entry.value);
+          final lastMessage = chatData['lastMessage'];
+          return lastMessage != null && (lastMessage as String).trim().isNotEmpty;
+        })
+            .map((entry) {
+          final chatData = Map<String, dynamic>.from(entry.value);
+          final partnerId = entry.key;
+          final lastSenderId = chatData['lastMessageSenderId'] ?? '';
+          final isFromMe = lastSenderId == currentUserId;
 
-        return {
-          'partnerId': partnerId,
-          'lastMessage': isFromMe
-              ? "Bạn: ${chatData['lastMessage'] ?? ''}"
-              : chatData['lastMessage'] ?? '',
-          'timestamp': chatData['timestamp'],
-          'unreadCount': chatData['unreadCount'] ?? 0,
-        };
-      }).toList();
+          return {
+            'partnerId': partnerId,
+            'lastMessage': isFromMe
+                ? "Bạn: ${chatData['lastMessage'] ?? ''}"
+                : chatData['lastMessage'] ?? '',
+            'timestamp': chatData['timestamp'],
+            'unreadCount': chatData['unreadCount'] ?? 0,
+          };
+        })
+            .toList();
 
-      chats.sort((a, b) => DateTime.parse(b['timestamp'])
-          .compareTo(DateTime.parse(a['timestamp'])));
 
-      return chats;
+        chats.sort((a, b) => DateTime.parse(b['timestamp'])
+            .compareTo(DateTime.parse(a['timestamp'])));
+
+        result.addAll(chats);
+      }
+
+      return result;
     });
   }
 
@@ -177,10 +191,7 @@ class FirebaseChatService {
 
   /// Cập nhật trạng thái đang chat với ai (ví dụ: khi mở màn chat)
   Future<void> setCurrentChatUserOnFirebase(String userId, String? chattingWithId) async {
-    if (chattingWithId == null) {
-      // Thay vì set null (xóa toàn bộ node), chỉ xóa trường
-      await _db.child('currentChats/$userId').remove();
-    } else {
+    if (chattingWithId != null) {
       await _db.child('currentChats/$userId').set(chattingWithId);
     }
   }

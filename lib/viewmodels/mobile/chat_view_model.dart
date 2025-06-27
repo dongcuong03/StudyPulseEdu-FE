@@ -28,7 +28,10 @@ class ChatViewModel extends _$ChatViewModel {
     required String? chattingWithId,
   }) async {
     _currentChatUserId = chattingWithId;
-    await _chatService.setCurrentChatUserOnFirebase(myAccountId, chattingWithId);
+
+    if (chattingWithId != null) {
+      await _chatService.setCurrentChatUserOnFirebase(myAccountId, chattingWithId);
+    }
   }
 
 
@@ -170,5 +173,6 @@ class ChatViewModel extends _$ChatViewModel {
 
     }
   }
+
 
 }

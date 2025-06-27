@@ -42,7 +42,7 @@ class _AccountRowState extends State<AccountRow> with HelperMixin {
       content: _isActive
           ? 'Bạn có muốn vô hiệu hóa tài khoản này?'
           : 'Bạn có muốn mở lại tài khoản này?',
-      icon: Icons.warning,
+      icon: Icons.notifications,
     );
 
     if (confirmed == true) {

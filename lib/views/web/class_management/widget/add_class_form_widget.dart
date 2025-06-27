@@ -161,7 +161,7 @@ class _AddClassFormWidgetState extends ConsumerState<AddClassFormWidget>
       final classA = ClassA(
         className: _nameClassController.text,
         maxStudents: int.tryParse(_studentMaxController.text) ?? 0,
-        tuitionFee: double.tryParse(_tuitionController.text) ?? 0,
+        tuitionFee: double.tryParse(_tuitionController.text.replaceAll(',', '')) ?? 0,
         description: _descriptionController.text,
         teacher: Teacher(
           id: _selectedTeacher?.teacher?.id
@@ -728,6 +728,11 @@ class _AddClassFormWidgetState extends ConsumerState<AddClassFormWidget>
           child: Text('${account.teacher?.fullName} - ${account.phone}'),
         );
       }).toList(),
+      selectedItemBuilder: (context) {
+        return _listTeacher.map((account) {
+          return Text('${account.teacher?.fullName}');
+        }).toList();
+      },
       onChanged: (value) {
         setState(() {
           _selectedTeacher = value;

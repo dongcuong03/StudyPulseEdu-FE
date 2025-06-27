@@ -384,7 +384,7 @@ class _EditAccountTeacherFormWidgetState
                         return 'Địa chỉ không được để trống.';
                       }
 
-                      if (RegExp(r'[!@#\$%^&*(),.?":{}|<>_\-=+~`\\/\[\]]')
+                      if (RegExp(r'[!@#\$%^&*()?":{}|<>_\-=+~`\\/\[\]]')
                           .hasMatch(value)) {
                         return 'Địa chỉ không được chứa ký tự đặc biệt.';
                       }

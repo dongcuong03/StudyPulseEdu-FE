@@ -39,6 +39,8 @@ class _AssignAssignmentTeacherScreenState
   String? _classError;
   String? _dateTimeError;
   String? _fileError;
+  String? _titleError;
+  String? _contentError;
   List<String?> classList = [];
 
   final TextEditingController titleController = TextEditingController();
@@ -241,13 +243,16 @@ class _AssignAssignmentTeacherScreenState
             controller: titleController,
             labelText: 'Tiêu đề bài tập',
             prefixIcon: const Icon(Icons.title),
-            validator: (val) {
-              if (val == null || val.isEmpty) {
-                return 'Vui lòng nhập tiêu đề';
-              }
-              return null;
-            },
           ),
+          if (_titleError != null)
+            Padding(
+              padding: EdgeInsets.only(left: 16.w, top: 4.h),
+              child: Text(
+                _titleError!,
+                style: AppTheme.bodySmall
+                    .copyWith(color: Colors.red.shade800),
+              ),
+            ),
           const SizedBox(height: 30),
 
           // Nội dung bài tập
@@ -256,13 +261,16 @@ class _AssignAssignmentTeacherScreenState
             labelText: 'Nội dung bài tập',
             prefixIcon: const Icon(Icons.description),
             maxLines: 5,
-            validator: (val) {
-              if (val == null || val.isEmpty) {
-                return 'Vui lòng nhập nội dung';
-              }
-              return null;
-            },
           ),
+          if (_contentError != null)
+            Padding(
+              padding: EdgeInsets.only(left: 16.w, top: 4.h),
+              child: Text(
+                _contentError!,
+                style: AppTheme.bodySmall
+                    .copyWith(color: Colors.red.shade800),
+              ),
+            ),
           const SizedBox(height: 30),
 
           // Nút đính kèm file
@@ -422,6 +430,8 @@ class _AssignAssignmentTeacherScreenState
       _classError = null;
       _dateTimeError= null;
       _fileError = null;
+      _titleError = null;
+      _contentError = null;
     });
 
     bool isValidForm = _formKey.currentState!.validate();
@@ -437,6 +447,23 @@ class _AssignAssignmentTeacherScreenState
       setState(() {
         _dateTimeError = 'Ngày và giờ đến hạn không được để trống.';
       });
+      isValidForm = false;
+    }
+    if (selectedDateTime!.isBefore(DateTime.now())) {
+      setState(() {
+        _dateTimeError = 'Ngày giờ đến hạn không được trước ngày giờ hiện tại.';
+      });
+      isValidForm = false;
+    }
+    // Validate tiêu đề
+    if (titleController.text.trim().isEmpty) {
+      _titleError = 'Tiêu đề không được để trống.';
+      isValidForm = false;
+    }
+
+    // Validate nội dung
+    if (contentController.text.trim().isEmpty) {
+      _contentError = 'Nội dung không được để trống.';
       isValidForm = false;
     }
     if (attachedFiles.isEmpty ) {

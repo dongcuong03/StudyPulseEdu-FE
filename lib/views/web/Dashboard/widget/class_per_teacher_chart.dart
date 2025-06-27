@@ -84,9 +84,9 @@ class ClassPerTeacherChart extends StatelessWidget {
                             final index = value.toInt();
                             if (index >= 0 && index < data.length) {
                               return Padding(
-                                padding: const EdgeInsets.only(top: 8),
+                                padding: const EdgeInsets.only(top: 10),
                                 child: Transform.rotate(
-                                  angle: -0.5,
+                                  angle: -0.3,
                                   child: Text(
                                     data[index].teacherName,
                                     style: const TextStyle(fontSize: 10),

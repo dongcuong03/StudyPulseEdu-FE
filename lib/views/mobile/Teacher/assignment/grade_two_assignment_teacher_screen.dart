@@ -313,7 +313,7 @@ class _GradeTwoAssignmentTeacherScreenState
                         ),
                       ),
                       child: Text(
-                        'Chấm bài',
+                        'Chấm điểm',
                         style: AppTheme.bodyMedium.copyWith(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,

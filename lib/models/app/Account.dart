@@ -8,7 +8,6 @@ class Account {
   final String?password;
   final Role? role;
   final bool? isActive;
-  final DateTime? lastOnline;
   Parent? parent;
   Teacher? teacher;
 
@@ -18,7 +17,6 @@ class Account {
     this.password,
     this.role,
     this.isActive,
-    this.lastOnline,
     this.parent,
     this.teacher,
   });
@@ -30,9 +28,6 @@ class Account {
       password: json['password'] as String?,
       role: Role.fromString(json['role'] as String?),
       isActive: json['isActive'] as bool?,
-      lastOnline: json['lastOnline'] != null
-          ? DateTime.tryParse(json['lastOnline'])
-          : null,
       teacher: json['teacher'] != null ? Teacher.fromJson(json['teacher']) : null,
       parent: json['parent'] != null ? Parent.fromJson(json['parent']) : null,
     );
@@ -45,7 +40,6 @@ class Account {
       'password': password,
       'role': role?.toJson(),
       'isActive': isActive,
-      'lastOnline': lastOnline?.toIso8601String(),
     };
 
     // Chỉ serialize teacher nếu role là teacher và teacher != null
@@ -61,7 +55,7 @@ class Account {
   }
   @override
   String toString() {
-    return 'Account(id: $id, phone: $phone, password: $password, role: $role, isActive: $isActive, lastOnline: $lastOnline, parent: $parent, teacher: $teacher)';
+    return 'Account(id: $id, phone: $phone, password: $password, role: $role, isActive: $isActive, parent: $parent, teacher: $teacher)';
   }
 
 
