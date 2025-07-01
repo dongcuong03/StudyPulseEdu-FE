@@ -120,3 +120,16 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/to/font-from-package
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: "assets/images/logo3.png"
+flutter_native_splash:
+  color: "#ffffff"
+  image: assets/images/logo3_transparent.png
+  color_dark: "#000000"
+  image_dark: assets/images/logo3_transparent.png
+  android: true
+  ios: true
+  android_gravity: center
+  ios_content_mode: center

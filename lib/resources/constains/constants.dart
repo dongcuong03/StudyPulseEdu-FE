@@ -3,9 +3,13 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 
 class ApiConstants {
-  static const String BASE_URL_MOBILE = 'http://10.0.3.2:8080'; //mạng máy ảo
-  // static const String BASE_URL_MOBILE = 'http://192.168.4.12:8080'; // mạng wifi
-  static const String BASE_URL_WEB = 'http://localhost:8080';
+  // //localhost
+  // static const String BASE_URL_MOBILE = 'http://10.0.3.2:8080'; //mạng máy ảo
+  // static const String BASE_URL_WEB = 'http://localhost:8080';
+  //
+  //server
+  static const String BASE_URL_MOBILE = 'http://103.149.253.33:8082';
+  static const String BASE_URL_WEB = 'http://103.149.253.33:8082';
   static String get getBaseUrl {
     if (kIsWeb) return BASE_URL_WEB;
     if (Platform.isAndroid) return BASE_URL_MOBILE;

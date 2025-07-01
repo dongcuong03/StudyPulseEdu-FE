@@ -51,21 +51,21 @@ class ListFunctionUserWidget extends ConsumerWidget with HelperMixin {
     ];
 
     return Padding(
-      padding: const EdgeInsets.all(16.0),
+      padding:  EdgeInsets.all(16.w),
       child: Card(
         elevation: 8,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(16.r),
         ),
         color: Colors.white,
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding:  EdgeInsets.all(16.w),
           child: GridView.count(
             crossAxisCount: 3,
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
-            mainAxisSpacing: 16,
-            crossAxisSpacing: 16,
+            mainAxisSpacing: 16.h,
+            crossAxisSpacing: 16.w,
             children:
                 items.map((item) => _buildFunctionTile(context, item)).toList(),
           ),
@@ -89,18 +89,18 @@ class ListFunctionUserWidget extends ConsumerWidget with HelperMixin {
               boxShadow: [
                 BoxShadow(
                   color: Colors.black26,
-                  blurRadius: 6,
+                  blurRadius: 6.r,
                   offset: Offset(0, 4),
                 ),
               ],
             ),
-            child: Icon(item.icon, color: Colors.white, size: 30),
+            child: Icon(item.icon, color: Colors.white, size: 30.sp),
           ),
-          const SizedBox(height: 8),
+           SizedBox(height: 8.h),
           Text(
             item.label,
             textAlign: TextAlign.center,
-            style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+            style:  TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w500),
           ),
         ],
       ),

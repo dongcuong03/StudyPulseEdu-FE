@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -278,21 +280,28 @@ class AssignmentCard extends StatelessWidget with HelperMixin {
     );
   }
 
-  void downloadFile(String url) async {
-    final uri = Uri.parse(url.startsWith('http')
-        ? url
-        : "${ApiConstants.getBaseUrl}/uploads/$url");
+  Future<void> downloadFile(String url) async {
+    final uri = Uri.parse(
+      url.startsWith('http') ? url : "${ApiConstants.getBaseUrl}/uploads/$url",
+    );
+
     try {
-      final directory = await getExternalStorageDirectory();
-      if (directory != null) {
-        final filePath = "${directory.path}/${uri.pathSegments.last}";
-        await Dio().download(uri.toString(), filePath);
-        showSuccessToast("Tải tệp thành công");
-      } else {
-        showErrorToast("Không thể lấy thư mục lưu trữ.");
+      // Thư mục "Download" thật sự trên Android
+      final directory = Directory("/storage/emulated/0/Download");
+
+      // Đảm bảo thư mục tồn tại
+      if (!await directory.exists()) {
+        await directory.create(recursive: true);
       }
+
+      final filePath = "${directory.path}/${uri.pathSegments.last}";
+
+      // Tải file về thư mục Download
+      await Dio().download(uri.toString(), filePath);
+
+      showSuccessToast("Đã tải file vào thư mục Download.");
     } catch (e) {
-      showErrorToast("Lỗi: $e");
+      showErrorToast("Lỗi khi tải file: $e");
     }
   }
 }

@@ -4,7 +4,7 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
-        android:label="study_pulse_edu"
+        android:label="StudyPulseEdu"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

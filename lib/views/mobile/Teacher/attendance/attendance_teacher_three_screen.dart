@@ -385,6 +385,7 @@ class _AttendanceTeacherThreeScreenState
                       'Lưu lại và gửi thông báo đến phụ huynh',
                       style: AppTheme.bodyMedium.copyWith(
                         color: Colors.white,
+                        fontSize: 16.sp,
                         fontWeight: FontWeight.bold,
                       ),
                     ),

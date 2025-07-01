@@ -65,38 +65,25 @@ class ScoreMobileTeacherViewModel extends _$ScoreMobileTeacherViewModel {
     final url = "${ApiConstants.getBaseUrl}/api/v1/score/exportScoreTemplate/$classId";
 
     try {
+      // Lấy thư mục app
       final dir = await getExternalStorageDirectory();
-      if (dir == null) return;
-
-      // Gọi HEAD request để lấy tên file từ header
-      final headResponse = await DioClient().get(
-        url,
-        queryParameters: {},
-      );
-
-      // Mặc định
-      String fileName = 'score_template_$classId.xlsx';
-
-      // Lấy từ Content-Disposition nếu có
-      final contentDisposition = headResponse.headers['content-disposition']?.first;
-      if (contentDisposition != null) {
-        final regex = RegExp(r'filename="?([^"]+)"?');
-        final match = regex.firstMatch(contentDisposition);
-        if (match != null) {
-          fileName = match.group(1)!;
-        }
+      if (dir == null) {
+        return;
       }
 
-      final savePath = '${dir.path}/$fileName';
+      final fileName = 'score_template_$classId.xlsx';
+      final savePath = "${dir.path}/$fileName";
 
-      // Tải file thực sự
-      await DioClient().download(url, savePath);
+      // Gọi API và lưu file
+      final response = await DioClient().getBytes(url);
+      final file = File(savePath);
+      await file.writeAsBytes(response.data);
 
-      print("File Excel đã được lưu tại: $savePath");
     } catch (e) {
-      print('Lỗi exportScoreTemplate: $e');
+      print("Lỗi exportScoreTemplate: $e");
     }
   }
+
 
 
   Future<String?> importScoreExcel(File file, String classId) async {

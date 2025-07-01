@@ -6,9 +6,9 @@ import 'package:study_pulse_edu/models/app/Account.dart';
 import '../../../../../resources/utils/helpers/helper_mixin.dart';
 import '../../../../../routes/route_const.dart';
 
-class ListFunctionTeacherWidget extends ConsumerWidget with HelperMixin{
+class ListFunctionTeacherWidget extends ConsumerWidget with HelperMixin {
   final Account? account;
-  const ListFunctionTeacherWidget({required this.account ,super.key});
+  const ListFunctionTeacherWidget({required this.account, super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -58,22 +58,25 @@ class ListFunctionTeacherWidget extends ConsumerWidget with HelperMixin{
     ];
 
     return Padding(
-      padding: const EdgeInsets.all(32.0),
+      padding: EdgeInsets.all(16.w),
       child: Card(
         elevation: 6,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(16.r),
         ),
         color: Colors.white,
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: GridView.count(
-            crossAxisCount: 3,
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            mainAxisSpacing: 16,
-            crossAxisSpacing: 16,
-            children: items.map((item) => _buildFunctionTile(context, item)).toList(),
+          padding: EdgeInsets.all(20.w),
+          child: Wrap(
+            spacing: 25.w,
+            runSpacing: 25.h,
+            alignment: WrapAlignment.center,
+            children: items.map(
+                  (item) => SizedBox(
+                width: 80.w,
+                child: _buildFunctionTile(context, item),
+              ),
+            ).toList(),
           ),
         ),
       ),
@@ -88,25 +91,25 @@ class ListFunctionTeacherWidget extends ConsumerWidget with HelperMixin{
         children: [
           Container(
             width: 40.w,
-            height: 40.h,
+            height: 40.w,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
               color: Colors.blue,
               boxShadow: [
                 BoxShadow(
                   color: Colors.black26,
-                  blurRadius: 6,
-                  offset: Offset(0, 4),
+                  blurRadius: 6.r,
+                  offset: Offset(0, 4.h),
                 ),
               ],
             ),
-            child: Icon(item.icon, color: Colors.white, size: 30),
+            child: Icon(item.icon, color: Colors.white, size: 24.sp),
           ),
-          const SizedBox(height: 8),
+          SizedBox(height: 8.h),
           Text(
             item.label,
             textAlign: TextAlign.center,
-            style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+            style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w500),
           ),
         ],
       ),

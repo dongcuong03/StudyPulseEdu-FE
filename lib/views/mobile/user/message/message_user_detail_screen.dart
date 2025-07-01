@@ -59,7 +59,7 @@ class _MessageUserDetailScreenState extends ConsumerState<MessageUserDetailScree
       final path = result.files.first.path;
       if (path != null) {
         final file = File(path);
-        print("📄 Đã chọn file: ${file.path}");
+
 
         await ref.read(chatViewModelProvider.notifier).uploadAndSendFileMessage(
           senderId: widget.accountId!,

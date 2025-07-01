@@ -54,7 +54,7 @@ class _UserInforWidgetState extends ConsumerState<UserInforWidget>
                 clipper: BottomWavyClipper(),
                 child: Container(
                   color: AppTheme.primaryColor.withOpacity(0.3),
-                  height: 130,
+                  height: 130.h,
                   width: double.infinity,
                 ),
               ),
@@ -62,7 +62,7 @@ class _UserInforWidgetState extends ConsumerState<UserInforWidget>
                 clipper: BottomWavyClipper(),
                 child: Container(
                   color: AppTheme.primaryColor.withOpacity(0.7),
-                  height: 120,
+                  height: 120.h,
                   width: double.infinity,
                 ),
               ),
@@ -70,9 +70,8 @@ class _UserInforWidgetState extends ConsumerState<UserInforWidget>
                 clipper: BottomWavyClipper(),
                 child: Container(
                   color: AppTheme.primaryColor,
-                  height: 110,
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 30, horizontal: 10),
+                  height: 110.h,
+                  padding: EdgeInsets.symmetric(vertical: 30.h, horizontal: 10.w),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -81,12 +80,12 @@ class _UserInforWidgetState extends ConsumerState<UserInforWidget>
                           ClipOval(
                             child: Image.asset(
                               'assets/images/logo2.png',
-                              width: 45,
-                              height: 45,
+                              width: 45.w,
+                              height: 45.h,
                               fit: BoxFit.cover,
                             ),
                           ),
-                          const SizedBox(width: 10),
+                           SizedBox(width: 10.w),
                           _userInfoCard(
                               widget.accountName, unreadNotify),
                         ],
@@ -97,7 +96,6 @@ class _UserInforWidgetState extends ConsumerState<UserInforWidget>
               ),
             ],
           ),
-          // Có thể thêm nội dung khác ở đây
         ],
       ),
     );
@@ -124,15 +122,15 @@ class _UserInforWidgetState extends ConsumerState<UserInforWidget>
                   displayName ?? '',
                   style: AppTheme.headlineLarge.copyWith(
                     color: Colors.yellow.shade300,
-                    fontSize: 18,
+                    fontSize: 18.sp,
                   ),
                 ),
               ],
             ),
           ),
 
-          const SizedBox(width: 12), // spacing giữa 2 phần
-          _function(unreadNotify), // các nút icon bên phải
+           SizedBox(width: 12.w),
+          _function(unreadNotify),
         ],
       ),
     );
@@ -165,14 +163,14 @@ class _UserInforWidgetState extends ConsumerState<UserInforWidget>
                   children: [
                     Image.asset(
                       'assets/images/message_icon.png',
-                      width: 30,
-                      height: 30,
+                      width: 30.w,
+                      height: 30.h,
                       fit: BoxFit.contain,
                     ),
                     if (unreadMessage > 0)
                       Positioned(
-                        top: -5,
-                        right: -2,
+                        top: -5.h,
+                        right: -2.w,
                         child: Container(
                           padding: EdgeInsets.all(3),
                           decoration: BoxDecoration(
@@ -185,7 +183,7 @@ class _UserInforWidgetState extends ConsumerState<UserInforWidget>
                               unreadMessage > 9 ? '9+' : '$unreadMessage',
                               style: TextStyle(
                                 color: Colors.white,
-                                fontSize: 10,
+                                fontSize: 10.sp,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
@@ -224,31 +222,31 @@ class _UserInforWidgetState extends ConsumerState<UserInforWidget>
               clipBehavior: Clip.none,
               children: [
                 Container(
-                  width: 30,
-                  height: 30,
+                  width: 30.w,
+                  height: 30.h,
                   child: Icon(
                     Icons.notifications,
-                    size: 28,
+                    size: 28.sp,
                     color: Colors.white,
                   ),
                 ),
                 if (unreadNotify > 0)
                   Positioned(
-                    top: -5,
-                    right: -2,
+                    top: -5.h,
+                    right: -2.w,
                     child: Container(
-                      padding: EdgeInsets.all(3),
+                      padding: EdgeInsets.all(3.r),
                       decoration: BoxDecoration(
                         color: Colors.red,
                         shape: BoxShape.circle,
                       ),
-                      constraints: BoxConstraints(minWidth: 16, minHeight: 16),
+                      constraints: BoxConstraints(minWidth: 16.w, minHeight: 16.h),
                       child: Center(
                         child: Text(
                           unreadNotify > 9 ? '9+' : '$unreadNotify',
                           style: TextStyle(
                             color: Colors.white,
-                            fontSize: 10,
+                            fontSize: 10.sp,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -258,13 +256,13 @@ class _UserInforWidgetState extends ConsumerState<UserInforWidget>
               ],
             ),
           ),
-          const SizedBox(width: 16),
+           SizedBox(width: 16.w),
           // Nút Draw
           GestureDetector(
             onTap: () {
               Scaffold.of(widget.scaffoldContext).openEndDrawer();
             },
-            child: Icon(Icons.menu, color: Colors.white, size: 26),
+            child: Icon(Icons.menu, color: Colors.white, size: 26.sp),
           ),
         ],
       ),

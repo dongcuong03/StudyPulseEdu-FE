@@ -150,6 +150,7 @@ class _ViewAcademicResultTeacherScreenState extends ConsumerState<ViewAcademicRe
                       style: AppTheme.bodyMedium.copyWith(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
+                        fontSize: 16.sp,
                       ),
                     ),
                   ),

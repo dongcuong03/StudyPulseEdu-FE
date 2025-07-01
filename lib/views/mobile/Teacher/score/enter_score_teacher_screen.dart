@@ -254,10 +254,10 @@ class _EnterScoreTeacherScreenState
                             child: DropdownButton<String>(
                               value: mode,
                               icon: const Icon(Icons.arrow_drop_down),
-                              style: const TextStyle(
+                              style:  TextStyle(
                                 color: Colors.black,
                                 fontWeight: FontWeight.normal,
-                                fontSize: 16,
+                                fontSize: 16.sp,
                               ),
                               items: const [
                                 DropdownMenuItem(
@@ -284,7 +284,7 @@ class _EnterScoreTeacherScreenState
                     if (mode == 'manual') buildManualScoreInput(students),
                     if (mode == 'file') buildFileScoreInput(),
                     SizedBox(
-                      height: 30,
+                      height: 30.h,
                     ),
                     SizedBox(
                       width: double.infinity,
@@ -314,6 +314,7 @@ class _EnterScoreTeacherScreenState
                             style: AppTheme.bodyMedium.copyWith(
                               color: Colors.white,
                               fontWeight: FontWeight.bold,
+                              fontSize: 16.sp,
                             ),
                           ),
                         ),
@@ -342,16 +343,16 @@ class _EnterScoreTeacherScreenState
               style: TextStyle(fontWeight: FontWeight.w400),
             ),
             Container(
-              width: 155,
-              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 5),
+              width: 155.w,
+              padding:  EdgeInsets.symmetric(horizontal: 14.w, vertical: 5.h),
               decoration: BoxDecoration(
                 color: Colors.white,
-                borderRadius: BorderRadius.circular(15),
+                borderRadius: BorderRadius.circular(15.r),
                 border: Border.all(color: Colors.grey.shade300),
                 boxShadow: [
                   BoxShadow(
                     color: Colors.black12,
-                    blurRadius: 2,
+                    blurRadius: 2.r,
                     offset: Offset(0, 2),
                   ),
                 ],
@@ -359,10 +360,10 @@ class _EnterScoreTeacherScreenState
               child: DropdownButtonHideUnderline(
                 child: DropdownButton<String>(
                   value: selectedScoreType,
-                  style: const TextStyle(
+                  style:  TextStyle(
                     color: Colors.black,
                     fontWeight: FontWeight.normal,
-                    fontSize: 16,
+                    fontSize: 16.sp,
                   ),
                   icon: const Icon(Icons.arrow_drop_down),
                   isExpanded: true,
@@ -397,25 +398,25 @@ class _EnterScoreTeacherScreenState
             ),
           ],
         ),
-        const SizedBox(height: 25),
+         SizedBox(height: 25.h),
 
         Card(
           color: Colors.white,
           elevation: 2,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(12.r),
           ),
           child: Padding(
-            padding: const EdgeInsets.all(12.0),
+            padding:  EdgeInsets.all(12.w),
             child: Column(
               children: [
                 // Header bảng
                 Container(
-                  padding: const EdgeInsets.symmetric(vertical: 8),
+                  padding:  EdgeInsets.symmetric(vertical: 8.h),
                   child: LayoutBuilder(
                     builder: (context, constraints) {
-                      final sttW = constraints.maxWidth * 0.15;
-                      final codeW = constraints.maxWidth * 0.15;
+                      final sttW = constraints.maxWidth * 0.13;
+                      final codeW = constraints.maxWidth * 0.17;
                       final nameW = constraints.maxWidth * 0.5;
                       final scoreW = constraints.maxWidth * 0.2;
 

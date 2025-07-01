@@ -339,26 +339,26 @@ class _ViewClassTeacherScreenState extends ConsumerState<ViewClassTeacherScreen>
       color: Colors.white,
       elevation: 8,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(16.r),
       ),
       child: Padding(
-        padding: const EdgeInsets.all(16),
+        padding:  EdgeInsets.all(16.w),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // Tiêu đề
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8),
+              padding:  EdgeInsets.symmetric(vertical: 8.h),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  SizedBox(width: 90, child: Center(child: Text("Ngày học", style: AppTheme.bodyMedium.copyWith(fontWeight: FontWeight.w600)))),
-                  SizedBox(width: 115, child: Center(child: Text("Giờ bắt đầu", style: AppTheme.bodyMedium.copyWith(fontWeight: FontWeight.w600)))),
-                  SizedBox(width: 100, child: Center(child: Text("Giờ kết thúc", style: AppTheme.bodyMedium.copyWith(fontWeight: FontWeight.w600)))),
+                  SizedBox(width: 90.w, child: Center(child: Text("Ngày học", style: AppTheme.bodyMedium.copyWith(fontWeight: FontWeight.w600)))),
+                  SizedBox(width: 115.w, child: Center(child: Text("Giờ bắt đầu", style: AppTheme.bodyMedium.copyWith(fontWeight: FontWeight.w600)))),
+                  SizedBox(width: 100.w, child: Center(child: Text("Giờ kết thúc", style: AppTheme.bodyMedium.copyWith(fontWeight: FontWeight.w600)))),
                 ],
               ),
             ),
-            const SizedBox(height: 8),
+             SizedBox(height: 8.h),
             // Danh sách lịch học dạng văn bản + Divider
             ListView.separated(
               shrinkWrap: true,
@@ -374,7 +374,7 @@ class _ViewClassTeacherScreenState extends ConsumerState<ViewClassTeacherScreen>
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     SizedBox(
-                      width: 100,
+                      width: 100.w,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -387,7 +387,7 @@ class _ViewClassTeacherScreenState extends ConsumerState<ViewClassTeacherScreen>
                     ),
 
                     SizedBox(
-                      width: 115,
+                      width: 100.w,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -399,7 +399,7 @@ class _ViewClassTeacherScreenState extends ConsumerState<ViewClassTeacherScreen>
                       ),
                     ),
                     SizedBox(
-                      width: 100,
+                      width: 100.w,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -485,9 +485,9 @@ class _ViewClassTeacherScreenState extends ConsumerState<ViewClassTeacherScreen>
         borderRadius: BorderRadius.circular(16),
       ),
       child: SizedBox(
-        height: 400,
+        height: 400.h,
         child: Padding(
-          padding: const EdgeInsets.all(16),
+          padding:  EdgeInsets.all(16.w),
           child: Scrollbar(
             controller: _scrollStudentController,
             thumbVisibility: true,

@@ -102,13 +102,13 @@ class _NotificationUserScreenState extends ConsumerState<NotificationUserScreen>
                       Text(_tabTitles[index], style: TextStyle(fontSize: 14.sp)),
                       if (count > 0)
                         Positioned(
-                          top: -9,
-                          right: -18,
+                          top: -9.h,
+                          right: -18.w,
                           child: Container(
                             padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 1.h),
                             decoration: BoxDecoration(
                               color: Colors.red,
-                              borderRadius: BorderRadius.circular(10),
+                              borderRadius: BorderRadius.circular(10.r),
                             ),
                             constraints: BoxConstraints(minWidth: 18.w),
                             child: Text(
@@ -128,7 +128,7 @@ class _NotificationUserScreenState extends ConsumerState<NotificationUserScreen>
               labelColor: Colors.blue,
               unselectedLabelColor: Colors.black54,
               indicatorColor: Colors.blue,
-              indicatorWeight: 3,
+              indicatorWeight: 3.h,
             ),
           ),
           Expanded(
@@ -189,15 +189,15 @@ class _NotificationUserScreenState extends ConsumerState<NotificationUserScreen>
       highlightColor: Colors.transparent,
       hoverColor: Colors.transparent,
       child: Container(
-        padding: const EdgeInsets.all(12),
-        margin: const EdgeInsets.symmetric(vertical: 6, horizontal: 12),
+        padding:  EdgeInsets.all(12.w),
+        margin:  EdgeInsets.symmetric(vertical: 6.h, horizontal: 12.w),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(12.r),
           color: notification.isRead! ? Colors.white : Colors.blue[50],
           boxShadow: [
             BoxShadow(
               color: Colors.grey.shade300,
-              blurRadius: 4,
+              blurRadius: 4.r,
               offset: const Offset(0, 2),
             ),
           ],
@@ -215,16 +215,16 @@ class _NotificationUserScreenState extends ConsumerState<NotificationUserScreen>
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(teacherName ?? '',
-                          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+                          style:  TextStyle(fontWeight: FontWeight.bold, fontSize: 16.sp)),
                       Text(createdAt,
-                          style: TextStyle(color: Colors.grey[600], fontSize: 12)),
+                          style: TextStyle(color: Colors.grey[600], fontSize: 12.sp)),
                     ],
                   ),
-                  const SizedBox(height: 4),
+                   SizedBox(height: 4.h),
                   Text('Học sinh: $studentName - $studentCode',
-                      style: const TextStyle(fontSize: 14, color: Colors.teal)),
-                  const SizedBox(height: 6),
-                  Text(title ?? '', style: const TextStyle(fontSize: 15)),
+                      style:  TextStyle(fontSize: 14.sp, color: Colors.teal)),
+                   SizedBox(height: 6.h),
+                  Text(title ?? '', style:  TextStyle(fontSize: 15.sp)),
                 ],
               ),
             ),
