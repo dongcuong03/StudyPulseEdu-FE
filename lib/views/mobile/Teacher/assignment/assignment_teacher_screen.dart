@@ -179,42 +179,35 @@ class _AssignmentTeacherScreenState
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Row(
+                          CircleAvatar(
+                            radius: 24,
+                            backgroundImage: widget
+                                        .account?.teacher?.avatarUrl !=
+                                    null
+                                ? NetworkImage(
+                                    "${ApiConstants.getBaseUrl}/uploads/${widget.account!.teacher!.avatarUrl}")
+                                : null,
+                            onBackgroundImageError: (_, __) {},
+                          ),
+                          const SizedBox(width: 12),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              CircleAvatar(
-                                radius: 24,
-                                backgroundImage: widget
-                                            .account?.teacher?.avatarUrl !=
-                                        null
-                                    ? NetworkImage(
-                                        "${ApiConstants.getBaseUrl}/uploads/${widget.account!.teacher!.avatarUrl}")
-                                    : null,
-                                onBackgroundImageError: (_, __) {},
+                              Text(widget.account?.teacher?.fullName ?? '',
+                                  style: const TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold)),
+                              Text(
+                                "${assignment.createdAt != null ? DateFormat('HH:mm, dd/MM/yyyy').format(assignment.createdAt!) : ''}",
+                                style: const TextStyle(
+                                  color: Colors.black54,
+                                  fontSize: 15,
+                                  fontStyle: FontStyle.italic,
+                                ),
                               ),
-                              const SizedBox(width: 12),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(widget.account?.teacher?.fullName ?? '',
-                                      style: const TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.bold)),
-                                  const Text("Giáo viên",
-                                      style: TextStyle(color: Colors.black54)),
-                                ],
-                              )
                             ],
-                          ),
-                          Text(
-                            "${assignment.createdAt != null ? DateFormat('HH:mm, dd/MM/yyyy').format(assignment.createdAt!) : ''}",
-                            style: const TextStyle(
-                              color: Colors.black54,
-                              fontSize: 15,
-                              fontStyle: FontStyle.italic,
-                            ),
-                          ),
+                          )
                         ],
                       ),
 

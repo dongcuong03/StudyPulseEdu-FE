@@ -306,7 +306,7 @@ class _TuitionFeeReportTabState extends ConsumerState<TuitionFeeReportTab> {
                                     radius: 50,
                                   ),
                                 ],
-                                sectionsSpace: 4,
+                                sectionsSpace: 2,
                                 centerSpaceRadius: 30,
                               ),
                             ),

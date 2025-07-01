@@ -76,7 +76,10 @@ class _GradeTwoAssignmentTeacherScreenState
           : '';
       description = response.description ?? '';
       if (response.score != null) {
-        _scoreController.text = response.score!.toString();
+        _scoreController.text = double.parse(response.score!.toString())
+            .toString()
+            .replaceFirst(RegExp(r'\.0$'), '')
+            .replaceFirst(RegExp(r'(\.\d)0$'), r'\1');
 
       }
 

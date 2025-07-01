@@ -62,7 +62,13 @@ class _ViewSubmissionUserScreenState
           : '' ;
       description = response.description ?? '';
       fileUrl = response.fileUrl ?? '';
-      score = response.score != null ? response.score.toString() : '';
+      score = response.score != null
+          ? double.parse(response.score!.toString())
+          .toString()
+          .replaceFirst(RegExp(r'\.0$'), '')
+          .replaceFirst(RegExp(r'(\.\d)0$'), r'\1')
+          : '';
+
       feedback = response.feedback ?? '';
       images = fileUrl
           ?.split(',')
