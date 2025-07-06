@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:study_pulse_edu/models/app/Account.dart';
 
 import '../../../../../resources/utils/helpers/helper_mixin.dart';
 import '../../../../../routes/route_const.dart';
@@ -32,12 +31,15 @@ class ListFunctionUserWidget extends ConsumerWidget with HelperMixin {
         icon: Icons.assignment,
         label: 'Bài tập',
         onTap: () {
-          pushedName(context, RouteConstants.userAssignmentRouteName,
+          pushedName(
+            context,
+            RouteConstants.userAssignmentRouteName,
             extra: {
               "studentId": studentId,
               "studentName": studentName,
               "studentCode": studentCode,
-            },);
+            },
+          );
         },
       ),
       _FunctionItem(
@@ -51,7 +53,7 @@ class ListFunctionUserWidget extends ConsumerWidget with HelperMixin {
     ];
 
     return Padding(
-      padding:  EdgeInsets.all(16.w),
+      padding: EdgeInsets.all(16.w),
       child: Card(
         elevation: 8,
         shape: RoundedRectangleBorder(
@@ -59,7 +61,7 @@ class ListFunctionUserWidget extends ConsumerWidget with HelperMixin {
         ),
         color: Colors.white,
         child: Padding(
-          padding:  EdgeInsets.all(16.w),
+          padding: EdgeInsets.all(16.w),
           child: GridView.count(
             crossAxisCount: 3,
             shrinkWrap: true,
@@ -96,11 +98,11 @@ class ListFunctionUserWidget extends ConsumerWidget with HelperMixin {
             ),
             child: Icon(item.icon, color: Colors.white, size: 30.sp),
           ),
-           SizedBox(height: 8.h),
+          SizedBox(height: 8.h),
           Text(
             item.label,
             textAlign: TextAlign.center,
-            style:  TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w500),
+            style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w500),
           ),
         ],
       ),

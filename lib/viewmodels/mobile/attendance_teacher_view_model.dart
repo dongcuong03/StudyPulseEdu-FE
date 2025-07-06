@@ -12,6 +12,7 @@ class AttendanceTeacherViewModel extends _$AttendanceTeacherViewModel {
   @override
   FutureOr<List<DateTime>?> build() async => null;
 
+  /// Call API lấy danh sách ngày điểm danh
   Future<List<DateTime>?> getAttendanceByClass(String classId) async {
     state = const AsyncLoading();
     try {
@@ -39,6 +40,7 @@ class AttendanceTeacherViewModel extends _$AttendanceTeacherViewModel {
     }
   }
 
+  /// Call API điểm danh
   Future<String?> markAttendanceBulk(List<Attendance> attendances) async {
     final url = "${ApiConstants.getBaseUrl}/api/v1/attendance/bulk";
 
@@ -54,7 +56,8 @@ class AttendanceTeacherViewModel extends _$AttendanceTeacherViewModel {
       }
     } catch (e) {
       if (e is DioException) {
-        final message = e.response?.data['message'] ?? 'Đã xảy ra lỗi không xác định';
+        final message =
+            e.response?.data['message'] ?? 'Đã xảy ra lỗi không xác định';
         return message;
       } else {
         print(e);
@@ -63,7 +66,7 @@ class AttendanceTeacherViewModel extends _$AttendanceTeacherViewModel {
     }
   }
 
-  // call API getAttendanceByClassAndDate
+  /// call API getAttendanceByClassAndDate
   Future<List<Attendance>?> getAttendanceByClassAndDate({
     required String classId,
     required DateTime date,
@@ -88,5 +91,4 @@ class AttendanceTeacherViewModel extends _$AttendanceTeacherViewModel {
       return null;
     }
   }
-
 }

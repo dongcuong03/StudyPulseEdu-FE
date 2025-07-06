@@ -1,5 +1,3 @@
-
-
 import 'package:dio/dio.dart';
 import 'dart:typed_data';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -10,9 +8,11 @@ import '../../models/app/PagingResponse.dart';
 import '../../resources/constains/constants.dart';
 import '../../resources/utils/data_sources/dio_client.dart';
 import 'dart:html' as html;
+
 part 'tuition_fee_view_model.g.dart';
+
 @riverpod
-class TuitionFeeViewModel  extends _$TuitionFeeViewModel {
+class TuitionFeeViewModel extends _$TuitionFeeViewModel {
   static const int defaultPageSize = 10;
 
   int _currentPageIndex = 1;
@@ -35,14 +35,12 @@ class TuitionFeeViewModel  extends _$TuitionFeeViewModel {
       _currentPageIndex = pageIndex;
     }
 
-
     try {
       final pagingResponse = await _fetchTuitionFees(
-          pageIndex: pageIndex,
-          pageSize: pageSize,
-          studentCode: studentCode,
-          status: status,
-
+        pageIndex: pageIndex,
+        pageSize: pageSize,
+        studentCode: studentCode,
+        status: status,
       );
       state = AsyncData(pagingResponse);
     } catch (e, st) {
@@ -50,13 +48,12 @@ class TuitionFeeViewModel  extends _$TuitionFeeViewModel {
     }
   }
 
-  // Call API paging
-  Future<PagingResponse<TuitionFee>?> _fetchTuitionFees({
-    int? pageIndex,
-    int pageSize = defaultPageSize,
-    String? studentCode,
-    TuitionStatus? status
-  }) async {
+  /// Call API paging
+  Future<PagingResponse<TuitionFee>?> _fetchTuitionFees(
+      {int? pageIndex,
+      int pageSize = defaultPageSize,
+      String? studentCode,
+      TuitionStatus? status}) async {
     final url = "${ApiConstants.getBaseUrl}/api/v1/tuitionFee/paging";
 
     final data = <String, dynamic>{
@@ -78,10 +75,11 @@ class TuitionFeeViewModel  extends _$TuitionFeeViewModel {
     if (response.data == null) return null;
     return PagingResponse<TuitionFee>.fromJson(
       response.data,
-          (json) => TuitionFee.fromJson(json),
+      (json) => TuitionFee.fromJson(json),
     );
   }
 
+  /// Call API trả về danh sách học phí
   Future<List<TuitionFee>> fetchAllTuitionFees({
     String? studentCode,
     TuitionStatus? status,
@@ -112,13 +110,15 @@ class TuitionFeeViewModel  extends _$TuitionFeeViewModel {
     }
   }
 
+  /// Call API gửi thông báo đóng học phí đến phụ huynh
   Future<String?> notifyAllTuitionFees() async {
     try {
       // Lấy toàn bộ danh sách học phí
-      final allTuitionFees = await fetchAllTuitionFees(status: TuitionStatus.UNPAID);
+      final allTuitionFees =
+          await fetchAllTuitionFees(status: TuitionStatus.UNPAID);
       final dueDate = DateTime.now().add(const Duration(days: 14));
 
-      // Chuẩn bị danh sách DTO để gửi lên backend
+      // Chuẩn bị danh sách DTO
       final requestData = allTuitionFees.map((fee) {
         return {
           "studentId": fee.student?.id,
@@ -144,18 +144,24 @@ class TuitionFeeViewModel  extends _$TuitionFeeViewModel {
     }
   }
 
+  /// Call API lấy thông tin học phí theo studentID
   Future<List<TuitionFee>> getTuitionFeeByStudentId(String studentId) async {
-    final url = "${ApiConstants.getBaseUrl}/api/v1/tuitionFee/getByStudentId/$studentId";
+    final url =
+        "${ApiConstants.getBaseUrl}/api/v1/tuitionFee/getByStudentId/$studentId";
     final response = await DioClient().get(url);
     if (response.statusCode == 200 && response.data is List) {
-      return (response.data as List).map((e) => TuitionFee.fromJson(e)).toList();
+      return (response.data as List)
+          .map((e) => TuitionFee.fromJson(e))
+          .toList();
     } else {
       throw Exception("Lỗi khi lấy học phí theo học sinh.");
     }
   }
 
+  ///Call API xuất file Excel học phí
   Future<void> exportTuitionFeeTemplate() async {
-    final url = "${ApiConstants.getBaseUrl}/api/v1/tuitionFee/exportTuitionFeeTemplate";
+    final url =
+        "${ApiConstants.getBaseUrl}/api/v1/tuitionFee/exportTuitionFeeTemplate";
 
     try {
       final response = await DioClient().getBytes(
@@ -163,12 +169,12 @@ class TuitionFeeViewModel  extends _$TuitionFeeViewModel {
         queryParameters: {},
       );
 
-
       if (response.statusCode == 200) {
         String fileName = 'tuition_fee_template.xlsx';
 
         // Lấy tên file từ header nếu có
-        final contentDisposition = response.headers['content-disposition']?.first;
+        final contentDisposition =
+            response.headers['content-disposition']?.first;
         if (contentDisposition != null) {
           final regex = RegExp(r'filename="?([^"]+)"?');
           final match = regex.firstMatch(contentDisposition);
@@ -183,7 +189,6 @@ class TuitionFeeViewModel  extends _$TuitionFeeViewModel {
           ..setAttribute("download", fileName)
           ..click();
         html.Url.revokeObjectUrl(downloadUrl);
-
       } else {
         print("Lỗi khi tải file: ${response.statusCode}");
       }
@@ -192,8 +197,11 @@ class TuitionFeeViewModel  extends _$TuitionFeeViewModel {
     }
   }
 
-  Future<String?> importTuitionFeeExcel(Uint8List fileBytes, String fileName) async {
-    final url = "${ApiConstants.getBaseUrl}/api/v1/tuitionFee/importTuitionFeeExcel";
+  /// Call API import Excel xác nhận trạng thái đóng học phí
+  Future<String?> importTuitionFeeExcel(
+      Uint8List fileBytes, String fileName) async {
+    final url =
+        "${ApiConstants.getBaseUrl}/api/v1/tuitionFee/importTuitionFeeExcel";
 
     try {
       final formData = FormData.fromMap({

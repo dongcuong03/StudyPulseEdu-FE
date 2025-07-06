@@ -13,7 +13,8 @@ class NotificationHistoryScreen extends ConsumerStatefulWidget {
   ConsumerState createState() => _NotificationHistoryScreenState();
 }
 
-class _NotificationHistoryScreenState extends ConsumerState<NotificationHistoryScreen>
+class _NotificationHistoryScreenState
+    extends ConsumerState<NotificationHistoryScreen>
     with HelperMixin, SingleTickerProviderStateMixin {
   late TabController _tabController;
 
@@ -56,11 +57,16 @@ class _NotificationHistoryScreenState extends ConsumerState<NotificationHistoryS
       body: TabBarView(
         controller: _tabController,
         children: [
-          TableNotificationWidget(type: NotificationType.SCORE, isAdmin: false,),
-          TableNotificationWidget(type: NotificationType.ATTENDANCE, isAdmin: false),
-          TableNotificationWidget(type: NotificationType.TUITION,isAdmin: true),
-          TableNotificationWidget(type: NotificationType.RESULT,isAdmin: false),
-
+          TableNotificationWidget(
+            type: NotificationType.SCORE,
+            isAdmin: false,
+          ),
+          TableNotificationWidget(
+              type: NotificationType.ATTENDANCE, isAdmin: false),
+          TableNotificationWidget(
+              type: NotificationType.TUITION, isAdmin: true),
+          TableNotificationWidget(
+              type: NotificationType.RESULT, isAdmin: false),
         ],
       ),
     );

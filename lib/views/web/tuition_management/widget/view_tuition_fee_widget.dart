@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
-import 'package:study_pulse_edu/resources/constains/constants.dart';
 
 import '../../../../viewmodels/web/tuition_fee_view_model.dart';
 
@@ -15,10 +14,12 @@ class ViewTuitionDetailWidget extends ConsumerStatefulWidget {
   });
 
   @override
-  ConsumerState<ViewTuitionDetailWidget> createState() => _ViewTuitionDetailWidgetState();
+  ConsumerState<ViewTuitionDetailWidget> createState() =>
+      _ViewTuitionDetailWidgetState();
 }
 
-class _ViewTuitionDetailWidgetState extends ConsumerState<ViewTuitionDetailWidget> {
+class _ViewTuitionDetailWidgetState
+    extends ConsumerState<ViewTuitionDetailWidget> {
   final ScrollController _scrollController = ScrollController();
   List<Map<String, dynamic>> tuitionDetails = [];
   bool isLoading = true;
@@ -28,6 +29,7 @@ class _ViewTuitionDetailWidgetState extends ConsumerState<ViewTuitionDetailWidge
   double total = 0;
   double totalPaid = 0;
   double totalUnpaid = 0;
+
   @override
   void initState() {
     super.initState();
@@ -89,7 +91,7 @@ class _ViewTuitionDetailWidgetState extends ConsumerState<ViewTuitionDetailWidge
         height: 1.sh,
         child: Column(
           children: [
-            // --- Title ---
+            //Title
             Padding(
               padding: EdgeInsets.all(20.w),
               child: Column(
@@ -117,7 +119,7 @@ class _ViewTuitionDetailWidgetState extends ConsumerState<ViewTuitionDetailWidge
                       ),
                       IconButton(
                         icon: const Icon(Icons.close),
-                        onPressed:() => Navigator.pop(context),
+                        onPressed: () => Navigator.pop(context),
                       ),
                     ],
                   ),
@@ -146,10 +148,10 @@ class _ViewTuitionDetailWidgetState extends ConsumerState<ViewTuitionDetailWidge
                       child: isLoading
                           ? SizedBox.shrink()
                           : Column(
-                        children: [
-                          _buildTuitionFeeForm(),
-                        ],
-                      ),
+                              children: [
+                                _buildTuitionFeeForm(),
+                              ],
+                            ),
                     ),
                   ),
                 ),
@@ -161,7 +163,7 @@ class _ViewTuitionDetailWidgetState extends ConsumerState<ViewTuitionDetailWidge
     );
   }
 
-  Widget _buildTuitionFeeForm(){
+  Widget _buildTuitionFeeForm() {
     return SizedBox(
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -172,7 +174,8 @@ class _ViewTuitionDetailWidgetState extends ConsumerState<ViewTuitionDetailWidge
           SizedBox(height: 8.h),
           Text('Họ tên: $studentName', style: TextStyle(fontSize: 16.sp)),
           SizedBox(height: 30.h),
-          Text('Danh sách học phí:', style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w600)),
+          Text('Danh sách học phí:',
+              style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w600)),
           SizedBox(height: 12.h),
           Table(
             border: TableBorder.all(color: Colors.grey.shade400),
@@ -181,7 +184,6 @@ class _ViewTuitionDetailWidgetState extends ConsumerState<ViewTuitionDetailWidge
               1: FlexColumnWidth(),
               2: FixedColumnWidth(160.w),
               3: FixedColumnWidth(160.w),
-
             },
             children: [
               TableRow(
@@ -189,19 +191,25 @@ class _ViewTuitionDetailWidgetState extends ConsumerState<ViewTuitionDetailWidge
                 children: [
                   Padding(
                     padding: EdgeInsets.all(8.w),
-                    child: Text('STT', style: TextStyle(fontWeight: FontWeight.bold)),
+                    child: Text('STT',
+                        style: TextStyle(fontWeight: FontWeight.bold)),
                   ),
                   Padding(
                     padding: EdgeInsets.all(8.w),
-                    child: Text('Lớp', style: TextStyle(fontWeight: FontWeight.bold)),
+                    child: Text('Lớp',
+                        style: TextStyle(fontWeight: FontWeight.bold)),
                   ),
                   Padding(
                     padding: EdgeInsets.all(8.w),
-                    child: Center(child: Text('Học phí', style: TextStyle(fontWeight: FontWeight.bold))),
+                    child: Center(
+                        child: Text('Học phí',
+                            style: TextStyle(fontWeight: FontWeight.bold))),
                   ),
                   Padding(
                     padding: EdgeInsets.all(8.w),
-                    child: Center(child: Text('Trạng thái nộp', style: TextStyle(fontWeight: FontWeight.bold))),
+                    child: Center(
+                        child: Text('Trạng thái nộp',
+                            style: TextStyle(fontWeight: FontWeight.bold))),
                   ),
                 ],
               ),
@@ -223,7 +231,8 @@ class _ViewTuitionDetailWidgetState extends ConsumerState<ViewTuitionDetailWidge
                       child: Align(
                         alignment: Alignment.centerRight,
                         child: Text(
-                          NumberFormat.decimalPattern('vi_VN').format(item['tuitionFee'] ?? 0),
+                          NumberFormat.decimalPattern('vi_VN')
+                              .format(item['tuitionFee'] ?? 0),
                         ),
                       ),
                     ),
@@ -238,7 +247,7 @@ class _ViewTuitionDetailWidgetState extends ConsumerState<ViewTuitionDetailWidge
           ),
           SizedBox(height: 50.h),
           Align(
-            alignment: Alignment.centerLeft,
+            alignment: Alignment.centerRight,
             child: Text(
               'Tổng học phí: ${NumberFormat.currency(locale: 'vi_VN').format(total)}',
               style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.bold),
@@ -246,7 +255,7 @@ class _ViewTuitionDetailWidgetState extends ConsumerState<ViewTuitionDetailWidge
           ),
           SizedBox(height: 20.h),
           Align(
-            alignment: Alignment.centerLeft,
+            alignment: Alignment.centerRight,
             child: Text(
               'Đã đóng: ${NumberFormat.currency(locale: 'vi_VN').format(totalPaid)}',
               style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.bold),
@@ -254,15 +263,17 @@ class _ViewTuitionDetailWidgetState extends ConsumerState<ViewTuitionDetailWidge
           ),
           SizedBox(height: 20.h),
           Align(
-            alignment: Alignment.centerLeft,
+            alignment: Alignment.centerRight,
             child: Text(
               'Còn phải đóng: ${NumberFormat.currency(locale: 'vi_VN').format(totalUnpaid)}',
-              style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.bold,color: Colors.teal),
+              style: TextStyle(
+                  fontSize: 16.sp,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.teal),
             ),
           ),
         ],
       ),
     );
   }
-
 }

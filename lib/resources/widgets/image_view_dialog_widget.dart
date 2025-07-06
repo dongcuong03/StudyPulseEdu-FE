@@ -33,16 +33,16 @@ class _ImageViewerDialogState extends State<ImageViewerDialog> {
       backgroundColor: Colors.black.withOpacity(0.7),
       body: Stack(
         children: [
-          // Lớp bắt tap ở nền (tap vào vùng trống sẽ đóng)
+          // tap vào vùng trống sẽ đóng
           GestureDetector(
             behavior: HitTestBehavior.translucent,
             onTap: () => Navigator.of(context).pop(),
             child: Container(
-              color: Colors.transparent, // Đảm bảo vùng này bắt được tap
+              color: Colors.transparent,
             ),
           ),
 
-          // Lớp ảnh - không được lan tap ra ngoài
+          // ảnh - không được lan tap ra ngoài
           Center(
             child: SizedBox(
               width: 0.8.sw,

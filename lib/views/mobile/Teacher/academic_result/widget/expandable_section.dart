@@ -21,8 +21,10 @@ class ExpandableSection extends StatelessWidget {
       children: [
         ListTile(
           contentPadding: EdgeInsets.zero,
-          title: Text(title, style: const TextStyle(fontWeight: FontWeight.w400)),
-          trailing: Icon(isExpanded ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down),
+          title:
+              Text(title, style: const TextStyle(fontWeight: FontWeight.w400)),
+          trailing: Icon(
+              isExpanded ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down),
           onTap: onToggle,
         ),
         if (isExpanded)

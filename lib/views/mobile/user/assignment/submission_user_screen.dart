@@ -6,40 +6,38 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import 'package:intl/intl.dart';
-import 'package:omni_datetime_picker/omni_datetime_picker.dart';
-import 'package:study_pulse_edu/models/app/Assignment.dart';
 import 'package:study_pulse_edu/models/app/Submission.dart';
 import 'package:study_pulse_edu/viewmodels/mobile/assignment_teacher_view_model.dart';
 import 'package:study_pulse_edu/viewmodels/mobile/assignment_user_view_model.dart';
 
-import '../../../../models/app/Account.dart';
-import '../../../../models/app/ClassA.dart';
-import '../../../../models/app/Teacher.dart';
-import '../../../../resources/constains/constants.dart';
 import '../../../../resources/utils/app/app_theme.dart';
 import '../../../../resources/utils/helpers/helper_mixin.dart';
 import '../../../../resources/widgets/app_input_second.dart';
-import '../../../../viewmodels/mobile/classA_mobile_teacher_view_model.dart';
 
 class SubmissionUserScreen extends ConsumerStatefulWidget {
   final String? studentId;
   final String? assignmentId;
   final VoidCallback? onClose;
-  const SubmissionUserScreen({required this.studentId,required this.assignmentId, required this.onClose, super.key});
+
+  const SubmissionUserScreen(
+      {required this.studentId,
+      required this.assignmentId,
+      required this.onClose,
+      super.key});
 
   @override
   ConsumerState createState() => _SubmissionUserScreenState();
 }
 
-class _SubmissionUserScreenState
-    extends ConsumerState<SubmissionUserScreen> with HelperMixin {
+class _SubmissionUserScreenState extends ConsumerState<SubmissionUserScreen>
+    with HelperMixin {
   final _formKey = GlobalKey<FormState>();
 
   String? _fileError;
   final TextEditingController contentController = TextEditingController();
 
   List<PlatformFile> attachedFiles = [];
+
   Future<void> _pickFiles() async {
     final result = await FilePicker.platform.pickFiles(allowMultiple: true);
     if (result != null) {
@@ -72,7 +70,6 @@ class _SubmissionUserScreenState
         title: const Text('Nộp bài tập', style: TextStyle(color: Colors.white)),
         backgroundColor: Colors.blue,
         iconTheme: const IconThemeData(color: Colors.white),
-
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
@@ -98,20 +95,23 @@ class _SubmissionUserScreenState
           // Nút đính kèm file
           ElevatedButton.icon(
             onPressed: _pickFiles,
-            icon:  Icon(Icons.attach_file, color: Colors.grey[900],),
-            label:  Text('Đính kèm file',style: TextStyle(color: Colors.grey[700],)),
-            style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.white,
-                elevation: 4
+            icon: Icon(
+              Icons.attach_file,
+              color: Colors.grey[900],
             ),
+            label: Text('Đính kèm file',
+                style: TextStyle(
+                  color: Colors.grey[700],
+                )),
+            style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.white, elevation: 4),
           ),
           if (_fileError != null)
             Padding(
               padding: EdgeInsets.only(left: 16.w, top: 4.h),
               child: Text(
                 _fileError!,
-                style: AppTheme.bodySmall
-                    .copyWith(color: Colors.red.shade800),
+                style: AppTheme.bodySmall.copyWith(color: Colors.red.shade800),
               ),
             ),
           ListView.builder(
@@ -154,18 +154,14 @@ class _SubmissionUserScreenState
             child: DecoratedBox(
               decoration: BoxDecoration(
                 gradient: LinearGradient(
-                  colors: [
-                    Color(0xFF3E61FC),
-                    Color(0xFF5EBAD7)
-
-                  ],
+                  colors: [Color(0xFF3E61FC), Color(0xFF5EBAD7)],
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                 ),
                 borderRadius: BorderRadius.circular(25.r),
               ),
               child: ElevatedButton(
-                onPressed:(){
+                onPressed: () {
                   _addSubmission();
                 },
                 style: ElevatedButton.styleFrom(
@@ -197,7 +193,7 @@ class _SubmissionUserScreenState
 
     bool isValidForm = _formKey.currentState!.validate();
 
-    if (attachedFiles.isEmpty ) {
+    if (attachedFiles.isEmpty) {
       setState(() {
         _fileError = 'File đính kèm không được để trống.';
       });
@@ -209,8 +205,7 @@ class _SubmissionUserScreenState
       Submission submission = Submission(
           assignmentId: widget.assignmentId,
           studentId: widget.studentId,
-          description: contentController.text
-      );
+          description: contentController.text);
 
       List<File> files = attachedFiles.map((pf) => File(pf.path!)).toList();
 
@@ -227,6 +222,7 @@ class _SubmissionUserScreenState
       }
     }
   }
+
   Widget _buildInput({
     required TextEditingController controller,
     String? labelText,

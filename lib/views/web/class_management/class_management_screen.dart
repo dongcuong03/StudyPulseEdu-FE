@@ -4,7 +4,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:study_pulse_edu/models/app/ClassA.dart';
 import 'package:study_pulse_edu/resources/constains/constants.dart';
 import 'package:study_pulse_edu/viewmodels/web/class_view_model.dart';
@@ -37,12 +36,18 @@ class _ClassManagementScreenState extends ConsumerState<ClassManagementScreen>
   DateTime? _startDate;
   DateTime? _endDate;
 
-  void _fetchPage({int? pageIndex, String? className, String? teacherName, DateTime? startDate, DateTime? endDate}) {
+  void _fetchPage(
+      {int? pageIndex,
+      String? className,
+      String? teacherName,
+      DateTime? startDate,
+      DateTime? endDate}) {
     final viewModel = ref.read(classViewModelProvider.notifier);
 
     if ((className != null && className.isNotEmpty) ||
         (teacherName != null && teacherName.isNotEmpty) ||
-        startDate != null || endDate != null) {
+        startDate != null ||
+        endDate != null) {
       viewModel.fetchClasses(
         className: className,
         teacherName: teacherName,
@@ -182,7 +187,9 @@ class _ClassManagementScreenState extends ConsumerState<ClassManagementScreen>
                 ),
               ),
             ),
-            SizedBox(width: 20.w,),
+            SizedBox(
+              width: 20.w,
+            ),
             GestureDetector(
               onTap: _showFilterDialog,
               behavior: HitTestBehavior.translucent,
@@ -193,7 +200,6 @@ class _ClassManagementScreenState extends ConsumerState<ClassManagementScreen>
                 color: Colors.grey,
               ),
             )
-
           ],
         ),
       ],
@@ -325,8 +331,10 @@ class _ClassManagementScreenState extends ConsumerState<ClassManagementScreen>
     );
   }
 
-  void _showFilterDialog() async{
-    final teacherAccounts = await ref.read(accountViewModelProvider.notifier).getAllAccountTeacher();
+  void _showFilterDialog() async {
+    final teacherAccounts = await ref
+        .read(accountViewModelProvider.notifier)
+        .getAllAccountTeacher();
 
     final teacherNames = teacherAccounts
         .where((account) => account.role == Role.TEACHER)
@@ -364,23 +372,29 @@ class _ClassManagementScreenState extends ConsumerState<ClassManagementScreen>
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Center(child: Text("Bộ lọc tìm kiếm", style: AppTheme.titleMedium)),
+                      Center(
+                          child: Text("Bộ lọc tìm kiếm",
+                              style: AppTheme.titleMedium)),
                       const SizedBox(height: 20),
-
-                      Text("Theo giáo viên:", style: TextStyle(fontWeight: FontWeight.w500)),
+                      Text("Theo giáo viên:",
+                          style: TextStyle(fontWeight: FontWeight.w500)),
                       const SizedBox(height: 12),
                       DropdownButtonHideUnderline(
                         child: DropdownButton2<String>(
                           isExpanded: true,
-                          hint: const Text("Chọn giáo viên", style: TextStyle(fontWeight: FontWeight.normal)),
+                          hint: const Text("Chọn giáo viên",
+                              style: TextStyle(fontWeight: FontWeight.normal)),
                           items: teacherNames.map((name) {
                             return DropdownMenuItem<String>(
                               value: name,
-                              child: Text(name, style: const TextStyle(fontWeight: FontWeight.normal)),
+                              child: Text(name,
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.normal)),
                             );
                           }).toList(),
                           value: tempSelectedTeacher,
-                          onChanged: (value) => setState(() => tempSelectedTeacher = value),
+                          onChanged: (value) =>
+                              setState(() => tempSelectedTeacher = value),
                           buttonStyleData: ButtonStyleData(
                             height: 40,
                             padding: const EdgeInsets.symmetric(horizontal: 12),
@@ -391,7 +405,8 @@ class _ClassManagementScreenState extends ConsumerState<ClassManagementScreen>
                             ),
                           ),
                           iconStyleData: const IconStyleData(
-                            icon: Icon(Icons.arrow_drop_down, color: Colors.blueAccent),
+                            icon: Icon(Icons.arrow_drop_down,
+                                color: Colors.blueAccent),
                             iconSize: 24,
                           ),
                           dropdownStyleData: DropdownStyleData(
@@ -403,11 +418,10 @@ class _ClassManagementScreenState extends ConsumerState<ClassManagementScreen>
                           ),
                         ),
                       ),
-
                       const SizedBox(height: 30),
-                      Text("Thời gian bắt đầu - kết thúc:", style: TextStyle(fontWeight: FontWeight.w500)),
+                      Text("Thời gian bắt đầu - kết thúc:",
+                          style: TextStyle(fontWeight: FontWeight.w500)),
                       const SizedBox(height: 12),
-
                       Row(
                         children: [
                           Expanded(
@@ -418,13 +432,13 @@ class _ClassManagementScreenState extends ConsumerState<ClassManagementScreen>
                                   initialDate: tempStartDate ?? DateTime.now(),
                                   firstDate: DateTime(2000),
                                   lastDate: DateTime(2100),
-
                                 );
                                 if (picked != null) {
                                   setState(() => tempStartDate = picked);
                                 }
                               },
-                              child: _buildDateInput(tempStartDate, label: "Từ ngày"),
+                              child: _buildDateInput(tempStartDate,
+                                  label: "Từ ngày"),
                             ),
                           ),
                           const Padding(
@@ -444,12 +458,12 @@ class _ClassManagementScreenState extends ConsumerState<ClassManagementScreen>
                                   setState(() => tempEndDate = picked);
                                 }
                               },
-                              child: _buildDateInput(tempEndDate, label: "Đến ngày"),
+                              child: _buildDateInput(tempEndDate,
+                                  label: "Đến ngày"),
                             ),
                           ),
                         ],
                       ),
-
                       const Spacer(),
                       Row(
                         children: [
@@ -517,19 +531,18 @@ class _ClassManagementScreenState extends ConsumerState<ClassManagementScreen>
     return InputDecorator(
       decoration: InputDecoration(
         isDense: true,
-        contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+        contentPadding:
+            const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
           borderSide: BorderSide(color: Colors.grey.shade300),
         ),
-        suffixIcon: const Icon(Icons.calendar_today, size: 20, color: Colors.blueAccent),
+        suffixIcon: const Icon(Icons.calendar_today,
+            size: 20, color: Colors.blueAccent),
       ),
       child: Text(
         date != null ? "${date.day}/${date.month}/${date.year}" : label,
       ),
     );
   }
-
-
-
 }

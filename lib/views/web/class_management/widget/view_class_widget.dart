@@ -1,20 +1,15 @@
-import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
-import 'package:study_pulse_edu/models/app/ClassA.dart';
 import 'package:study_pulse_edu/models/app/Student.dart';
 import 'package:study_pulse_edu/resources/utils/app/app_theme.dart';
 import 'package:study_pulse_edu/viewmodels/web/class_view_model.dart';
-import '../../../../models/app/Account.dart';
 import '../../../../models/app/Schedule.dart';
-import '../../../../models/app/Teacher.dart';
 import '../../../../resources/constains/constants.dart';
 import '../../../../resources/utils/helpers/helper_mixin.dart';
 import '../../../../resources/widgets/app_input.dart';
-import '../../../../viewmodels/web/account_view_model.dart';
 
 class ViewClassWidget extends ConsumerStatefulWidget {
   final VoidCallback onClose;
@@ -74,7 +69,8 @@ class _ViewClassWidgetState extends ConsumerState<ViewClassWidget>
 
     setState(() {
       _studentMaxController.text = classA.maxStudents?.toString() ?? '';
-      _tuitionController.text = NumberFormat("#,##0", "en_US").format(classA.tuitionFee);
+      _tuitionController.text =
+          NumberFormat("#,##0", "en_US").format(classA.tuitionFee);
       _descriptionController.text = classA.description ?? '';
 
       _startDateController.text = classA.startDate != null
@@ -132,7 +128,7 @@ class _ViewClassWidgetState extends ConsumerState<ViewClassWidget>
         height: 1.sh,
         child: Column(
           children: [
-            // --- Title ---
+            // Title
             Padding(
               padding: EdgeInsets.all(20.w),
               child: Column(

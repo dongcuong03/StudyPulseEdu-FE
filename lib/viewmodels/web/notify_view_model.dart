@@ -5,7 +5,6 @@ import '../../models/app/PagingResponse.dart';
 import '../../resources/constains/constants.dart';
 import '../../resources/utils/data_sources/dio_client.dart';
 
-
 part 'notify_view_model.g.dart';
 
 @riverpod
@@ -16,24 +15,22 @@ class NotifyViewModel extends _$NotifyViewModel {
 
   @override
   FutureOr<PagingResponse<NotificationApp>?> build() async {
-    return await _fetchNotificationApps(pageIndex: _currentPageIndex, pageSize: defaultPageSize);
+    return null;
   }
 
-  Future<void> fetchNotificationApps({
-    int? pageIndex,
-    int pageSize = defaultPageSize,
-    String? receiverId,
-    String? senderId,
-    NotificationType? type,
-    DateTime? startDate,
-    DateTime? endDate
-  }) async {
+  Future<void> fetchNotificationApps(
+      {int? pageIndex,
+      int pageSize = defaultPageSize,
+      String? receiverId,
+      String? senderId,
+      NotificationType? type,
+      DateTime? startDate,
+      DateTime? endDate}) async {
     state = const AsyncLoading();
 
     if (pageIndex != null) {
       _currentPageIndex = pageIndex;
     }
-
 
     try {
       final pagingResponse = await _fetchNotificationApps(
@@ -41,26 +38,24 @@ class NotifyViewModel extends _$NotifyViewModel {
           pageSize: pageSize,
           receiverId: receiverId,
           senderId: senderId,
-        type: type,
-        startDate: startDate,
-        endDate: endDate
-      );
+          type: type,
+          startDate: startDate,
+          endDate: endDate);
       state = AsyncData(pagingResponse);
     } catch (e, st) {
       state = AsyncError(e, st);
     }
   }
 
-  // Call API paging
-  Future<PagingResponse<NotificationApp>?> _fetchNotificationApps({
-    int? pageIndex,
-    int pageSize = defaultPageSize,
-    String? receiverId,
-    String? senderId,
-    NotificationType? type,
-    DateTime? startDate,
-    DateTime? endDate
-  }) async {
+  /// Call API paging
+  Future<PagingResponse<NotificationApp>?> _fetchNotificationApps(
+      {int? pageIndex,
+      int pageSize = defaultPageSize,
+      String? receiverId,
+      String? senderId,
+      NotificationType? type,
+      DateTime? startDate,
+      DateTime? endDate}) async {
     final url = "${ApiConstants.getBaseUrl}/api/v1/notification/paging";
 
     final data = <String, dynamic>{
@@ -77,7 +72,7 @@ class NotifyViewModel extends _$NotifyViewModel {
     if (senderId != null && senderId.isNotEmpty) {
       data['senderId'] = senderId;
     }
-    if (type != null ) {
+    if (type != null) {
       data['type'] = type;
     }
     if (startDate != null) {
@@ -91,32 +86,28 @@ class NotifyViewModel extends _$NotifyViewModel {
     if (response.data == null) return null;
     return PagingResponse<NotificationApp>.fromJson(
       response.data,
-          (json) => NotificationApp.fromJson(json),
+      (json) => NotificationApp.fromJson(json),
     );
-
   }
 
-
+  /// Call API trả về danh sách người gửi
   Future<List<Account>> fetchSenders({required NotificationType type}) async {
     final url = "${ApiConstants.getBaseUrl}/api/v1/notification/getAllSenders";
     final response = await DioClient().post(url, data: {'type': type});
 
     if (response.data == null || response.data is! List) return [];
 
-    return (response.data as List)
-        .map((e) => Account.fromJson(e))
-        .toList();
+    return (response.data as List).map((e) => Account.fromJson(e)).toList();
   }
 
+  /// Call API trả về danh sách nguời nhận
   Future<List<Account>> fetchReceivers({required NotificationType type}) async {
-    final url = "${ApiConstants.getBaseUrl}/api/v1/notification/getAllReceivers";
+    final url =
+        "${ApiConstants.getBaseUrl}/api/v1/notification/getAllReceivers";
     final response = await DioClient().post(url, data: {'type': type});
 
     if (response.data == null || response.data is! List) return [];
 
-    return (response.data as List)
-        .map((e) => Account.fromJson(e))
-        .toList();
+    return (response.data as List).map((e) => Account.fromJson(e)).toList();
   }
-
 }

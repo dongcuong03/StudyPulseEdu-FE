@@ -4,7 +4,6 @@ import 'package:dio/dio.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-
 import '../../models/app/Score.dart';
 import '../../resources/constains/constants.dart';
 import '../../resources/utils/data_sources/dio_client.dart';
@@ -48,7 +47,6 @@ class ScoreMobileTeacherViewModel extends _$ScoreMobileTeacherViewModel {
 
   /// Gọi POST /api/v1/score/save để lưu danh sách điểm
   Future<void> saveScores(List<Score> scores) async {
-
     final url = "${ApiConstants.getBaseUrl}/api/v1/score/save";
     final body = scores.map((e) => e.toJson()).toList();
     print(body);
@@ -60,9 +58,10 @@ class ScoreMobileTeacherViewModel extends _$ScoreMobileTeacherViewModel {
     }
   }
 
-  /// Gọi POST /api/v1/score/exportScoreTemplate/{classId}ve để xuất file điểm mẫu
+  /// Gọi POST /api/v1/score/exportScoreTemplate/{classId} để xuất file điểm mẫu
   Future<void> exportScoreTemplate(String classId) async {
-    final url = "${ApiConstants.getBaseUrl}/api/v1/score/exportScoreTemplate/$classId";
+    final url =
+        "${ApiConstants.getBaseUrl}/api/v1/score/exportScoreTemplate/$classId";
 
     try {
       // Lấy thư mục app
@@ -74,18 +73,15 @@ class ScoreMobileTeacherViewModel extends _$ScoreMobileTeacherViewModel {
       final fileName = 'score_template_$classId.xlsx';
       final savePath = "${dir.path}/$fileName";
 
-      // Gọi API và lưu file
       final response = await DioClient().getBytes(url);
       final file = File(savePath);
       await file.writeAsBytes(response.data);
-
     } catch (e) {
       print("Lỗi exportScoreTemplate: $e");
     }
   }
 
-
-
+  /// Gọi API xuất file Excel điểm
   Future<String?> importScoreExcel(File file, String classId) async {
     final url = "${ApiConstants.getBaseUrl}/api/v1/score/importScoreExcel";
 
@@ -115,6 +111,4 @@ class ScoreMobileTeacherViewModel extends _$ScoreMobileTeacherViewModel {
       return "Lỗi gửi file: $e";
     }
   }
-
-
 }

@@ -5,8 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import 'package:intl/intl.dart';
-import 'package:study_pulse_edu/resources/constains/constants.dart';
 import 'package:study_pulse_edu/resources/utils/helpers/helper_mixin.dart';
 
 import 'dart:html' as html;
@@ -15,10 +13,8 @@ import '../../../../viewmodels/web/tuition_fee_view_model.dart';
 
 class ConfirmTuitionFeeWidget extends ConsumerStatefulWidget {
   final VoidCallback? onClose;
-  const ConfirmTuitionFeeWidget({
-    super.key,
-    required this.onClose
-  });
+
+  const ConfirmTuitionFeeWidget({super.key, required this.onClose});
 
   @override
   ConsumerState<ConfirmTuitionFeeWidget> createState() =>
@@ -31,7 +27,7 @@ class _ConfirmTuitionFeeWidgetState
 
   String? fileError;
 
-  void _submit()async{
+  void _submit() async {
     setState(() {
       fileError = null;
     });
@@ -52,11 +48,12 @@ class _ConfirmTuitionFeeWidgetState
     try {
       showLoading(context, show: true);
       final fileBytes = await _readFileAsBytes(selectedFile!);
-      final error = await ref.read(tuitionFeeViewModelProvider.notifier)
+      final error = await ref
+          .read(tuitionFeeViewModelProvider.notifier)
           .importTuitionFeeExcel(
-        fileBytes,
-        selectedFile!.name,
-      );
+            fileBytes,
+            selectedFile!.name,
+          );
       showLoading(context, show: false);
 
       if (error == null) {
@@ -70,6 +67,7 @@ class _ConfirmTuitionFeeWidgetState
       showLoading(context, show: false);
     }
   }
+
   @override
   Widget build(BuildContext context) {
     return Dialog(
@@ -186,7 +184,8 @@ class _ConfirmTuitionFeeWidgetState
                           children: [
                             Text(
                               fileError!,
-                              style: const TextStyle(color: Colors.red, fontSize: 13),
+                              style: const TextStyle(
+                                  color: Colors.red, fontSize: 13),
                             ),
                           ],
                         ),
@@ -206,7 +205,7 @@ class _ConfirmTuitionFeeWidgetState
                         ),
                         child: ElevatedButton(
                           onPressed: () async {
-                             _submit();
+                            _submit();
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.transparent,
@@ -251,6 +250,7 @@ class _ConfirmTuitionFeeWidgetState
       }
     });
   }
+
   Future<Uint8List> _readFileAsBytes(html.File file) {
     final completer = Completer<Uint8List>();
     final reader = html.FileReader();
@@ -267,5 +267,4 @@ class _ConfirmTuitionFeeWidgetState
 
     return completer.future;
   }
-
 }

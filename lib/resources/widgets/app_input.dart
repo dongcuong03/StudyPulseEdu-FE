@@ -89,7 +89,7 @@ class _AppInputState extends State<AppInput> {
             filled: true,
             fillColor: Colors.white,
             enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(16.r), // dùng .r cho radius responsive
+              borderRadius: BorderRadius.circular(16.r),
               borderSide: BorderSide(color: Colors.grey.shade400, width: 1.w),
             ),
             focusedBorder: OutlineInputBorder(
@@ -106,19 +106,19 @@ class _AppInputState extends State<AppInput> {
             ),
             contentPadding: EdgeInsets.symmetric(vertical: 14.h, horizontal: 16.w),
             isDense: true,
-            errorText: null, // tuyệt đối không dùng errorText để Flutter không vẽ lỗi mặc định
+            errorText: null,
           ),
           onFieldSubmitted: widget.onFieldSubmitted,
           onSaved: widget.onSaved,
         ),
         if (widget.errorText != null && widget.errorText!.isNotEmpty)
           Padding(
-            padding: EdgeInsets.only(top: 6.h, left: 4.w), // dùng padding responsive
+            padding: EdgeInsets.only(top: 6.h, left: 4.w),
             child: Text(
               widget.errorText!,
               style: TextStyle(
                 color: Colors.red,
-                fontSize: 12.sp, // dùng đơn vị sp của flutter_screenutil
+                fontSize: 12.sp,
               ),
             ),
           ),

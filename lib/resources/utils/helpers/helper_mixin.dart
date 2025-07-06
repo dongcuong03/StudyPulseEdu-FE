@@ -74,7 +74,7 @@ mixin HelperMixin {
   double getBodyHeight(BuildContext context) {
     return MediaQuery.of(context).size.height -
         MediaQuery.of(context).padding.top -
-        AppConstants.APP_BAR_HEIGHT.h; // chuyển sang .h
+        AppConstants.APP_BAR_HEIGHT.h;
   }
 
   void showLoading(BuildContext context, {required bool show, Color? color}) {

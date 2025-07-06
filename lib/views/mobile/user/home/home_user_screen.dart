@@ -7,7 +7,6 @@ import 'package:study_pulse_edu/viewmodels/mobile/account_mobile_view_model.dart
 import 'package:study_pulse_edu/views/mobile/user/home/widget/list_function_user_widget.dart';
 import 'package:study_pulse_edu/views/mobile/user/home/widget/user_infor_widget.dart';
 
-import '../../../../../resources/constains/constants.dart';
 import '../../../../../resources/utils/app/app_theme.dart';
 import '../../../../../resources/utils/helpers/helper_mixin.dart';
 import '../../../../../routes/route_const.dart';
@@ -132,7 +131,7 @@ class _HomeUserScreenState extends ConsumerState<HomeUserScreen>
       body: isLoading || account == null
           ? SizedBox.shrink()
           : SingleChildScrollView(
-            child: Builder(
+              child: Builder(
                 builder: (scaffoldContext) => Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -144,7 +143,7 @@ class _HomeUserScreenState extends ConsumerState<HomeUserScreen>
                     ),
                     SizedBox(height: 20.h),
 
-                    /// Ảnh nền
+                    // Ảnh nền
                     Center(
                       child: Image.asset(
                         'assets/images/trang_chu_phu_huynh.png',
@@ -155,69 +154,85 @@ class _HomeUserScreenState extends ConsumerState<HomeUserScreen>
                     ),
                     SizedBox(height: 30.h),
 
-                    /// TabBar học sinh
+                    // TabBar học sinh
                     DefaultTabController(
                       length: _students.length,
                       child: Column(
                         children: [
                           if (_students.isNotEmpty)
                             Padding(
-                              padding: const EdgeInsets.only(left: 16.0, right: 16),
+                              padding:
+                                  const EdgeInsets.only(left: 16.0, right: 16),
                               child: Container(
                                 height: 45.h,
                                 padding: EdgeInsets.zero,
                                 child: SingleChildScrollView(
-                                  controller: _scrollController,
-                                  scrollDirection: Axis.horizontal,
-                                  child: Row(
-                                    children: List.generate(_students.length, (index) {
-                                      final student = _students[index];
-                                      final isSelected = index == _selectedIndex;
+                                    controller: _scrollController,
+                                    scrollDirection: Axis.horizontal,
+                                    child: Row(
+                                      children: List.generate(_students.length,
+                                          (index) {
+                                        final student = _students[index];
+                                        final isSelected =
+                                            index == _selectedIndex;
 
-                                      return Builder(
-                                        builder: (itemContext) => GestureDetector(
-                                          onTap: () {
-                                            setState(() {
-                                              _selectedIndex = index;
-                                              _tabController.animateTo(index);
-                                            });
-                                            _scrollToCenterFromContext(itemContext);
-                                          },
-                                          child: Container(
-                                            width: 0.65.sw, // Chiều rộng gần bằng màn hình
-                                            margin: EdgeInsets.symmetric(horizontal: 6.w),
-                                            padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 10.h),
-                                            decoration: BoxDecoration(
-                                              color: isSelected ? Colors.blue.shade500 : Colors.grey.shade200,
-                                              borderRadius: BorderRadius.circular(20.r),
-                                            ),
-                                            child: Row(
-                                              mainAxisAlignment: MainAxisAlignment.center,
-                                              children: [
-                                                Icon(Icons.person,
-                                                    size: 18,
-                                                    color: isSelected ? Colors.white : Colors.black87),
-                                                SizedBox(width: 6.w),
-                                                Text(
-                                                  "${student.fullName} - ${student.studentCode ?? ''}",
-                                                  overflow: TextOverflow.ellipsis,
-                                                  style: TextStyle(
-                                                    fontSize: 13.sp,
-                                                    color: isSelected ? Colors.white : Colors.black87,
-                                                    fontWeight: isSelected
-                                                        ? FontWeight.bold
-                                                        : FontWeight.normal,
+                                        return Builder(
+                                          builder: (itemContext) =>
+                                              GestureDetector(
+                                            onTap: () {
+                                              setState(() {
+                                                _selectedIndex = index;
+                                                _tabController.animateTo(index);
+                                              });
+                                              _scrollToCenterFromContext(
+                                                  itemContext);
+                                            },
+                                            child: Container(
+                                              width: 0.65.sw,
+                                              // Chiều rộng gần bằng màn hình
+                                              margin: EdgeInsets.symmetric(
+                                                  horizontal: 6.w),
+                                              padding: EdgeInsets.symmetric(
+                                                  horizontal: 12.w,
+                                                  vertical: 10.h),
+                                              decoration: BoxDecoration(
+                                                color: isSelected
+                                                    ? Colors.blue.shade500
+                                                    : Colors.grey.shade200,
+                                                borderRadius:
+                                                    BorderRadius.circular(20.r),
+                                              ),
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  Icon(Icons.person,
+                                                      size: 18,
+                                                      color: isSelected
+                                                          ? Colors.white
+                                                          : Colors.black87),
+                                                  SizedBox(width: 6.w),
+                                                  Text(
+                                                    "${student.fullName} - ${student.studentCode ?? ''}",
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                    style: TextStyle(
+                                                      fontSize: 13.sp,
+                                                      color: isSelected
+                                                          ? Colors.white
+                                                          : Colors.black87,
+                                                      fontWeight: isSelected
+                                                          ? FontWeight.bold
+                                                          : FontWeight.normal,
+                                                    ),
                                                   ),
-                                                ),
-                                              ],
+                                                ],
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                      );
-                                    }),
-                                  )
-
-                                ),
+                                        );
+                                      }),
+                                    )),
                               ),
                             ),
 
@@ -237,7 +252,7 @@ class _HomeUserScreenState extends ConsumerState<HomeUserScreen>
                   ],
                 ),
               ),
-          ),
+            ),
     );
   }
 
@@ -247,11 +262,13 @@ class _HomeUserScreenState extends ConsumerState<HomeUserScreen>
     final box = itemContext.findRenderObject() as RenderBox?;
     if (box == null) return;
 
-    final offset = box.localToGlobal(Offset.zero, ancestor: context.findRenderObject());
+    final offset =
+        box.localToGlobal(Offset.zero, ancestor: context.findRenderObject());
     final screenWidth = MediaQuery.of(context).size.width;
     final itemWidth = box.size.width;
 
-    final targetOffset = _scrollController.offset + offset.dx + itemWidth / 2 - screenWidth / 2;
+    final targetOffset =
+        _scrollController.offset + offset.dx + itemWidth / 2 - screenWidth / 2;
 
     _scrollController.animateTo(
       targetOffset,
@@ -259,5 +276,4 @@ class _HomeUserScreenState extends ConsumerState<HomeUserScreen>
       curve: Curves.easeInOut,
     );
   }
-
 }

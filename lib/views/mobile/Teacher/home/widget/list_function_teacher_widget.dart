@@ -8,6 +8,7 @@ import '../../../../../routes/route_const.dart';
 
 class ListFunctionTeacherWidget extends ConsumerWidget with HelperMixin {
   final Account? account;
+
   const ListFunctionTeacherWidget({required this.account, super.key});
 
   @override
@@ -17,42 +18,48 @@ class ListFunctionTeacherWidget extends ConsumerWidget with HelperMixin {
         icon: Icons.calendar_month,
         label: 'Lịch dạy',
         onTap: () {
-          pushedName(context, RouteConstants.teacherScheduleRouteName, extra: account);
+          pushedName(context, RouteConstants.teacherScheduleRouteName,
+              extra: account);
         },
       ),
       _FunctionItem(
         icon: Icons.class_,
         label: 'Lớp học',
         onTap: () {
-          pushedName(context, RouteConstants.teacherClassRouteName, extra: account);
+          pushedName(context, RouteConstants.teacherClassRouteName,
+              extra: account);
         },
       ),
       _FunctionItem(
         icon: Icons.assignment,
         label: 'Bài tập',
         onTap: () {
-          pushedName(context, RouteConstants.teacherAssignmentRouteName, extra: account);
+          pushedName(context, RouteConstants.teacherAssignmentRouteName,
+              extra: account);
         },
       ),
       _FunctionItem(
         icon: Icons.grade,
         label: 'Điểm',
         onTap: () {
-          pushedName(context, RouteConstants.teacherScoreRouteName, extra: account);
+          pushedName(context, RouteConstants.teacherScoreRouteName,
+              extra: account);
         },
       ),
       _FunctionItem(
         icon: Icons.how_to_reg,
         label: 'Điểm danh',
         onTap: () {
-          pushedName(context, RouteConstants.teacherAttendanceRouteName, extra: account);
+          pushedName(context, RouteConstants.teacherAttendanceRouteName,
+              extra: account);
         },
       ),
       _FunctionItem(
         icon: Icons.bar_chart,
         label: 'Kết quả học tập',
         onTap: () {
-          pushedName(context, RouteConstants.teacherAcademicResultRouteName, extra: account);
+          pushedName(context, RouteConstants.teacherAcademicResultRouteName,
+              extra: account);
         },
       ),
     ];
@@ -71,12 +78,14 @@ class ListFunctionTeacherWidget extends ConsumerWidget with HelperMixin {
             spacing: 25.w,
             runSpacing: 25.h,
             alignment: WrapAlignment.center,
-            children: items.map(
+            children: items
+                .map(
                   (item) => SizedBox(
-                width: 80.w,
-                child: _buildFunctionTile(context, item),
-              ),
-            ).toList(),
+                    width: 80.w,
+                    child: _buildFunctionTile(context, item),
+                  ),
+                )
+                .toList(),
           ),
         ),
       ),

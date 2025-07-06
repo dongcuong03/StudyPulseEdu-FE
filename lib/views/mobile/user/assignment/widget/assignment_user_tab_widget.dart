@@ -10,7 +10,6 @@ enum AssignmentTabType {
   overdue,
 }
 
-
 class AssignmentTab extends StatelessWidget {
   final List<Assignment> assignments;
   final String? studentId;

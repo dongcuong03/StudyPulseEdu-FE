@@ -64,9 +64,11 @@ class _DatePickerFieldWidgetState extends State<DatePickerFieldWidget> {
           onTap: _pickDate,
           style: const TextStyle(fontSize: 14),
           decoration: InputDecoration(
-            suffixIcon: Icon(Icons.calendar_month_outlined, size: 20, color: Colors.blue),
+            suffixIcon: Icon(Icons.calendar_month_outlined,
+                size: 20, color: Colors.blue),
             isDense: true,
-            contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
+            contentPadding:
+                const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
             filled: true,
             fillColor: Colors.white,
             border: OutlineInputBorder(
@@ -86,5 +88,4 @@ class _DatePickerFieldWidgetState extends State<DatePickerFieldWidget> {
       ],
     );
   }
-
 }

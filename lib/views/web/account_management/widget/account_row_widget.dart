@@ -52,55 +52,59 @@ class _AccountRowState extends State<AccountRow> with HelperMixin {
         setState(() {
           _isActive = !_isActive;
         });
-        showSuccessToastWeb(context, isDeactivating
-            ? 'Vô hiệu hóa tài khoản thành công'
-            : 'Mở lại tài khoản thành công',);
+        showSuccessToastWeb(
+          context,
+          isDeactivating
+              ? 'Vô hiệu hóa tài khoản thành công'
+              : 'Mở lại tài khoản thành công',
+        );
       }
     }
   }
 
-
-@override
-Widget build(BuildContext context) {
-  return Container(
-    padding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 8.w),
-    child: Row(
-      children: [
-        Expanded(flex: 1, child: Text(widget.phone)),
-        Expanded(flex: 1,
-            child: Center(child: Text(widget.role?.displayName ?? ''))),
-        Expanded(
-          flex: 1,
-          child: Center(
-            child: Transform.scale(
-              scale: 0.7,
-              child: Switch(
-                value: _isActive,
-                onChanged: (_) => _confirmToggle(),
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 8.w),
+      child: Row(
+        children: [
+          Expanded(flex: 1, child: Text(widget.phone)),
+          Expanded(
+              flex: 1,
+              child: Center(child: Text(widget.role?.displayName ?? ''))),
+          Expanded(
+            flex: 1,
+            child: Center(
+              child: Transform.scale(
+                scale: 0.7,
+                child: Switch(
+                  value: _isActive,
+                  onChanged: (_) => _confirmToggle(),
+                ),
               ),
             ),
           ),
-        ),
-        Expanded(
-          flex: 2,
-          child: Center(
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                IconButton(
-                  icon: Icon(Icons.visibility, color: Colors.blue),
-                  onPressed: widget.onView,
-                ),
-                SizedBox(width: 40.w),
-                IconButton(
-                  icon: Icon(Icons.edit, color: Colors.orange),
-                  onPressed: widget.onEdit,
-                ),
-              ],
+          Expanded(
+            flex: 2,
+            child: Center(
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  IconButton(
+                    icon: Icon(Icons.visibility, color: Colors.blue),
+                    onPressed: widget.onView,
+                  ),
+                  SizedBox(width: 40.w),
+                  IconButton(
+                    icon: Icon(Icons.edit, color: Colors.orange),
+                    onPressed: widget.onEdit,
+                  ),
+                ],
+              ),
             ),
           ),
-        ),
-      ],
-    ),
-  );
-}}
+        ],
+      ),
+    );
+  }
+}

@@ -10,7 +10,6 @@ import '../../resources/utils/helpers/helper_mixin.dart';
 import '../../resources/widgets/app_input.dart';
 import '../../routes/route_const.dart';
 import '../../viewmodels/auth_view_model.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class LoginWebScreen extends ConsumerStatefulWidget {
   const LoginWebScreen({super.key});
@@ -32,17 +31,17 @@ class _LoginWebScreenState extends ConsumerState<LoginWebScreen>
       final password = _passwordController.text;
 
       showLoading(context, show: true);
-      final  message =
+      final message =
           await _authViewModel.loginWeb(phone: phone, password: password);
       showLoading(context, show: false);
-      print(message);
+
       if (message == null) {
         final shared = await SharedPre.instance;
         final role = await shared.getString(SharedPrefsConstants.USER_ROLE_KEY);
         if (role == "ADMIN") {
           goName(context, RouteConstants.homeAdminRouteName);
-        }else{
-          showErrorToastWeb(context,'Vai trò người dùng không hợp lệ.');
+        } else {
+          showErrorToastWeb(context, 'Vai trò người dùng không hợp lệ.');
         }
       } else {
         showErrorToastWeb(context, message);
@@ -72,7 +71,6 @@ class _LoginWebScreenState extends ConsumerState<LoginWebScreen>
       ),
     );
   }
-
 
   Widget _buildPhoneField() {
     return AppInput(
@@ -169,11 +167,7 @@ class _LoginWebScreenState extends ConsumerState<LoginWebScreen>
                       child: DecoratedBox(
                         decoration: BoxDecoration(
                           gradient: LinearGradient(
-                            colors: [
-                              Color(0xFF3E61FC),
-                              Color(0xFF80D7F5)
-
-                            ],
+                            colors: [Color(0xFF3E61FC), Color(0xFF80D7F5)],
                             begin: Alignment.topLeft,
                             end: Alignment.bottomRight,
                           ),

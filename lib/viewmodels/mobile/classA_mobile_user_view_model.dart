@@ -25,7 +25,7 @@ class ClassaMobileUserViewModel extends _$ClassaMobileUserViewModel {
     }
   }
 
-  // Call API getByTeacherID
+  /// Call API trả về danh sách lơp học theo studentID
   Future<List<ClassA>> fetchClassAUser({required String id}) async {
     final url = "${ApiConstants.getBaseUrl}/api/v1/class/getByStudentID/$id";
 

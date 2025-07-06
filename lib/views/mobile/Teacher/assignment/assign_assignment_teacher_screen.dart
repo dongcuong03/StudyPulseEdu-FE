@@ -13,7 +13,6 @@ import 'package:study_pulse_edu/viewmodels/mobile/assignment_teacher_view_model.
 
 import '../../../../models/app/Account.dart';
 import '../../../../models/app/ClassA.dart';
-import '../../../../models/app/Teacher.dart';
 import '../../../../resources/constains/constants.dart';
 import '../../../../resources/utils/app/app_theme.dart';
 import '../../../../resources/utils/helpers/helper_mixin.dart';
@@ -23,7 +22,9 @@ import '../../../../viewmodels/mobile/classA_mobile_teacher_view_model.dart';
 class AssignAssignmentTeacherScreen extends ConsumerStatefulWidget {
   final Account? account;
   final VoidCallback? onClose;
-  const AssignAssignmentTeacherScreen({required this.account, required this.onClose, super.key});
+
+  const AssignAssignmentTeacherScreen(
+      {required this.account, required this.onClose, super.key});
 
   @override
   ConsumerState createState() => _AssignAssignmentTeacherScreenState();
@@ -48,6 +49,7 @@ class _AssignAssignmentTeacherScreenState
   final TextEditingController dateTimeController = TextEditingController();
 
   List<PlatformFile> attachedFiles = [];
+
   Future<void> _pickFiles() async {
     final result = await FilePicker.platform.pickFiles(allowMultiple: true);
     if (result != null) {
@@ -66,7 +68,8 @@ class _AssignAssignmentTeacherScreenState
       initialDate: selectedDateTime ?? DateTime.now(),
       firstDate: DateTime(2020),
       lastDate: DateTime(2100),
-      is24HourMode: true, // Dùng AM/PM
+      is24HourMode: true,
+      // Dùng AM/PM
       borderRadius: const BorderRadius.all(Radius.circular(16)),
       theme: ThemeData(
         colorScheme: const ColorScheme.light(
@@ -75,27 +78,29 @@ class _AssignAssignmentTeacherScreenState
           surface: Colors.white,
           onSurface: Colors.black,
         ),
-        dialogBackgroundColor: Colors.white, // Nền trắng
+        dialogBackgroundColor: Colors.white,
       ),
-
     );
 
     if (picked != null) {
       setState(() {
         selectedDateTime = picked;
-        dateTimeController.text = DateFormat('dd/MM/yyyy – HH:mm').format(picked);
+        dateTimeController.text =
+            DateFormat('dd/MM/yyyy – HH:mm').format(picked);
       });
     }
-
   }
+
   @override
   void initState() {
     super.initState();
     fetchClassList(widget.account!.teacher!.id.toString());
   }
 
-  void fetchClassList (String id) async{
-    final fetchedList = await ref.read(classaMobileTeacherViewModelProvider.notifier).fetchClassATeacher(id: id);
+  void fetchClassList(String id) async {
+    final fetchedList = await ref
+        .read(classaMobileTeacherViewModelProvider.notifier)
+        .fetchClassATeacher(id: id);
     setState(() {
       classList = fetchedList.map((classA) => classA.className).toList();
     });
@@ -138,9 +143,12 @@ class _AssignAssignmentTeacherScreenState
               CircleAvatar(
                 radius: 30,
                 backgroundImage: widget.account?.teacher?.avatarUrl != null
-                    ? NetworkImage("${ApiConstants.getBaseUrl}/uploads/${widget.account!.teacher!.avatarUrl}")
+                    ? NetworkImage(
+                        "${ApiConstants.getBaseUrl}/uploads/${widget.account!.teacher!.avatarUrl}")
                     : null,
-                child: widget.account?.teacher?.avatarUrl == null ? const Icon(Icons.person) : null,
+                child: widget.account?.teacher?.avatarUrl == null
+                    ? const Icon(Icons.person)
+                    : null,
               ),
               const SizedBox(width: 16),
               Column(
@@ -148,7 +156,8 @@ class _AssignAssignmentTeacherScreenState
                 children: [
                   Text(
                     widget.account?.teacher?.fullName ?? 'Tên giáo viên',
-                    style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    style: const TextStyle(
+                        fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                   Text(
                     widget.account?.role?.displayName ?? '',
@@ -175,7 +184,7 @@ class _AssignAssignmentTeacherScreenState
                 value: selectedClass,
                 decoration: InputDecoration(
                   labelText: 'Chọn lớp',
-                  labelStyle:  TextStyle(
+                  labelStyle: TextStyle(
                     color: Colors.grey[700],
                     fontWeight: FontWeight.normal,
                   ),
@@ -185,7 +194,8 @@ class _AssignAssignmentTeacherScreenState
                   ),
                   filled: true,
                   fillColor: Colors.white,
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                  contentPadding:
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(20),
                     borderSide: BorderSide.none,
@@ -214,8 +224,7 @@ class _AssignAssignmentTeacherScreenState
               padding: EdgeInsets.only(left: 16.w, top: 4.h),
               child: Text(
                 _classError!,
-                style: AppTheme.bodySmall
-                    .copyWith(color: Colors.red.shade800),
+                style: AppTheme.bodySmall.copyWith(color: Colors.red.shade800),
               ),
             ),
 
@@ -231,8 +240,7 @@ class _AssignAssignmentTeacherScreenState
               padding: EdgeInsets.only(left: 16.w, top: 4.h),
               child: Text(
                 _dateTimeError!,
-                style: AppTheme.bodySmall
-                    .copyWith(color: Colors.red.shade800),
+                style: AppTheme.bodySmall.copyWith(color: Colors.red.shade800),
               ),
             ),
 
@@ -249,8 +257,7 @@ class _AssignAssignmentTeacherScreenState
               padding: EdgeInsets.only(left: 16.w, top: 4.h),
               child: Text(
                 _titleError!,
-                style: AppTheme.bodySmall
-                    .copyWith(color: Colors.red.shade800),
+                style: AppTheme.bodySmall.copyWith(color: Colors.red.shade800),
               ),
             ),
           const SizedBox(height: 30),
@@ -267,8 +274,7 @@ class _AssignAssignmentTeacherScreenState
               padding: EdgeInsets.only(left: 16.w, top: 4.h),
               child: Text(
                 _contentError!,
-                style: AppTheme.bodySmall
-                    .copyWith(color: Colors.red.shade800),
+                style: AppTheme.bodySmall.copyWith(color: Colors.red.shade800),
               ),
             ),
           const SizedBox(height: 30),
@@ -276,21 +282,23 @@ class _AssignAssignmentTeacherScreenState
           // Nút đính kèm file
           ElevatedButton.icon(
             onPressed: _pickFiles,
-
-            icon:  Icon(Icons.attach_file, color: Colors.grey[900],),
-            label:  Text('Đính kèm file',style: TextStyle(color: Colors.grey[700],)),
-            style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.white,
-                elevation: 4
+            icon: Icon(
+              Icons.attach_file,
+              color: Colors.grey[900],
             ),
+            label: Text('Đính kèm file',
+                style: TextStyle(
+                  color: Colors.grey[700],
+                )),
+            style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.white, elevation: 4),
           ),
           if (_fileError != null)
             Padding(
               padding: EdgeInsets.only(left: 16.w, top: 4.h),
               child: Text(
                 _fileError!,
-                style: AppTheme.bodySmall
-                    .copyWith(color: Colors.red.shade800),
+                style: AppTheme.bodySmall.copyWith(color: Colors.red.shade800),
               ),
             ),
           ListView.builder(
@@ -333,18 +341,14 @@ class _AssignAssignmentTeacherScreenState
             child: DecoratedBox(
               decoration: BoxDecoration(
                 gradient: LinearGradient(
-                  colors: [
-                    Color(0xFF3E61FC),
-                    Color(0xFF5EBAD7)
-
-                  ],
+                  colors: [Color(0xFF3E61FC), Color(0xFF5EBAD7)],
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                 ),
                 borderRadius: BorderRadius.circular(25.r),
               ),
               child: ElevatedButton(
-                onPressed:(){
+                onPressed: () {
                   _addAssignment();
                 },
                 style: ElevatedButton.styleFrom(
@@ -392,7 +396,7 @@ class _AssignAssignmentTeacherScreenState
         onTap: onTap,
         decoration: InputDecoration(
           labelText: label,
-          labelStyle:  TextStyle(
+          labelStyle: TextStyle(
             color: Colors.grey[700],
             fontWeight: FontWeight.normal,
           ),
@@ -402,7 +406,8 @@ class _AssignAssignmentTeacherScreenState
           ),
           filled: true,
           fillColor: Colors.white,
-          contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+          contentPadding:
+              const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(20),
             borderSide: BorderSide.none,
@@ -412,7 +417,7 @@ class _AssignAssignmentTeacherScreenState
             borderSide: BorderSide.none,
           ),
           suffixIcon: const Icon(
-            Icons.arrow_drop_down, // icon mũi tên xổ xuống
+            Icons.arrow_drop_down,
             color: Colors.grey,
           ),
         ),
@@ -424,11 +429,10 @@ class _AssignAssignmentTeacherScreenState
     );
   }
 
-
   void _addAssignment() async {
     setState(() {
       _classError = null;
-      _dateTimeError= null;
+      _dateTimeError = null;
       _fileError = null;
       _titleError = null;
       _contentError = null;
@@ -466,7 +470,7 @@ class _AssignAssignmentTeacherScreenState
       _contentError = 'Nội dung không được để trống.';
       isValidForm = false;
     }
-    if (attachedFiles.isEmpty ) {
+    if (attachedFiles.isEmpty) {
       setState(() {
         _fileError = 'File đính kèm không được để trống.';
       });
@@ -475,16 +479,16 @@ class _AssignAssignmentTeacherScreenState
 
     if (isValidForm) {
       final viewModel = ref.read(assignmentTeacherViewModelProvider.notifier);
-       Assignment assignment = Assignment(
-         classA: ClassA(
-           className: selectedClass,
-           teacher: widget.account?.teacher,
-         ),
-         dueDate: selectedDateTime,
-           dueTime: "${selectedDateTime?.hour.toString().padLeft(2, '0')}:${selectedDateTime?.minute.toString().padLeft(2, '0')}",
-           title: titleController.text,
-         description: contentController.text
-       );
+      Assignment assignment = Assignment(
+          classA: ClassA(
+            className: selectedClass,
+            teacher: widget.account?.teacher,
+          ),
+          dueDate: selectedDateTime,
+          dueTime:
+              "${selectedDateTime?.hour.toString().padLeft(2, '0')}:${selectedDateTime?.minute.toString().padLeft(2, '0')}",
+          title: titleController.text,
+          description: contentController.text);
 
       List<File> files = attachedFiles.map((pf) => File(pf.path!)).toList();
 
@@ -501,6 +505,7 @@ class _AssignAssignmentTeacherScreenState
       }
     }
   }
+
   Widget _buildInput({
     required TextEditingController controller,
     String? labelText,

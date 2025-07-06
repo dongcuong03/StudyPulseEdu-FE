@@ -13,21 +13,22 @@ class TuitionFeeRowWidget extends StatefulWidget {
   final TuitionStatus status;
   final VoidCallback onView;
 
-  const TuitionFeeRowWidget(
-      {super.key,
-        required this.studentCode,
-        required this.studentName,
-        required this.totalTuitionFee,
-        required this.unpaidTuitionFee,
-        required this.status,
-        required this.onView,});
+  const TuitionFeeRowWidget({
+    super.key,
+    required this.studentCode,
+    required this.studentName,
+    required this.totalTuitionFee,
+    required this.unpaidTuitionFee,
+    required this.status,
+    required this.onView,
+  });
 
   @override
   State<TuitionFeeRowWidget> createState() => _TuitionFeeRowWidgetState();
 }
 
-class _TuitionFeeRowWidgetState extends State<TuitionFeeRowWidget> with HelperMixin {
-
+class _TuitionFeeRowWidgetState extends State<TuitionFeeRowWidget>
+    with HelperMixin {
   @override
   void initState() {
     super.initState();
@@ -40,18 +41,28 @@ class _TuitionFeeRowWidgetState extends State<TuitionFeeRowWidget> with HelperMi
       child: Row(
         children: [
           Expanded(flex: 0, child: Text(widget.studentCode)),
-          SizedBox(width: 40,),
+          SizedBox(
+            width: 40,
+          ),
           Expanded(flex: 1, child: Text(widget.studentName)),
-          Expanded(flex: 1, child: Center(child: Text(NumberFormat("#,##0", "en_US").format(widget.totalTuitionFee ?? 0)))),
-          Expanded(flex: 1, child: Center(child: Text(NumberFormat("#,##0", "en_US").format(widget.unpaidTuitionFee ?? 0)))),
-          Expanded(flex: 1, child: Center(child: Text(widget.status.displayName))),
+          Expanded(
+              flex: 1,
+              child: Center(
+                  child: Text(NumberFormat("#,##0", "en_US")
+                      .format(widget.totalTuitionFee ?? 0)))),
+          Expanded(
+              flex: 1,
+              child: Center(
+                  child: Text(NumberFormat("#,##0", "en_US")
+                      .format(widget.unpaidTuitionFee ?? 0)))),
+          Expanded(
+              flex: 1, child: Center(child: Text(widget.status.displayName))),
           Expanded(
             flex: 1,
             child: Center(
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-
                   IconButton(
                     icon: Icon(Icons.visibility, color: Colors.blue),
                     onPressed: widget.onView,

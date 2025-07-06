@@ -20,20 +20,54 @@ class _EvaluationTableState extends State<EvaluationTable> {
           scrollDirection: Axis.horizontal,
           child: DataTable(
             headingRowColor: MaterialStateProperty.all(Colors.grey[300]),
-            dataRowMinHeight: 100, // ✅ Tăng chiều cao hàng dữ liệu
+            dataRowMinHeight: 100,
             dataRowMaxHeight: 100,
             columns: const [
-              DataColumn(label: Text("STT", style: TextStyle(fontSize: 16,color:Colors.black87, fontWeight: FontWeight.w500),)),
-              DataColumn(label: Text("Mã HS", style: TextStyle(fontSize: 16,color:Colors.black87, fontWeight: FontWeight.w500),)),
-              DataColumn(label: Text("Tên học sinh", style: TextStyle(fontSize: 16,color:Colors.black87, fontWeight: FontWeight.w500),)),
-              DataColumn(label: Text("Đánh giá", style: TextStyle(fontSize: 16,color:Colors.black87, fontWeight: FontWeight.w500),)),
-              DataColumn(label: Text("Nhận xét", style: TextStyle(fontSize: 16,color:Colors.black87, fontWeight: FontWeight.w500),)),
+              DataColumn(
+                  label: Text(
+                "STT",
+                style: TextStyle(
+                    fontSize: 16,
+                    color: Colors.black87,
+                    fontWeight: FontWeight.w500),
+              )),
+              DataColumn(
+                  label: Text(
+                "Mã HS",
+                style: TextStyle(
+                    fontSize: 16,
+                    color: Colors.black87,
+                    fontWeight: FontWeight.w500),
+              )),
+              DataColumn(
+                  label: Text(
+                "Tên học sinh",
+                style: TextStyle(
+                    fontSize: 16,
+                    color: Colors.black87,
+                    fontWeight: FontWeight.w500),
+              )),
+              DataColumn(
+                  label: Text(
+                "Đánh giá",
+                style: TextStyle(
+                    fontSize: 16,
+                    color: Colors.black87,
+                    fontWeight: FontWeight.w500),
+              )),
+              DataColumn(
+                  label: Text(
+                "Nhận xét",
+                style: TextStyle(
+                    fontSize: 16,
+                    color: Colors.black87,
+                    fontWeight: FontWeight.w500),
+              )),
             ],
             rows: List.generate(widget.data.length, (index) {
               final item = widget.data[index];
               return DataRow(
                 color: MaterialStateProperty.all(Colors.white),
-
                 cells: [
                   DataCell(Center(child: Text('${index + 1}'))),
                   DataCell(Center(child: Text(item['id']))),
@@ -46,31 +80,33 @@ class _EvaluationTableState extends State<EvaluationTable> {
                         width: 270,
                         child: TextFormField(
                           initialValue: item['nhanXet'],
-                          maxLines: 2, // Hiển thị tối đa 2 dòng
+                          maxLines: 2,
+                          // Hiển thị tối đa 2 dòng
                           style: const TextStyle(
                             fontSize: 16,
                           ),
                           decoration: InputDecoration(
                             hintText: 'Nhập nhận xét',
                             isDense: true,
-                            contentPadding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12), // ✅ Padding nhỏ
+                            contentPadding: const EdgeInsets.symmetric(
+                                horizontal: 8, vertical: 12),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(8),
-                              borderSide: BorderSide(color: Colors.grey.shade400),
+                              borderSide:
+                                  BorderSide(color: Colors.grey.shade400),
                             ),
                             focusedBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(8),
-                              borderSide:  BorderSide(color: Colors.grey.shade400),
+                              borderSide:
+                                  BorderSide(color: Colors.grey.shade400),
                             ),
                           ),
-                          onChanged: (value) => setState(() => item['nhanXet'] = value),
+                          onChanged: (value) =>
+                              setState(() => item['nhanXet'] = value),
                         ),
                       ),
                     ),
                   ),
-
-
-
                 ],
               );
             }),

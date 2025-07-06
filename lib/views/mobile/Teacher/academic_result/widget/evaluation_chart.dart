@@ -8,7 +8,6 @@ class EvaluationChart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(data);
     final int dat = data.where((e) => e['danhGia'] == 'Đạt').length;
     final int khongDat = data.length - dat;
 

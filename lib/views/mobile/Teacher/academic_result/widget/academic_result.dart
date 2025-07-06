@@ -20,7 +20,7 @@ class _AcademicResultTableState extends State<AcademicResultTable> {
           scrollDirection: Axis.horizontal,
           child: DataTable(
             headingRowColor: MaterialStateProperty.all(Colors.grey[300]),
-            dataRowMinHeight: 100, // ✅ Tăng chiều cao hàng dữ liệu
+            dataRowMinHeight: 100,
             dataRowMaxHeight: 100,
             columns: const [
               DataColumn(label: Text("STT", style: TextStyle(fontSize: 16,color:Colors.black87, fontWeight: FontWeight.w500),)),

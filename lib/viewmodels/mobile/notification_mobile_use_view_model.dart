@@ -33,6 +33,7 @@ class NotificationMobileUseViewModel extends _$NotificationMobileUseViewModel {
     }
   }
 
+  ///Call API lấy danh sách thông báo
   Future<List<NotificationApp>> fetchNotifications({
     required String accountId,
     String? studentId,
@@ -60,7 +61,7 @@ class NotificationMobileUseViewModel extends _$NotificationMobileUseViewModel {
   }
 
 
-  //Clall Api đánh ấu đã đọc
+  ///Clall API đánh dấu đã đọc thông báo
   Future<void> markAsRead(String notificationId) async {
     final url = "${ApiConstants.getBaseUrl}/api/v1/notification/read/$notificationId";
     try {

@@ -64,7 +64,7 @@ class StudentDistributionChart extends StatelessWidget {
                     ),
                     barGroups: List.generate(
                       data.length,
-                          (index) {
+                      (index) {
                         final item = data[index];
                         return BarChartGroupData(
                           x: index,
@@ -114,8 +114,10 @@ class StudentDistributionChart extends StatelessWidget {
                           },
                         ),
                       ),
-                      topTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
-                      rightTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                      topTitles:
+                          AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                      rightTitles:
+                          AxisTitles(sideTitles: SideTitles(showTitles: false)),
                     ),
                     gridData: FlGridData(show: false),
                     borderData: FlBorderData(

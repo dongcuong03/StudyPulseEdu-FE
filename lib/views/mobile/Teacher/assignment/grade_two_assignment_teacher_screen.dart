@@ -1,31 +1,21 @@
-import 'dart:io';
 import 'package:dio/dio.dart';
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
-import 'package:omni_datetime_picker/omni_datetime_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:study_pulse_edu/models/app/Assignment.dart';
-import 'package:study_pulse_edu/models/app/ClassA.dart';
 import 'package:study_pulse_edu/models/app/Student.dart';
 import 'package:study_pulse_edu/viewmodels/mobile/assignment_teacher_view_model.dart';
-import '../../../../models/app/Account.dart';
 import '../../../../models/app/Submission.dart';
-import '../../../../models/app/Teacher.dart';
 import '../../../../resources/constains/constants.dart';
 import '../../../../resources/utils/app/app_theme.dart';
 import '../../../../resources/utils/helpers/helper_mixin.dart';
 import '../../../../resources/widgets/PDF_view_dialog_widget.dart';
-import '../../../../resources/widgets/app_input_second.dart';
 import '../../../../resources/widgets/image_view_dialog_widget.dart';
-import '../../../../routes/route_const.dart';
 import '../../../../viewmodels/mobile/assignment_user_view_model.dart';
-import '../../../../viewmodels/mobile/classA_mobile_teacher_view_model.dart';
-import '../../../../viewmodels/web/class_view_model.dart';
 
 class GradeTwoAssignmentTeacherScreen extends ConsumerStatefulWidget {
   final Assignment? assignment;
@@ -80,7 +70,6 @@ class _GradeTwoAssignmentTeacherScreenState
             .toString()
             .replaceFirst(RegExp(r'\.0$'), '')
             .replaceFirst(RegExp(r'(\.\d)0$'), r'\1');
-
       }
 
       if (response.feedback != null) {
@@ -284,8 +273,8 @@ class _GradeTwoAssignmentTeacherScreenState
                 padding: EdgeInsets.only(left: 16.w, top: 4.h),
                 child: Text(
                   _errorScore!,
-                  style: AppTheme.bodySmall
-                      .copyWith(color: Colors.red.shade800),
+                  style:
+                      AppTheme.bodySmall.copyWith(color: Colors.red.shade800),
                 ),
               ),
 
@@ -407,17 +396,17 @@ class _GradeTwoAssignmentTeacherScreenState
                   const SizedBox(height: 6),
                   Expanded(
                     child: Padding(
-                      padding: const EdgeInsets.only(top: 8.0, right: 12, bottom: 8, left: 12),
+                      padding: const EdgeInsets.only(
+                          top: 8.0, right: 12, bottom: 8, left: 12),
                       child: TextField(
                         controller: _feedbackController,
                         maxLines: 3,
                         style: const TextStyle(
-                        fontSize: 15,
-                        color: Colors.black54,
+                          fontSize: 15,
+                          color: Colors.black54,
                           fontWeight: FontWeight.w600,
                           fontStyle: FontStyle.italic,
-                      ),
-
+                        ),
                         decoration: const InputDecoration(
                           border: InputBorder.none,
                           hintText: 'Nhập nhận xét ...',
@@ -427,7 +416,6 @@ class _GradeTwoAssignmentTeacherScreenState
                             fontWeight: FontWeight.w500,
                             color: Colors.black54,
                           ),
-
                         ),
                       ),
                     ),

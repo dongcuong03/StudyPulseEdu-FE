@@ -1,6 +1,3 @@
-
-// import 'package:firebase_core/firebase_core.dart';
-// import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -14,17 +11,6 @@ import 'l10n/l10n.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  // await Firebase.initializeApp(
-  //   options: const FirebaseOptions(
-  //     apiKey: "AIzaSyDZGx_yhzkeGYtB5pJrkb7rVa5eNav2rJQ",
-  //     authDomain: "studypulseedu-52567.firebaseapp.com",
-  //     projectId: "studypulseedu-52567",
-  //     storageBucket: "studypulseedu-52567.firebasestorage.app",
-  //     messagingSenderId: "466182950845",
-  //     appId: "1:466182950845:web:6a9c6c408732269c250cd4",
-  //     measurementId: "G-GPRK4Q5P7D"
-  //   )
-  // );
   final shared = await SharedPre.instance;
 
   final router = await MyRouterWeb.createRouter();

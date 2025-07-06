@@ -71,7 +71,8 @@ class _UserInforWidgetState extends ConsumerState<UserInforWidget>
                 child: Container(
                   color: AppTheme.primaryColor,
                   height: 110.h,
-                  padding: EdgeInsets.symmetric(vertical: 30.h, horizontal: 10.w),
+                  padding:
+                      EdgeInsets.symmetric(vertical: 30.h, horizontal: 10.w),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -85,9 +86,8 @@ class _UserInforWidgetState extends ConsumerState<UserInforWidget>
                               fit: BoxFit.cover,
                             ),
                           ),
-                           SizedBox(width: 10.w),
-                          _userInfoCard(
-                              widget.accountName, unreadNotify),
+                          SizedBox(width: 10.w),
+                          _userInfoCard(widget.accountName, unreadNotify),
                         ],
                       ),
                     ],
@@ -101,8 +101,7 @@ class _UserInforWidgetState extends ConsumerState<UserInforWidget>
     );
   }
 
-  Widget _userInfoCard(
-      String? displayName, int unreadNotify) {
+  Widget _userInfoCard(String? displayName, int unreadNotify) {
     return Expanded(
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -128,8 +127,7 @@ class _UserInforWidgetState extends ConsumerState<UserInforWidget>
               ],
             ),
           ),
-
-           SizedBox(width: 12.w),
+          SizedBox(width: 12.w),
           _function(unreadNotify),
         ],
       ),
@@ -143,7 +141,9 @@ class _UserInforWidgetState extends ConsumerState<UserInforWidget>
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           StreamBuilder<int>(
-            stream: ref.read(chatViewModelProvider.notifier).listenUnreadMessageCount(widget.accountId),
+            stream: ref
+                .read(chatViewModelProvider.notifier)
+                .listenUnreadMessageCount(widget.accountId),
             builder: (context, snapshot) {
               final unreadMessage = snapshot.data ?? 0;
               return GestureDetector(
@@ -177,7 +177,8 @@ class _UserInforWidgetState extends ConsumerState<UserInforWidget>
                             color: Colors.red,
                             shape: BoxShape.circle,
                           ),
-                          constraints: BoxConstraints(minWidth: 16, minHeight: 16),
+                          constraints:
+                              BoxConstraints(minWidth: 16, minHeight: 16),
                           child: Center(
                             child: Text(
                               unreadMessage > 9 ? '9+' : '$unreadMessage',
@@ -196,7 +197,6 @@ class _UserInforWidgetState extends ConsumerState<UserInforWidget>
             },
           ),
 
-
           const SizedBox(width: 16),
           GestureDetector(
             onTap: () async {
@@ -209,7 +209,10 @@ class _UserInforWidgetState extends ConsumerState<UserInforWidget>
                     extra: {
                       "accountId": widget.accountId,
                       "onClose": () {
-                        ref.read(countNotificationMobileUserViewModelProvider.notifier).refreshUnreadCount(widget.accountId);
+                        ref
+                            .read(countNotificationMobileUserViewModelProvider
+                                .notifier)
+                            .refreshUnreadCount(widget.accountId);
                       },
                     },
                   );
@@ -240,7 +243,8 @@ class _UserInforWidgetState extends ConsumerState<UserInforWidget>
                         color: Colors.red,
                         shape: BoxShape.circle,
                       ),
-                      constraints: BoxConstraints(minWidth: 16.w, minHeight: 16.h),
+                      constraints:
+                          BoxConstraints(minWidth: 16.w, minHeight: 16.h),
                       child: Center(
                         child: Text(
                           unreadNotify > 9 ? '9+' : '$unreadNotify',
@@ -256,7 +260,7 @@ class _UserInforWidgetState extends ConsumerState<UserInforWidget>
               ],
             ),
           ),
-           SizedBox(width: 16.w),
+          SizedBox(width: 16.w),
           // Nút Draw
           GestureDetector(
             onTap: () {

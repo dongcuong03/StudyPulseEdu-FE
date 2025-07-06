@@ -5,6 +5,7 @@ import 'package:study_pulse_edu/models/app/TeacherClassCountResponseDto.dart';
 
 class ClassPerTeacherChart extends StatelessWidget {
   final List<TeacherClassCountResponseDto> data;
+
   const ClassPerTeacherChart({super.key, required this.data});
 
   @override
@@ -60,7 +61,7 @@ class ClassPerTeacherChart extends StatelessWidget {
                     ),
                     barGroups: List.generate(
                       data.length,
-                          (index) {
+                      (index) {
                         final item = data[index];
                         return BarChartGroupData(
                           x: index,
@@ -109,8 +110,10 @@ class ClassPerTeacherChart extends StatelessWidget {
                           },
                         ),
                       ),
-                      topTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
-                      rightTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                      topTitles:
+                          AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                      rightTitles:
+                          AxisTitles(sideTitles: SideTitles(showTitles: false)),
                     ),
                     gridData: FlGridData(show: false),
                     borderData: FlBorderData(

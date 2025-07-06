@@ -1,4 +1,3 @@
-// Đầu file
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -6,7 +5,6 @@ import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:study_pulse_edu/resources/utils/helpers/helper_mixin.dart';
 
-import '../../../../models/app/Account.dart';
 import '../../../../models/app/NotificationApp.dart';
 import '../../../../resources/constains/constants.dart';
 import '../../../../routes/route_const.dart';
@@ -16,7 +14,8 @@ class NotificationUserScreen extends ConsumerStatefulWidget {
   final VoidCallback? onClose;
   final String? accountId;
 
-  const NotificationUserScreen({required this.onClose, required this.accountId, super.key});
+  const NotificationUserScreen(
+      {required this.onClose, required this.accountId, super.key});
 
   @override
   ConsumerState createState() => _NotificationUserScreenState();
@@ -99,13 +98,15 @@ class _NotificationUserScreenState extends ConsumerState<NotificationUserScreen>
                   child: Stack(
                     clipBehavior: Clip.none,
                     children: [
-                      Text(_tabTitles[index], style: TextStyle(fontSize: 14.sp)),
+                      Text(_tabTitles[index],
+                          style: TextStyle(fontSize: 14.sp)),
                       if (count > 0)
                         Positioned(
                           top: -9.h,
                           right: -18.w,
                           child: Container(
-                            padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 1.h),
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 5.w, vertical: 1.h),
                             decoration: BoxDecoration(
                               color: Colors.red,
                               borderRadius: BorderRadius.circular(10.r),
@@ -172,7 +173,8 @@ class _NotificationUserScreenState extends ConsumerState<NotificationUserScreen>
     return InkWell(
       onTap: () async {
         if (!notification.isRead!) {
-          await ref.read(notificationMobileUseViewModelProvider.notifier)
+          await ref
+              .read(notificationMobileUseViewModelProvider.notifier)
               .markAsRead(notification.id ?? '');
           setState(() {
             notification.isRead = true;
@@ -189,8 +191,8 @@ class _NotificationUserScreenState extends ConsumerState<NotificationUserScreen>
       highlightColor: Colors.transparent,
       hoverColor: Colors.transparent,
       child: Container(
-        padding:  EdgeInsets.all(12.w),
-        margin:  EdgeInsets.symmetric(vertical: 6.h, horizontal: 12.w),
+        padding: EdgeInsets.all(12.w),
+        margin: EdgeInsets.symmetric(vertical: 6.h, horizontal: 12.w),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(12.r),
           color: notification.isRead! ? Colors.white : Colors.blue[50],
@@ -205,7 +207,8 @@ class _NotificationUserScreenState extends ConsumerState<NotificationUserScreen>
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            CircleAvatar(radius: 24, backgroundImage: NetworkImage(teacherAvatarUrl)),
+            CircleAvatar(
+                radius: 24, backgroundImage: NetworkImage(teacherAvatarUrl)),
             const SizedBox(width: 12),
             Expanded(
               child: Column(
@@ -215,16 +218,18 @@ class _NotificationUserScreenState extends ConsumerState<NotificationUserScreen>
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(teacherName ?? '',
-                          style:  TextStyle(fontWeight: FontWeight.bold, fontSize: 16.sp)),
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 16.sp)),
                       Text(createdAt,
-                          style: TextStyle(color: Colors.grey[600], fontSize: 12.sp)),
+                          style: TextStyle(
+                              color: Colors.grey[600], fontSize: 12.sp)),
                     ],
                   ),
-                   SizedBox(height: 4.h),
+                  SizedBox(height: 4.h),
                   Text('Học sinh: $studentName - $studentCode',
-                      style:  TextStyle(fontSize: 14.sp, color: Colors.teal)),
-                   SizedBox(height: 6.h),
-                  Text(title ?? '', style:  TextStyle(fontSize: 15.sp)),
+                      style: TextStyle(fontSize: 14.sp, color: Colors.teal)),
+                  SizedBox(height: 6.h),
+                  Text(title ?? '', style: TextStyle(fontSize: 15.sp)),
                 ],
               ),
             ),
@@ -234,4 +239,3 @@ class _NotificationUserScreenState extends ConsumerState<NotificationUserScreen>
     );
   }
 }
-

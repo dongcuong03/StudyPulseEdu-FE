@@ -1,24 +1,13 @@
-import 'dart:io';
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
-import 'package:intl/intl.dart';
-import 'package:omni_datetime_picker/omni_datetime_picker.dart';
 import 'package:study_pulse_edu/models/app/Assignment.dart';
 import 'package:study_pulse_edu/models/app/ClassA.dart';
 import 'package:study_pulse_edu/models/app/Student.dart';
-import 'package:study_pulse_edu/viewmodels/mobile/assignment_teacher_view_model.dart';
+
 import '../../../../models/app/Account.dart';
-import '../../../../models/app/Teacher.dart';
-import '../../../../resources/constains/constants.dart';
-import '../../../../resources/utils/app/app_theme.dart';
 import '../../../../resources/utils/helpers/helper_mixin.dart';
-import '../../../../resources/widgets/app_input_second.dart';
 import '../../../../routes/route_const.dart';
-import '../../../../viewmodels/mobile/classA_mobile_teacher_view_model.dart';
 import '../../../../viewmodels/web/class_view_model.dart';
 
 class GradeAssignmentTeacherScreen extends ConsumerStatefulWidget {
@@ -35,8 +24,8 @@ class GradeAssignmentTeacherScreen extends ConsumerStatefulWidget {
   ConsumerState createState() => _GradeAssignmentTeacherScreenState();
 }
 
-class _GradeAssignmentTeacherScreenState extends ConsumerState<GradeAssignmentTeacherScreen>
-    with HelperMixin {
+class _GradeAssignmentTeacherScreenState
+    extends ConsumerState<GradeAssignmentTeacherScreen> with HelperMixin {
   ClassA? classA;
   bool _isLoading = false;
 
@@ -62,18 +51,18 @@ class _GradeAssignmentTeacherScreenState extends ConsumerState<GradeAssignmentTe
   @override
   Widget build(BuildContext context) {
     final submittedStudentIds = widget.assignment?.submissions
-        ?.map((e) => e.studentId ?? '')
-        .toList() ??
+            ?.map((e) => e.studentId ?? '')
+            .toList() ??
         [];
 
     final submittedStudents = classA?.students
-        ?.where((s) => submittedStudentIds.contains(s.id))
-        .toList() ??
+            ?.where((s) => submittedStudentIds.contains(s.id))
+            .toList() ??
         [];
 
     final notSubmittedStudents = classA?.students
-        ?.where((s) => !submittedStudentIds.contains(s.id))
-        .toList() ??
+            ?.where((s) => !submittedStudentIds.contains(s.id))
+            .toList() ??
         [];
 
     return DefaultTabController(
@@ -91,34 +80,34 @@ class _GradeAssignmentTeacherScreenState extends ConsumerState<GradeAssignmentTe
         body: _isLoading
             ? SizedBox.shrink()
             : Column(
-          children: [
-            // TabBar bên dưới AppBar
-            Container(
-              color: Colors.white,
-              child: TabBar(
-                indicatorColor: Colors.blue,
-                labelColor: Colors.blue,
-                unselectedLabelColor: Colors.grey,
-                labelStyle: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                ),
-                tabs: const [
-                  Tab(text: 'Đã nộp'),
-                  Tab(text: 'Chưa nộp'),
-                ],
-              ),
-            ),
-            // Nội dung TabBarView
-            Expanded(
-              child: TabBarView(
                 children: [
-                  _buildStudentList(submittedStudents, canTap: true),
-                  _buildStudentList(notSubmittedStudents, canTap: false),
+                  // TabBar bên dưới AppBar
+                  Container(
+                    color: Colors.white,
+                    child: TabBar(
+                      indicatorColor: Colors.blue,
+                      labelColor: Colors.blue,
+                      unselectedLabelColor: Colors.grey,
+                      labelStyle: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                      ),
+                      tabs: const [
+                        Tab(text: 'Đã nộp'),
+                        Tab(text: 'Chưa nộp'),
+                      ],
+                    ),
+                  ),
+                  // Nội dung TabBarView
+                  Expanded(
+                    child: TabBarView(
+                      children: [
+                        _buildStudentList(submittedStudents, canTap: true),
+                        _buildStudentList(notSubmittedStudents, canTap: false),
+                      ],
+                    ),
+                  ),
                 ],
               ),
-            ),
-          ],
-        ),
       ),
     );
   }
@@ -137,15 +126,18 @@ class _GradeAssignmentTeacherScreenState extends ConsumerState<GradeAssignmentTe
         return GestureDetector(
           onTap: canTap
               ? () {
-            pushedName(context, RouteConstants.teacherGradeTwoAssignmentRouteName,
-              extra: {
-                "assignment": widget.assignment,
-                "student": student,
-                "onClose": () {
-                  showSuccessToast("Chấm bài tập thành công");
-                },
-              },);
-          }
+                  pushedName(
+                    context,
+                    RouteConstants.teacherGradeTwoAssignmentRouteName,
+                    extra: {
+                      "assignment": widget.assignment,
+                      "student": student,
+                      "onClose": () {
+                        showSuccessToast("Chấm bài tập thành công");
+                      },
+                    },
+                  );
+                }
               : null,
           child: Padding(
             padding: const EdgeInsets.only(left: 8.0, right: 8),
@@ -157,7 +149,8 @@ class _GradeAssignmentTeacherScreenState extends ConsumerState<GradeAssignmentTe
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                 child: Row(
                   children: [
                     CircleAvatar(
@@ -204,5 +197,4 @@ class _GradeAssignmentTeacherScreenState extends ConsumerState<GradeAssignmentTe
       },
     );
   }
-
 }

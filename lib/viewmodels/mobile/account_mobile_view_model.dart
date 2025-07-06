@@ -13,7 +13,7 @@ class AccountMobileViewModel extends _$AccountMobileViewModel {
     return await fetchCurrentUser();
   }
 
-  /// Call API lấy thông tin người dùng hiện tại
+  /// fetch dữ liệu người dùng hiện tại
   Future<void> fetch() async {
     state = const AsyncLoading();
 
@@ -24,7 +24,8 @@ class AccountMobileViewModel extends _$AccountMobileViewModel {
       state = AsyncError(e, st);
     }
   }
- //Call API getCurrentAccount
+
+  ///Call API lâý dữ liêu người dùng hiện tại
   Future<Account?> fetchCurrentUser() async {
     final url = "${ApiConstants.getBaseUrl}/api/v1/account/getCurrentAccount";
 
@@ -40,8 +41,10 @@ class AccountMobileViewModel extends _$AccountMobileViewModel {
     return null;
   }
 
+  ///Call API lấy tất cả danh sách tài khoản giáo viên
   Future<List<Account>> getAllAccountTeacher() async {
-    final url = "${ApiConstants.getBaseUrl}/api/v1/account/getAllAccountTeacher";
+    final url =
+        "${ApiConstants.getBaseUrl}/api/v1/account/getAllAccountTeacher";
 
     try {
       final response = await DioClient().get(url);
@@ -56,6 +59,7 @@ class AccountMobileViewModel extends _$AccountMobileViewModel {
     return [];
   }
 
+  ///Call API lấy tất cả danh sách tài khoản phụ huynh
   Future<List<Account>> getAllAccountParent() async {
     final url = "${ApiConstants.getBaseUrl}/api/v1/account/getAllAccountParent";
 

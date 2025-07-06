@@ -10,7 +10,7 @@ class CountNotificationMobileUserViewModel extends _$CountNotificationMobileUser
   FutureOr<int> build() async {
     return 0;
   }
-
+/// Call API đếm số thông báo chưa đọc
   Future<int> fetchUnreadCount(String accountId) async {
     try {
       final response = await DioClient().get(
@@ -26,6 +26,7 @@ class CountNotificationMobileUserViewModel extends _$CountNotificationMobileUser
     return 0;
   }
 
+  /// refersh đếm số thông báo chưa đọc
   Future<void> refreshUnreadCount(String accountId) async {
     state = const AsyncLoading();
     state = AsyncData(await fetchUnreadCount(accountId));

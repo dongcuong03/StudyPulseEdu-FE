@@ -1,22 +1,14 @@
-import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:study_pulse_edu/models/app/ClassA.dart';
 import 'package:study_pulse_edu/resources/utils/app/app_theme.dart';
 import 'package:study_pulse_edu/viewmodels/web/class_student_view_model.dart';
-import 'package:study_pulse_edu/viewmodels/web/class_view_model.dart';
-import '../../../../models/app/Account.dart';
 import '../../../../models/app/PagingResponse.dart';
-import '../../../../models/app/Schedule.dart';
 import '../../../../models/app/Student.dart';
-import '../../../../models/app/Teacher.dart';
 import '../../../../resources/constains/constants.dart';
 import '../../../../resources/utils/helpers/helper_mixin.dart';
-import '../../../../resources/widgets/app_input.dart';
 import '../../../../resources/widgets/pagination_widget.dart';
-import '../../../../viewmodels/web/account_view_model.dart';
 
 class EnrollFormWidget extends ConsumerStatefulWidget {
   final VoidCallback onClose;
@@ -131,8 +123,8 @@ class _EnrollFormWidgetState extends ConsumerState<EnrollFormWidget>
         }
       },
     );
-
   }
+
   @override
   Widget build(BuildContext context) {
     final pagingResponse = ref.watch(classStudentViewModelProvider);
@@ -265,13 +257,13 @@ class _EnrollFormWidgetState extends ConsumerState<EnrollFormWidget>
                 ),
               ),
             ),
-            if ( _errorEnroll!= null)
+            if (_errorEnroll != null)
               Padding(
                 padding: EdgeInsets.only(top: 4.h),
                 child: Text(
                   _errorEnroll!,
-                  style: AppTheme.bodySmall
-                      .copyWith(color: Colors.red.shade800),
+                  style:
+                      AppTheme.bodySmall.copyWith(color: Colors.red.shade800),
                 ),
               ),
           ],
@@ -398,7 +390,6 @@ class _EnrollFormWidgetState extends ConsumerState<EnrollFormWidget>
     );
   }
 
-// Helper method to build header cell
   Widget _buildHeaderCell(String text) {
     return Padding(
       padding: const EdgeInsets.all(8),
@@ -411,7 +402,6 @@ class _EnrollFormWidgetState extends ConsumerState<EnrollFormWidget>
     );
   }
 
-// Helper method to build regular cell
   Widget _buildCell(String text) {
     return Padding(
       padding: const EdgeInsets.all(8),

@@ -151,34 +151,34 @@ class _AddClassFormWidgetState extends ConsumerState<AddClassFormWidget>
       if (!hasError) {
         _errorSchedule = null;
       }
-    if (isValidForm) {
-      final selectedSchedules = <Schedule>[];
-      for (int i = 0; i < isSelectedList.length; i++) {
-        if (isSelectedList[i]) {
-          selectedSchedules.add(schedules[i]);
+      if (isValidForm) {
+        final selectedSchedules = <Schedule>[];
+        for (int i = 0; i < isSelectedList.length; i++) {
+          if (isSelectedList[i]) {
+            selectedSchedules.add(schedules[i]);
+          }
         }
-      }
-      final classA = ClassA(
-        className: _nameClassController.text,
-        maxStudents: int.tryParse(_studentMaxController.text) ?? 0,
-        tuitionFee: double.tryParse(_tuitionController.text.replaceAll(',', '')) ?? 0,
-        description: _descriptionController.text,
-        teacher: Teacher(
-          id: _selectedTeacher?.teacher?.id
-        ),
-        startDate: _startDate!,
-        endDate: _endDate!,
-        schedules: selectedSchedules,
-      );
-      showLoading(context, show: true);
-      final message = await ref.read(classViewModelProvider.notifier).createClass(classA);
-      showLoading(context, show: false);
-      if (message != null) {
-        showErrorToastWeb(context, message);
-      } else {
-        widget.onClose();
-        showSuccessToastWeb(context, "Thêm lớp học thành công");
-      }
+        final classA = ClassA(
+          className: _nameClassController.text,
+          maxStudents: int.tryParse(_studentMaxController.text) ?? 0,
+          tuitionFee:
+              double.tryParse(_tuitionController.text.replaceAll(',', '')) ?? 0,
+          description: _descriptionController.text,
+          teacher: Teacher(id: _selectedTeacher?.teacher?.id),
+          startDate: _startDate!,
+          endDate: _endDate!,
+          schedules: selectedSchedules,
+        );
+        showLoading(context, show: true);
+        final message =
+            await ref.read(classViewModelProvider.notifier).createClass(classA);
+        showLoading(context, show: false);
+        if (message != null) {
+          showErrorToastWeb(context, message);
+        } else {
+          widget.onClose();
+          showSuccessToastWeb(context, "Thêm lớp học thành công");
+        }
       }
     }
   }
@@ -379,15 +379,15 @@ class _AddClassFormWidgetState extends ConsumerState<AddClassFormWidget>
                         inputFormatters: [
                           MoneyInputFormatter(
                             thousandSeparator: ThousandSeparator.Comma,
-                              mantissaLength: 0,
+                            mantissaLength: 0,
                           ),
                         ],
                         prefixIcon: Icon(Icons.monetization_on_outlined),
-                            onChanged: (value) {
-                              if (value.isEmpty || value == "0") {
-                                _tuitionController.clear();
-                              }
-                            },
+                        onChanged: (value) {
+                          if (value.isEmpty || value == "0") {
+                            _tuitionController.clear();
+                          }
+                        },
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return 'Học phí không được để trống.';
@@ -846,14 +846,14 @@ class _AddClassFormWidgetState extends ConsumerState<AddClassFormWidget>
     ValueChanged<String>? onChanged,
   }) {
     return AppInput(
-        controller: controller,
-        labelText: labelText,
-        prefixIcon: prefixIcon,
-        validator: validator,
-        isPasswordField: isPasswordField,
-        inputType: inputType,
-        inputFormatters: inputFormatters,
-        maxLines: maxLines,
+      controller: controller,
+      labelText: labelText,
+      prefixIcon: prefixIcon,
+      validator: validator,
+      isPasswordField: isPasswordField,
+      inputType: inputType,
+      inputFormatters: inputFormatters,
+      maxLines: maxLines,
       onChanged: onChanged,
     );
   }

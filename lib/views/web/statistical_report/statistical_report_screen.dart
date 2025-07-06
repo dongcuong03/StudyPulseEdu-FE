@@ -13,7 +13,8 @@ class StatisticalReportScreen extends ConsumerStatefulWidget {
   ConsumerState createState() => _StatisticalReportScreenState();
 }
 
-class _StatisticalReportScreenState extends ConsumerState<StatisticalReportScreen>
+class _StatisticalReportScreenState
+    extends ConsumerState<StatisticalReportScreen>
     with HelperMixin, SingleTickerProviderStateMixin {
   late TabController _tabController;
 

@@ -6,10 +6,10 @@ class HoverablePopupMenuItem extends PopupMenuItem<String> {
     required String value,
     required String label,
   }) : super(
-    value: value,
-    padding: EdgeInsets.zero, // rất quan trọng để hover full width
-    child: _HoverableChild(label),
-  );
+          value: value,
+          padding: EdgeInsets.zero,
+          child: _HoverableChild(label),
+        );
 }
 
 class _HoverableChild extends StatefulWidget {

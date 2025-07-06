@@ -1,15 +1,12 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:study_pulse_edu/resources/utils/data_sources/dio_client.dart';
 
 import '../../firebase_chat_service.dart';
 import '../../resources/constains/constants.dart';
-
 
 part 'chat_view_model.g.dart';
 
@@ -18,8 +15,7 @@ class ChatViewModel extends _$ChatViewModel {
   final _chatService = FirebaseChatService();
 
   @override
-  void build() {
-  }
+  void build() {}
   String? _currentChatUserId;
 
   /// Set người đang chat
@@ -30,10 +26,10 @@ class ChatViewModel extends _$ChatViewModel {
     _currentChatUserId = chattingWithId;
 
     if (chattingWithId != null) {
-      await _chatService.setCurrentChatUserOnFirebase(myAccountId, chattingWithId);
+      await _chatService.setCurrentChatUserOnFirebase(
+          myAccountId, chattingWithId);
     }
   }
-
 
   /// Get người đang chat
   String? get currentChatUserId => _currentChatUserId;
@@ -51,7 +47,8 @@ class ChatViewModel extends _$ChatViewModel {
       content: content,
       attachmentUrl: attachmentUrl,
     );
-    final chattingWith = await _chatService.getCurrentChatUserFromFirebase(receiverId);
+    final chattingWith =
+        await _chatService.getCurrentChatUserFromFirebase(receiverId);
     if (chattingWith != senderId) {
       await sendPushNotification(
         receiverId: receiverId,
@@ -99,7 +96,8 @@ class ChatViewModel extends _$ChatViewModel {
     required String senderId,
     required String receiverId,
   }) async {
-    await _chatService.markAllMessagesAsRead(senderId: senderId, receiverId: receiverId);
+    await _chatService.markAllMessagesAsRead(
+        senderId: senderId, receiverId: receiverId);
   }
 
   /// Đếm số tin nhắn chưa đọc gửi đến giáo viên từ tất cả người gửi
@@ -155,7 +153,6 @@ class ChatViewModel extends _$ChatViewModel {
         isMultipart: true,
       );
 
-
       if (response.statusCode == 200 || response.statusCode == 201) {
         final attachmentUrl = response.data ?? '';
 
@@ -170,9 +167,6 @@ class ChatViewModel extends _$ChatViewModel {
       }
     } catch (e) {
       print("Lỗi không xác định: $e");
-
     }
   }
-
-
 }

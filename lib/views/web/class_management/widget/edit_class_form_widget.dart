@@ -19,11 +19,9 @@ import '../../../../viewmodels/web/account_view_model.dart';
 class EditClassFormWidget extends ConsumerStatefulWidget {
   final VoidCallback onClose;
   final String classID;
-  const EditClassFormWidget({
-    super.key,
-    required this.onClose,
-    required this.classID
-  });
+
+  const EditClassFormWidget(
+      {super.key, required this.onClose, required this.classID});
 
   @override
   ConsumerState createState() => _EditClassFormWidgetState();
@@ -50,6 +48,7 @@ class _EditClassFormWidgetState extends ConsumerState<EditClassFormWidget>
   late List<bool> isSelectedList;
 
   bool _isLoading = true;
+
   @override
   void initState() {
     super.initState();
@@ -70,13 +69,13 @@ class _EditClassFormWidgetState extends ConsumerState<EditClassFormWidget>
     super.dispose();
   }
 
-
   Future<void> _loadClassData(String classId) async {
     setState(() {
       _isLoading = true;
     });
     showLoading(context, show: true);
-    final classA = await ref.read(classViewModelProvider.notifier).getClassById(classId);
+    final classA =
+        await ref.read(classViewModelProvider.notifier).getClassById(classId);
     if (classA == null) return;
 
     setState(() {
@@ -89,14 +88,14 @@ class _EditClassFormWidgetState extends ConsumerState<EditClassFormWidget>
 
       if (classA.teacher?.id != null) {
         _selectedTeacher = _listTeacher.firstWhere(
-              (teacher) => teacher.teacher?.id == classA.teacher?.id,
+          (teacher) => teacher.teacher?.id == classA.teacher?.id,
           orElse: () => Account(),
         );
       }
 
       schedules = DayOfWeek.values.map((day) {
         final existing = classA.schedules?.firstWhere(
-              (sch) => sch.dayOfWeek == day,
+          (sch) => sch.dayOfWeek == day,
           orElse: () => Schedule(dayOfWeek: day),
         );
         return Schedule(
@@ -104,10 +103,11 @@ class _EditClassFormWidgetState extends ConsumerState<EditClassFormWidget>
           startTime: formatTime(existing?.startTime),
           endTime: formatTime(existing?.endTime),
         );
-
       }).toList();
 
-      isSelectedList = schedules.map((s) => s.startTime != null && s.endTime != null).toList();
+      isSelectedList = schedules
+          .map((s) => s.startTime != null && s.endTime != null)
+          .toList();
     });
     showLoading(context, show: false);
     setState(() {
@@ -132,15 +132,15 @@ class _EditClassFormWidgetState extends ConsumerState<EditClassFormWidget>
     setState(() {
       _listTeacher = allTeachers
           .where((account) =>
-      account.teacher?.fullName != null && account.phone != null)
+              account.teacher?.fullName != null && account.phone != null)
           .map((account) => Account(
-        id: account.id,
-        phone: account.phone,
-        teacher: Teacher(
-          id: account.teacher?.id,
-          fullName: account.teacher?.fullName,
-        ),
-      ))
+                id: account.id,
+                phone: account.phone,
+                teacher: Teacher(
+                  id: account.teacher?.id,
+                  fullName: account.teacher?.fullName,
+                ),
+              ))
           .toList();
     });
   }
@@ -225,17 +225,18 @@ class _EditClassFormWidgetState extends ConsumerState<EditClassFormWidget>
         }
         final classA = ClassA(
           maxStudents: int.tryParse(_studentMaxController.text) ?? 0,
-          tuitionFee: double.tryParse(_tuitionController.text.replaceAll(',', '')) ?? 0,
+          tuitionFee:
+              double.tryParse(_tuitionController.text.replaceAll(',', '')) ?? 0,
           description: _descriptionController.text,
-          teacher: Teacher(
-              id: _selectedTeacher?.teacher?.id
-          ),
+          teacher: Teacher(id: _selectedTeacher?.teacher?.id),
           startDate: _startDate!,
           endDate: _endDate!,
           schedules: selectedSchedules,
         );
         showLoading(context, show: true);
-        final message = await ref.read(classViewModelProvider.notifier).updateClass(classA, widget.classID);
+        final message = await ref
+            .read(classViewModelProvider.notifier)
+            .updateClass(classA, widget.classID);
         showLoading(context, show: false);
         if (message != null) {
           showErrorToastWeb(context, message);
@@ -319,44 +320,46 @@ class _EditClassFormWidgetState extends ConsumerState<EditClassFormWidget>
                           child: _isLoading
                               ? SizedBox.shrink()
                               : Column(children: [
-                            _buildFormAddClass(),
-                            SizedBox(
-                              width: 100.w,
-                              height: 60.h,
-                              child: DecoratedBox(
-                                decoration: BoxDecoration(
-                                  gradient: const LinearGradient(
-                                    colors: [
-                                      Color(0xFF3E61FC),
-                                      Color(0xFF75D1F3)
-                                    ],
-                                    begin: Alignment.topLeft,
-                                    end: Alignment.bottomRight,
-                                  ),
-                                  borderRadius: BorderRadius.circular(10.r),
-                                ),
-                                child: ElevatedButton(
-                                  onPressed: () async {
-                                    _editClass();
-                                  },
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor: Colors.transparent,
-                                    shadowColor: Colors.transparent,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(30.r),
+                                  _buildFormAddClass(),
+                                  SizedBox(
+                                    width: 100.w,
+                                    height: 60.h,
+                                    child: DecoratedBox(
+                                      decoration: BoxDecoration(
+                                        gradient: const LinearGradient(
+                                          colors: [
+                                            Color(0xFF3E61FC),
+                                            Color(0xFF75D1F3)
+                                          ],
+                                          begin: Alignment.topLeft,
+                                          end: Alignment.bottomRight,
+                                        ),
+                                        borderRadius:
+                                            BorderRadius.circular(10.r),
+                                      ),
+                                      child: ElevatedButton(
+                                        onPressed: () async {
+                                          _editClass();
+                                        },
+                                        style: ElevatedButton.styleFrom(
+                                          backgroundColor: Colors.transparent,
+                                          shadowColor: Colors.transparent,
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(30.r),
+                                          ),
+                                        ),
+                                        child: Text(
+                                          'Sửa',
+                                          style: AppTheme.bodyMedium.copyWith(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ),
                                     ),
-                                  ),
-                                  child: Text(
-                                    'Sửa',
-                                    style: AppTheme.bodyMedium.copyWith(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            )
-                          ])),
+                                  )
+                                ])),
                     ),
                   ),
                 ),
@@ -401,20 +404,20 @@ class _EditClassFormWidgetState extends ConsumerState<EditClassFormWidget>
                       ),
                       Expanded(
                           child: _buildInput(
-                            controller: _studentMaxController,
-                            labelText: "Số học sinh tối đa",
-                            inputType: TextInputType.number,
-                            inputFormatters: [
-                              FilteringTextInputFormatter.digitsOnly
-                            ],
-                            prefixIcon: Icon(Icons.group_add_outlined),
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Số học sinh tối đa không được để trống.';
-                              }
-                              return null;
-                            },
-                          )),
+                        controller: _studentMaxController,
+                        labelText: "Số học sinh tối đa",
+                        inputType: TextInputType.number,
+                        inputFormatters: [
+                          FilteringTextInputFormatter.digitsOnly
+                        ],
+                        prefixIcon: Icon(Icons.group_add_outlined),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Số học sinh tối đa không được để trống.';
+                          }
+                          return null;
+                        },
+                      )),
                     ],
                   ),
                   SizedBox(
@@ -484,33 +487,33 @@ class _EditClassFormWidgetState extends ConsumerState<EditClassFormWidget>
                     children: [
                       Expanded(
                           child: _buildInput(
-                            controller: _tuitionController,
-                            labelText: "Học phí",
-                            inputType: TextInputType.number,
-                            inputFormatters: [
-                              MoneyInputFormatter(
-                                thousandSeparator: ThousandSeparator.Comma,
-                                mantissaLength: 0,
-                              ),
-                            ],
-                            prefixIcon: Icon(Icons.monetization_on_outlined),
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Học phí không được để trống.';
-                              }
-                              return null;
-                            },
-                          )),
+                        controller: _tuitionController,
+                        labelText: "Học phí",
+                        inputType: TextInputType.number,
+                        inputFormatters: [
+                          MoneyInputFormatter(
+                            thousandSeparator: ThousandSeparator.Comma,
+                            mantissaLength: 0,
+                          ),
+                        ],
+                        prefixIcon: Icon(Icons.monetization_on_outlined),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Học phí không được để trống.';
+                          }
+                          return null;
+                        },
+                      )),
                       SizedBox(
                         width: 60.w,
                       ),
                       Expanded(
                           child: _buildInput(
-                            controller: _descriptionController,
-                            labelText: "Mô tả",
-                            prefixIcon: Icon(Icons.description),
-                            maxLines: 1,
-                          ))
+                        controller: _descriptionController,
+                        labelText: "Mô tả",
+                        prefixIcon: Icon(Icons.description),
+                        maxLines: 1,
+                      ))
                     ],
                   ),
                   SizedBox(
@@ -550,7 +553,7 @@ class _EditClassFormWidgetState extends ConsumerState<EditClassFormWidget>
                 child: Text(
                   _errorSchedule!,
                   style:
-                  AppTheme.bodySmall.copyWith(color: Colors.red.shade800),
+                      AppTheme.bodySmall.copyWith(color: Colors.red.shade800),
                 ),
               ),
           ],
@@ -581,25 +584,25 @@ class _EditClassFormWidgetState extends ConsumerState<EditClassFormWidget>
                   padding: EdgeInsets.all(8.w),
                   child: Center(
                       child: Text(
-                        'Ngày học',
-                        style: AppTheme.bodyMedium.copyWith(color: AppTheme.white),
-                      )),
+                    'Ngày học',
+                    style: AppTheme.bodyMedium.copyWith(color: AppTheme.white),
+                  )),
                 ),
                 Padding(
                   padding: EdgeInsets.all(8.w),
                   child: Center(
                       child: Text(
-                        'Giờ bắt đầu',
-                        style: AppTheme.bodyMedium.copyWith(color: AppTheme.white),
-                      )),
+                    'Giờ bắt đầu',
+                    style: AppTheme.bodyMedium.copyWith(color: AppTheme.white),
+                  )),
                 ),
                 Padding(
                   padding: EdgeInsets.all(8.w),
                   child: Center(
                       child: Text(
-                        'Giờ kết thúc',
-                        style: AppTheme.bodyMedium.copyWith(color: AppTheme.white),
-                      )),
+                    'Giờ kết thúc',
+                    style: AppTheme.bodyMedium.copyWith(color: AppTheme.white),
+                  )),
                 ),
               ],
             ),
@@ -644,7 +647,7 @@ class _EditClassFormWidgetState extends ConsumerState<EditClassFormWidget>
                   // Giờ bắt đầu
                   Padding(
                     padding:
-                    EdgeInsets.symmetric(vertical: 6.h, horizontal: 4.w),
+                        EdgeInsets.symmetric(vertical: 6.h, horizontal: 4.w),
                     child: GestureDetector(
                       onTap: isSelectedList[i] ? () => pickTime(i, true) : null,
                       child: AbsorbPointer(
@@ -690,10 +693,10 @@ class _EditClassFormWidgetState extends ConsumerState<EditClassFormWidget>
                   // Giờ kết thúc
                   Padding(
                     padding:
-                    EdgeInsets.symmetric(vertical: 6.h, horizontal: 4.w),
+                        EdgeInsets.symmetric(vertical: 6.h, horizontal: 4.w),
                     child: GestureDetector(
                       onTap:
-                      isSelectedList[i] ? () => pickTime(i, false) : null,
+                          isSelectedList[i] ? () => pickTime(i, false) : null,
                       child: AbsorbPointer(
                         absorbing: !isSelectedList[i],
                         child: Container(
@@ -888,15 +891,15 @@ class _EditClassFormWidgetState extends ConsumerState<EditClassFormWidget>
     ValueChanged<String>? onChanged,
   }) {
     return AppInput(
-        controller: controller,
-        labelText: labelText,
-        prefixIcon: prefixIcon,
-        validator: validator,
-        isPasswordField: isPasswordField,
-        inputType: inputType,
-        inputFormatters: inputFormatters,
-        maxLines: maxLines,
-        onChanged: onChanged,
+      controller: controller,
+      labelText: labelText,
+      prefixIcon: prefixIcon,
+      validator: validator,
+      isPasswordField: isPasswordField,
+      inputType: inputType,
+      inputFormatters: inputFormatters,
+      maxLines: maxLines,
+      onChanged: onChanged,
     );
   }
 }

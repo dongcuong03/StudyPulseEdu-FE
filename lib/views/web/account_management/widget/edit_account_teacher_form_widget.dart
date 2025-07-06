@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:study_pulse_edu/resources/utils/app/app_theme.dart';
 
 import '../../../../models/app/Account.dart';
@@ -226,7 +225,6 @@ class _EditAccountTeacherFormWidgetState
               ),
             ],
           ),
-
         ),
       ),
     );

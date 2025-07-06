@@ -2,18 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:study_pulse_edu/resources/widgets/app_input_second.dart';
-import 'package:study_pulse_edu/viewmodels/mobile/classA_mobile_teacher_view_model.dart';
 
-import '../../../../models/app/Account.dart';
 import '../../../../models/app/Schedule.dart';
 import '../../../../models/app/Student.dart';
-import '../../../../resources/constains/constants.dart';
+
 import '../../../../resources/utils/app/app_theme.dart';
 import '../../../../resources/utils/helpers/helper_mixin.dart';
-import '../../../../resources/widgets/app_input.dart';
 import '../../../../viewmodels/web/class_view_model.dart';
 
 class ViewClassTeacherScreen extends ConsumerStatefulWidget {
@@ -73,7 +69,8 @@ class _ViewClassTeacherScreenState extends ConsumerState<ViewClassTeacherScreen>
 
     setState(() {
       _studentMaxController.text = classA.maxStudents?.toString() ?? '';
-      _tuitionController.text = NumberFormat("#,##0", "en_US").format(classA.tuitionFee) ;
+      _tuitionController.text =
+          NumberFormat("#,##0", "en_US").format(classA.tuitionFee);
       _descriptionController.text = classA.description ?? '';
 
       _startDateController.text = classA.startDate != null
@@ -90,12 +87,11 @@ class _ViewClassTeacherScreenState extends ConsumerState<ViewClassTeacherScreen>
       schedules = (classA.schedules ?? [])
           .where((sch) => sch.startTime != null && sch.endTime != null)
           .map((sch) => Schedule(
-        dayOfWeek: sch.dayOfWeek,
-        startTime: formatTime(sch.startTime),
-        endTime: formatTime(sch.endTime),
-      ))
+                dayOfWeek: sch.dayOfWeek,
+                startTime: formatTime(sch.startTime),
+                endTime: formatTime(sch.endTime),
+              ))
           .toList();
-
     });
     showLoading(context, show: false);
     setState(() {
@@ -116,10 +112,13 @@ class _ViewClassTeacherScreenState extends ConsumerState<ViewClassTeacherScreen>
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text('Xem lớp học', style: TextStyle(color: Colors.white),),
+          title: const Text(
+            'Xem lớp học',
+            style: TextStyle(color: Colors.white),
+          ),
           backgroundColor: Colors.blue,
           iconTheme: const IconThemeData(
-            color: Colors.white, // màu của nút quay lại
+            color: Colors.white,
           ),
         ),
         body: ScrollbarTheme(
@@ -161,94 +160,150 @@ class _ViewClassTeacherScreenState extends ConsumerState<ViewClassTeacherScreen>
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text("Tên lớp học: ", style: AppTheme.bodyLarge,),
-                  SizedBox(height: 8.h,),
+                  Text(
+                    "Tên lớp học: ",
+                    style: AppTheme.bodyLarge,
+                  ),
+                  SizedBox(
+                    height: 8.h,
+                  ),
                   Row(
                     children: [
                       Expanded(
                           child: _buildInput(
                               controller: _nameClassController,
-                              prefixIcon: Icon(Icons.class_outlined, size: 21.sp,),
+                              prefixIcon: Icon(
+                                Icons.class_outlined,
+                                size: 21.sp,
+                              ),
                               readOnly: true)),
                     ],
                   ),
                   SizedBox(
                     height: 30.h,
                   ),
-                  Text("Giáo viên: ", style: AppTheme.bodyLarge,),
-                  SizedBox(height: 8.h,),
+                  Text(
+                    "Giáo viên: ",
+                    style: AppTheme.bodyLarge,
+                  ),
+                  SizedBox(
+                    height: 8.h,
+                  ),
                   Row(
                     children: [
                       Expanded(
                           child: _buildInput(
                               controller: _nameTeacherController,
-                              prefixIcon: Icon(Icons.person_outline, size: 21.sp,),
+                              prefixIcon: Icon(
+                                Icons.person_outline,
+                                size: 21.sp,
+                              ),
                               readOnly: true)),
                     ],
                   ),
                   SizedBox(
                     height: 30.h,
                   ),
-                  Text("Số học sinh tối đa: ", style: AppTheme.bodyLarge,),
-                  SizedBox(height: 8.h,),
+                  Text(
+                    "Số học sinh tối đa: ",
+                    style: AppTheme.bodyLarge,
+                  ),
+                  SizedBox(
+                    height: 8.h,
+                  ),
                   Row(
                     children: [
                       Expanded(
                           child: _buildInput(
                               controller: _studentMaxController,
-                              prefixIcon: Icon(Icons.group_add_outlined, size: 21.sp,),
+                              prefixIcon: Icon(
+                                Icons.group_add_outlined,
+                                size: 21.sp,
+                              ),
                               readOnly: true)),
                     ],
                   ),
                   SizedBox(
                     height: 30.h,
                   ),
-                  Text("Học phí: ", style: AppTheme.bodyLarge,),
-                  SizedBox(height: 8.h,),
+                  Text(
+                    "Học phí: ",
+                    style: AppTheme.bodyLarge,
+                  ),
+                  SizedBox(
+                    height: 8.h,
+                  ),
                   Row(
                     children: [
                       Expanded(
                           child: _buildInput(
                               controller: _tuitionController,
-                              prefixIcon: Icon(Icons.monetization_on_outlined, size: 21.sp,),
+                              prefixIcon: Icon(
+                                Icons.monetization_on_outlined,
+                                size: 21.sp,
+                              ),
                               readOnly: true)),
                     ],
                   ),
                   SizedBox(
                     height: 30.h,
                   ),
-                  Text("Ngày bắt đầu: ", style: AppTheme.bodyLarge,),
-                  SizedBox(height: 8.h,),
+                  Text(
+                    "Ngày bắt đầu: ",
+                    style: AppTheme.bodyLarge,
+                  ),
+                  SizedBox(
+                    height: 8.h,
+                  ),
                   Row(children: [
                     Expanded(
                         child: _buildInput(
                             controller: _startDateController,
-                            prefixIcon: Icon(Icons.calendar_month_outlined, size: 21.sp,),
+                            prefixIcon: Icon(
+                              Icons.calendar_month_outlined,
+                              size: 21.sp,
+                            ),
                             readOnly: true)),
                   ]),
                   SizedBox(
                     height: 30.h,
                   ),
-                  Text("Ngày kết thúc: ", style: AppTheme.bodyLarge,),
-                  SizedBox(height: 8.h,),
+                  Text(
+                    "Ngày kết thúc: ",
+                    style: AppTheme.bodyLarge,
+                  ),
+                  SizedBox(
+                    height: 8.h,
+                  ),
                   Row(children: [
                     Expanded(
                         child: _buildInput(
                             controller: _endDateController,
-                            prefixIcon: Icon(Icons.calendar_month_outlined, size: 21.sp,),
+                            prefixIcon: Icon(
+                              Icons.calendar_month_outlined,
+                              size: 21.sp,
+                            ),
                             readOnly: true)),
                   ]),
                   SizedBox(
                     height: 30.h,
                   ),
-                  Text("Mô tả: ", style: AppTheme.bodyLarge,),
-                  SizedBox(height: 8.h,),
+                  Text(
+                    "Mô tả: ",
+                    style: AppTheme.bodyLarge,
+                  ),
+                  SizedBox(
+                    height: 8.h,
+                  ),
                   Row(
                     children: [
                       Expanded(
                           child: _buildInput(
                               controller: _descriptionController,
-                              prefixIcon: Icon(Icons.description_outlined, size: 21.sp,),
+                              prefixIcon: Icon(
+                                Icons.description_outlined,
+                                size: 21.sp,
+                              ),
                               maxLines: 3,
                               readOnly: true)),
                     ],
@@ -272,6 +327,7 @@ class _ViewClassTeacherScreenState extends ConsumerState<ViewClassTeacherScreen>
       ),
     );
   }
+
   Widget _buildScheduleDropdown() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -281,7 +337,6 @@ class _ViewClassTeacherScreenState extends ConsumerState<ViewClassTeacherScreen>
             setState(() {
               _showSchedule = !_showSchedule;
             });
-
           },
           splashColor: Colors.transparent,
           highlightColor: Colors.transparent,
@@ -290,7 +345,9 @@ class _ViewClassTeacherScreenState extends ConsumerState<ViewClassTeacherScreen>
             children: [
               Text("Lịch học:", style: AppTheme.bodyLarge),
               Icon(
-                _showSchedule ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,
+                _showSchedule
+                    ? Icons.keyboard_arrow_up
+                    : Icons.keyboard_arrow_down,
                 color: Colors.black87,
                 size: 20.sp,
               )
@@ -298,7 +355,6 @@ class _ViewClassTeacherScreenState extends ConsumerState<ViewClassTeacherScreen>
           ),
         ),
         SizedBox(height: 16.h),
-
         AnimatedSwitcher(
           duration: const Duration(milliseconds: 300),
           transitionBuilder: (Widget child, Animation<double> animation) {
@@ -319,21 +375,24 @@ class _ViewClassTeacherScreenState extends ConsumerState<ViewClassTeacherScreen>
           },
           child: _showSchedule
               ? Container(
-            key: const ValueKey('schedule'),
-            child: Column(
-              children: [
-                _buildScheduleForm(),
-                SizedBox(height: 40.h,)
-              ],
-            ),
-          )
+                  key: const ValueKey('schedule'),
+                  child: Column(
+                    children: [
+                      _buildScheduleForm(),
+                      SizedBox(
+                        height: 40.h,
+                      )
+                    ],
+                  ),
+                )
               : const SizedBox(
-            key: ValueKey('empty'),
-          ),
+                  key: ValueKey('empty'),
+                ),
         ),
       ],
     );
   }
+
   Widget _buildScheduleForm() {
     return Card(
       color: Colors.white,
@@ -342,31 +401,49 @@ class _ViewClassTeacherScreenState extends ConsumerState<ViewClassTeacherScreen>
         borderRadius: BorderRadius.circular(16.r),
       ),
       child: Padding(
-        padding:  EdgeInsets.all(16.w),
+        padding: EdgeInsets.all(16.w),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // Tiêu đề
             Padding(
-              padding:  EdgeInsets.symmetric(vertical: 8.h),
+              padding: EdgeInsets.symmetric(vertical: 8.h),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  SizedBox(width: 90.w, child: Center(child: Text("Ngày học", style: AppTheme.bodyMedium.copyWith(fontWeight: FontWeight.w600)))),
-                  SizedBox(width: 115.w, child: Center(child: Text("Giờ bắt đầu", style: AppTheme.bodyMedium.copyWith(fontWeight: FontWeight.w600)))),
-                  SizedBox(width: 100.w, child: Center(child: Text("Giờ kết thúc", style: AppTheme.bodyMedium.copyWith(fontWeight: FontWeight.w600)))),
+                  SizedBox(
+                      width: 90.w,
+                      child: Center(
+                          child: Text("Ngày học",
+                              style: AppTheme.bodyMedium
+                                  .copyWith(fontWeight: FontWeight.w600)))),
+                  SizedBox(
+                      width: 115.w,
+                      child: Center(
+                          child: Text("Giờ bắt đầu",
+                              style: AppTheme.bodyMedium
+                                  .copyWith(fontWeight: FontWeight.w600)))),
+                  SizedBox(
+                      width: 100.w,
+                      child: Center(
+                          child: Text("Giờ kết thúc",
+                              style: AppTheme.bodyMedium
+                                  .copyWith(fontWeight: FontWeight.w600)))),
                 ],
               ),
             ),
-             SizedBox(height: 8.h),
+            SizedBox(height: 8.h),
             // Danh sách lịch học dạng văn bản + Divider
             ListView.separated(
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
               itemCount: schedules.length,
               separatorBuilder: (context, index) => Padding(
-                padding:  EdgeInsets.only(top: 10.h, right: 20.w, bottom: 10.h, left: 20.w),
-                child: const Divider(color: Colors.grey,),
+                padding: EdgeInsets.only(
+                    top: 10.h, right: 20.w, bottom: 10.h, left: 20.w),
+                child: const Divider(
+                  color: Colors.grey,
+                ),
               ),
               itemBuilder: (context, index) {
                 final schedule = schedules[index];
@@ -385,7 +462,6 @@ class _ViewClassTeacherScreenState extends ConsumerState<ViewClassTeacherScreen>
                         ],
                       ),
                     ),
-
                     SizedBox(
                       width: 100.w,
                       child: Row(
@@ -429,7 +505,6 @@ class _ViewClassTeacherScreenState extends ConsumerState<ViewClassTeacherScreen>
             setState(() {
               _showStudent = !_showStudent;
             });
-
           },
           splashColor: Colors.transparent,
           highlightColor: Colors.transparent,
@@ -438,7 +513,9 @@ class _ViewClassTeacherScreenState extends ConsumerState<ViewClassTeacherScreen>
             children: [
               Text("Danh sách học sinh: ", style: AppTheme.bodyLarge),
               Icon(
-                _showStudent ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,
+                _showStudent
+                    ? Icons.keyboard_arrow_up
+                    : Icons.keyboard_arrow_down,
                 color: Colors.black87,
                 size: 20.sp,
               )
@@ -446,7 +523,6 @@ class _ViewClassTeacherScreenState extends ConsumerState<ViewClassTeacherScreen>
           ),
         ),
         SizedBox(height: 16.h),
-
         AnimatedSwitcher(
           duration: const Duration(milliseconds: 300),
           transitionBuilder: (Widget child, Animation<double> animation) {
@@ -467,16 +543,17 @@ class _ViewClassTeacherScreenState extends ConsumerState<ViewClassTeacherScreen>
           },
           child: _showStudent
               ? Container(
-            key: const ValueKey('student'),
-            child: _buildClassStudentForm(),
-          )
+                  key: const ValueKey('student'),
+                  child: _buildClassStudentForm(),
+                )
               : const SizedBox(
-            key: ValueKey('empty'),
-          ),
+                  key: ValueKey('empty'),
+                ),
         ),
       ],
     );
   }
+
   Widget _buildClassStudentForm() {
     return Card(
       color: Colors.white,
@@ -487,7 +564,7 @@ class _ViewClassTeacherScreenState extends ConsumerState<ViewClassTeacherScreen>
       child: SizedBox(
         height: 400.h,
         child: Padding(
-          padding:  EdgeInsets.all(16.w),
+          padding: EdgeInsets.all(16.w),
           child: Scrollbar(
             controller: _scrollStudentController,
             thumbVisibility: true,
@@ -502,7 +579,8 @@ class _ViewClassTeacherScreenState extends ConsumerState<ViewClassTeacherScreen>
               itemBuilder: (context, index) {
                 final student = students[index];
                 final dateOfBirth = student.dateOfBirth != null
-                    ? DateFormat('dd/MM/yyyy').format(DateTime.parse(student.dateOfBirth.toString()))
+                    ? DateFormat('dd/MM/yyyy')
+                        .format(DateTime.parse(student.dateOfBirth.toString()))
                     : '';
 
                 return Padding(
@@ -520,7 +598,8 @@ class _ViewClassTeacherScreenState extends ConsumerState<ViewClassTeacherScreen>
                         alignment: Alignment.center,
                         child: Text(
                           '${index + 1}',
-                          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14.sp),
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 14.sp),
                         ),
                       ),
                       SizedBox(width: 12.w),
@@ -530,17 +609,20 @@ class _ViewClassTeacherScreenState extends ConsumerState<ViewClassTeacherScreen>
                           children: [
                             Text(
                               '${student.studentCode} - ${student.fullName}',
-                              style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16.sp),
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w600, fontSize: 16.sp),
                             ),
                             SizedBox(height: 4.h),
                             Text(
                               'Ngày sinh: $dateOfBirth',
-                              style: TextStyle(fontSize: 13.sp, color: Colors.grey[700]),
+                              style: TextStyle(
+                                  fontSize: 13.sp, color: Colors.grey[700]),
                             ),
                             SizedBox(height: 2.h),
                             Text(
                               'Giới tính: ${student.gender?.displayGender ?? ''}',
-                              style: TextStyle(fontSize: 13.sp, color: Colors.grey[700]),
+                              style: TextStyle(
+                                  fontSize: 13.sp, color: Colors.grey[700]),
                             ),
                           ],
                         ),

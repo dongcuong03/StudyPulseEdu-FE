@@ -59,7 +59,8 @@ class _EditAccountParentFormWidgetState
     });
     showLoading(context, show: true);
 
-    final account = await ref.read(accountViewModelProvider.notifier)
+    final account = await ref
+        .read(accountViewModelProvider.notifier)
         .getAccountById(widget.accountId);
 
     if (account != null) {
@@ -183,7 +184,7 @@ class _EditAccountParentFormWidgetState
             children: [
               Text(
                 _studentBirthDates.length > index &&
-                    _studentBirthDates[index] != null
+                        _studentBirthDates[index] != null
                     ? '${_studentBirthDates[index]!.day}/${_studentBirthDates[index]!.month}/${_studentBirthDates[index]!.year}'
                     : 'Chọn ngày sinh',
               ),
@@ -193,7 +194,6 @@ class _EditAccountParentFormWidgetState
               ),
             ],
           ),
-
         ),
       ),
     );
@@ -381,7 +381,7 @@ class _EditAccountParentFormWidgetState
                                   }
 
                                   if (RegExp(
-                                          r'[!@#\$%^&*(),.?":{}|<>_\-=+~`\\/\[\]]')
+                                          r'[!@#\$%^&*()?":{}|<>_\-=+~`\\/\[\]]')
                                       .hasMatch(value)) {
                                     return 'Địa chỉ không được chứa ký tự đặc biệt.';
                                   }
@@ -478,99 +478,125 @@ class _EditAccountParentFormWidgetState
                     child: Padding(
                       padding: EdgeInsets.only(
                           top: 30.h, right: 30.w, left: 30.w, bottom: 50.h),
-                      child:  _isLoading
+                      child: _isLoading
                           ? SizedBox.shrink()
                           : Form(
-                        key: _formKey,
-                        child: Column(
-                          children: [
-                            _buildParentForm(),
-                            SizedBox(
-                              width: 100.w,
-                              height: 60.h,
-                              child: DecoratedBox(
-                                decoration: BoxDecoration(
-                                  gradient: const LinearGradient(
-                                    colors: [
-                                      Color(0xFF3E61FC),
-                                      Color(0xFF75D1F3)
-                                    ],
-                                    begin: Alignment.topLeft,
-                                    end: Alignment.bottomRight,
-                                  ),
-                                  borderRadius: BorderRadius.circular(15.r),
-                                ),
-                                child: ElevatedButton(
-                                  onPressed: () async {
-                                    final viewModel = ref.read(accountViewModelProvider.notifier);
-                                    setState(() {
-                                      for (int i = 0;
-                                      i < _studentGenderErrors.length;
-                                      i++) {
-                                        _studentGenderErrors[i] = null;
-                                        _studentBirthDateErrors[i] = null;
-                                      }
-                                    });
+                              key: _formKey,
+                              child: Column(
+                                children: [
+                                  _buildParentForm(),
+                                  SizedBox(
+                                    width: 100.w,
+                                    height: 60.h,
+                                    child: DecoratedBox(
+                                      decoration: BoxDecoration(
+                                        gradient: const LinearGradient(
+                                          colors: [
+                                            Color(0xFF3E61FC),
+                                            Color(0xFF75D1F3)
+                                          ],
+                                          begin: Alignment.topLeft,
+                                          end: Alignment.bottomRight,
+                                        ),
+                                        borderRadius:
+                                            BorderRadius.circular(15.r),
+                                      ),
+                                      child: ElevatedButton(
+                                        onPressed: () async {
+                                          final viewModel = ref.read(
+                                              accountViewModelProvider
+                                                  .notifier);
+                                          setState(() {
+                                            for (int i = 0;
+                                                i < _studentGenderErrors.length;
+                                                i++) {
+                                              _studentGenderErrors[i] = null;
+                                              _studentBirthDateErrors[i] = null;
+                                            }
+                                          });
 
-                                    bool isValidForm =
-                                    _formKey.currentState!.validate();
+                                          bool isValidForm =
+                                              _formKey.currentState!.validate();
 
-                                    bool areStudentsValid = _validateStudents();
-                                    if (!areStudentsValid) {
-                                      isValidForm = false;
-                                    }
+                                          bool areStudentsValid =
+                                              _validateStudents();
+                                          if (!areStudentsValid) {
+                                            isValidForm = false;
+                                          }
 
-                                    if (isValidForm) {
-                                      //Call API
-                                      final account = Account(
-                                        role: Role.PARENT,
-                                        parent: Parent(
-                                          fullName: _parentNameController.text,
-                                          verificationCode: _confirmCodeController.text,
-                                          relationship: _relationshipController.text,
-                                          students: List.generate(_studentControllers.length, (i) {
-                                            return Student(
-                                              studentCode: _studentCode[i],
-                                              fullName: _studentControllers[i]['name']!.text,
-                                              address: _studentControllers[i]['address']!.text,
-                                              gender: _studentGenders[i]!,
-                                              dateOfBirth: _studentBirthDates[i]!,
-                                            );
-                                          }),
-                                        )
-                                      );
-                                      showLoading(context, show: true);
-                                      final message = await viewModel.updateAccount(
-                                          accountId: widget.accountId, account: account);
-                                      showLoading(context, show: false);
-                                      if (message != null) {
-                                        showErrorToastWeb(context, message);
-                                      } else {
-                                        widget.onClose();
-                                        showSuccessToastWeb(context, "Sửa tài khoản thành công");
-                                      }
-                                    }
-                                  },
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor: Colors.transparent,
-                                    shadowColor: Colors.transparent,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(30.r),
+                                          if (isValidForm) {
+                                            //Call API
+                                            final account = Account(
+                                                role: Role.PARENT,
+                                                parent: Parent(
+                                                  fullName:
+                                                      _parentNameController
+                                                          .text,
+                                                  verificationCode:
+                                                      _confirmCodeController
+                                                          .text,
+                                                  relationship:
+                                                      _relationshipController
+                                                          .text,
+                                                  students: List.generate(
+                                                      _studentControllers
+                                                          .length, (i) {
+                                                    return Student(
+                                                      studentCode:
+                                                          _studentCode[i],
+                                                      fullName:
+                                                          _studentControllers[i]
+                                                                  ['name']!
+                                                              .text,
+                                                      address:
+                                                          _studentControllers[i]
+                                                                  ['address']!
+                                                              .text,
+                                                      gender:
+                                                          _studentGenders[i]!,
+                                                      dateOfBirth:
+                                                          _studentBirthDates[
+                                                              i]!,
+                                                    );
+                                                  }),
+                                                ));
+                                            showLoading(context, show: true);
+                                            final message =
+                                                await viewModel.updateAccount(
+                                                    accountId: widget.accountId,
+                                                    account: account);
+                                            showLoading(context, show: false);
+                                            if (message != null) {
+                                              showErrorToastWeb(
+                                                  context, message);
+                                            } else {
+                                              widget.onClose();
+                                              showSuccessToastWeb(context,
+                                                  "Sửa tài khoản thành công");
+                                            }
+                                          }
+                                        },
+                                        style: ElevatedButton.styleFrom(
+                                          backgroundColor: Colors.transparent,
+                                          shadowColor: Colors.transparent,
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(30.r),
+                                          ),
+                                        ),
+                                        child: Text(
+                                          'Sửa',
+                                          style: AppTheme.bodyMedium.copyWith(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ),
                                     ),
-                                  ),
-                                  child: Text(
-                                    'Sửa',
-                                    style: AppTheme.bodyMedium.copyWith(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ),
+                                  )
+                                ],
                               ),
-                            )
-                          ],
-                        ),
-                      ),
+                            ),
                     ),
                   ),
                 ),

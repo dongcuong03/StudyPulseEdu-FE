@@ -4,8 +4,6 @@ import 'package:study_pulse_edu/models/app/AcademicReport.dart';
 import 'package:study_pulse_edu/resources/constains/constants.dart';
 import 'package:study_pulse_edu/resources/utils/data_sources/dio_client.dart';
 
-import '../../models/app/TuitionReport.dart';
-
 part 'academic_report_view_model.g.dart';
 
 @riverpod

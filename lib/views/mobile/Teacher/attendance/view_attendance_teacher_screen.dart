@@ -1,16 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
-import 'package:study_pulse_edu/models/app/Student.dart';
 import 'package:study_pulse_edu/resources/constains/constants.dart';
 
 import '../../../../models/app/Account.dart';
 import '../../../../models/app/Attendance.dart';
 import '../../../../models/app/ClassA.dart';
-import '../../../../models/app/Teacher.dart';
-import '../../../../resources/utils/app/app_theme.dart';
 import '../../../../resources/utils/helpers/helper_mixin.dart';
 import '../../../../viewmodels/mobile/attendance_teacher_view_model.dart';
 
@@ -48,6 +44,7 @@ class _ViewAttendanceTeacherScreenState
     }
     super.dispose();
   }
+
   Future<void> _loadDataAttendace() async {
     final classId = widget.classA?.id;
     final date = widget.date;
@@ -66,8 +63,7 @@ class _ViewAttendanceTeacherScreenState
         // Tìm attendance ứng với học sinh
         Attendance? attendance;
         try {
-          attendance =
-              response.firstWhere((a) => a.student?.id == student.id);
+          attendance = response.firstWhere((a) => a.student?.id == student.id);
         } catch (_) {
           attendance = null;
         }
@@ -95,7 +91,7 @@ class _ViewAttendanceTeacherScreenState
   Widget build(BuildContext context) {
     final today = DateTime.now();
     final todayFormatted =
-    DateFormat('EEEE, dd/MM/yyyy', 'vi_VN').format(today);
+        DateFormat('EEEE, dd/MM/yyyy', 'vi_VN').format(today);
     final presentCount = _attendanceStatus.values
         .where((s) => s == AttendanceStatus.PRESENT)
         .length;
@@ -126,7 +122,7 @@ class _ViewAttendanceTeacherScreenState
                 ),
                 child: Padding(
                   padding:
-                  const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+                      const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
                   child: Column(
                     children: [
                       // Phần tên lớp + ngày
@@ -145,7 +141,8 @@ class _ViewAttendanceTeacherScreenState
                               ),
                               const SizedBox(height: 4),
                               Text(
-                                DateFormat('EEEE, dd/MM/yyyy', 'vi_VN').format(widget.date!),
+                                DateFormat('EEEE, dd/MM/yyyy', 'vi_VN')
+                                    .format(widget.date!),
                                 style: const TextStyle(
                                   fontSize: 14,
                                   color: Colors.blue,
@@ -217,28 +214,32 @@ class _ViewAttendanceTeacherScreenState
                                         splashColor: Colors.transparent,
                                         hoverColor: Colors.transparent,
                                         focusColor: Colors.transparent,
-
                                       ),
                                       child: ChoiceChip(
                                         label: Text(
                                           'Có mặt',
                                           style: TextStyle(
-                                            color: status == AttendanceStatus.PRESENT ? Colors.white : Colors.black87,
+                                            color: status ==
+                                                    AttendanceStatus.PRESENT
+                                                ? Colors.white
+                                                : Colors.black87,
                                             fontWeight: FontWeight.w600,
                                           ),
                                         ),
-                                        selected: status == AttendanceStatus.PRESENT,
-                                        onSelected: (_) {}, // Vẫn có function, nhưng không có hiệu ứng
+                                        selected:
+                                            status == AttendanceStatus.PRESENT,
+                                        onSelected: (_) {},
+                                        // Vẫn có function, nhưng không có hiệu ứng
                                         showCheckmark: false,
                                         backgroundColor: Colors.grey.shade200,
                                         selectedColor: Colors.teal,
                                         shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(8),
+                                          borderRadius:
+                                              BorderRadius.circular(8),
                                           side: BorderSide.none,
                                         ),
                                       ),
                                     ),
-
                                     const SizedBox(width: 10),
                                     Theme(
                                       data: Theme.of(context).copyWith(
@@ -247,25 +248,27 @@ class _ViewAttendanceTeacherScreenState
                                         splashColor: Colors.transparent,
                                         hoverColor: Colors.transparent,
                                         focusColor: Colors.transparent,
-
                                       ),
                                       child: ChoiceChip(
                                         label: Text(
                                           'Vắng',
                                           style: TextStyle(
-                                            color: status == AttendanceStatus.ABSENT
+                                            color: status ==
+                                                    AttendanceStatus.ABSENT
                                                 ? Colors.white
                                                 : Colors.black87,
                                             fontWeight: FontWeight.w600,
                                           ),
                                         ),
-                                        selected: status == AttendanceStatus.ABSENT,
-                                        onSelected: (_){},
+                                        selected:
+                                            status == AttendanceStatus.ABSENT,
+                                        onSelected: (_) {},
                                         showCheckmark: false,
                                         backgroundColor: Colors.grey.shade200,
                                         selectedColor: Colors.red,
                                         shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(8),
+                                          borderRadius:
+                                              BorderRadius.circular(8),
                                           side: BorderSide.none,
                                         ),
                                       ),
@@ -278,28 +281,28 @@ class _ViewAttendanceTeacherScreenState
                                         decoration: InputDecoration(
                                           hintText: 'Ghi chú',
                                           hintStyle:
-                                          const TextStyle(fontSize: 14),
+                                              const TextStyle(fontSize: 14),
                                           isDense: true,
                                           contentPadding:
-                                          const EdgeInsets.symmetric(
-                                              horizontal: 12, vertical: 9),
+                                              const EdgeInsets.symmetric(
+                                                  horizontal: 12, vertical: 9),
                                           filled: true,
                                           fillColor: Colors.white,
                                           border: OutlineInputBorder(
                                             borderRadius:
-                                            BorderRadius.circular(8),
+                                                BorderRadius.circular(8),
                                             borderSide: BorderSide(
                                                 color: Colors.grey.shade400),
                                           ),
                                           enabledBorder: OutlineInputBorder(
                                             borderRadius:
-                                            BorderRadius.circular(8),
+                                                BorderRadius.circular(8),
                                             borderSide: BorderSide(
                                                 color: Colors.grey.shade300),
                                           ),
                                           focusedBorder: OutlineInputBorder(
                                             borderRadius:
-                                            BorderRadius.circular(8),
+                                                BorderRadius.circular(8),
                                             borderSide: BorderSide(
                                                 color: Colors.grey.shade400),
                                           ),

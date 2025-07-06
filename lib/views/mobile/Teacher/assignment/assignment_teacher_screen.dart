@@ -3,21 +3,17 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:study_pulse_edu/resources/widgets/PDF_view_dialog_widget.dart';
 import 'package:study_pulse_edu/resources/widgets/image_view_dialog_widget.dart';
 import 'package:study_pulse_edu/viewmodels/mobile/classA_mobile_teacher_view_model.dart';
-import 'package:study_pulse_edu/viewmodels/web/class_view_model.dart';
-import 'package:url_launcher/url_launcher.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:path/path.dart' as path;
+
 import '../../../../models/app/Account.dart';
 
 import '../../../../resources/constains/constants.dart';
 import '../../../../resources/widgets/assignment_filter_widget.dart';
 import '../../../../routes/route_const.dart';
-
+import 'package:path_provider/path_provider.dart';
 import '../../../../resources/utils/helpers/helper_mixin.dart';
 import '../../../../viewmodels/mobile/assignment_teacher_view_model.dart';
 
@@ -335,28 +331,24 @@ class _AssignmentTeacherScreenState
   }
 
 
-  Future<void> downloadFile(String url) async {
-    final uri = Uri.parse(
-      url.startsWith('http') ? url : "${ApiConstants.getBaseUrl}/uploads/$url",
-    );
-
+  void downloadFile(String url) async {
+    final uri = Uri.parse(url.startsWith('http')
+        ? url
+        : "${ApiConstants.getBaseUrl}/uploads/$url");
     try {
-      // Thư mục "Download" thật sự trên Android
-      final directory = Directory("/storage/emulated/0/Download");
+      // Lấy thư mục Downloads
+      final directory = await getExternalStorageDirectory();
+      if (directory != null) {
+        final filePath = "${directory.path}/${uri.pathSegments.last}";
 
-      // Đảm bảo thư mục tồn tại
-      if (!await directory.exists()) {
-        await directory.create(recursive: true);
+        // Tải tệp
+        await Dio().download(uri.toString(), filePath);
+        showSuccessToast("Tải File thành công: ");
+      } else {
+        showErrorToast("Không thể lấy thư mục lưu trữ.");
       }
-
-      final filePath = "${directory.path}/${uri.pathSegments.last}";
-
-      // Tải file về thư mục Download
-      await Dio().download(uri.toString(), filePath);
-
-      showSuccessToast("Đã tải file vào thư mục Download.");
     } catch (e) {
-      showErrorToast("Lỗi khi tải file: $e");
+      showErrorToast("Lỗi: $e");
     }
   }
 }

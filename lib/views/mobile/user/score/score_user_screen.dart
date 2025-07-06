@@ -1,12 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:study_pulse_edu/models/app/Account.dart';
-import 'package:study_pulse_edu/models/app/ClassA.dart';
+
 import 'package:study_pulse_edu/models/app/Score.dart';
-import 'package:study_pulse_edu/models/app/Student.dart';
-import 'package:study_pulse_edu/resources/utils/app/app_theme.dart';
-import 'package:study_pulse_edu/viewmodels/mobile/score_mobile_teacher_view_model.dart';
+
 import 'package:study_pulse_edu/viewmodels/mobile/score_mobile_user_view_model.dart';
 
 class ScoreUserScreen extends ConsumerStatefulWidget {
@@ -24,7 +20,12 @@ class ScoreUserScreen extends ConsumerStatefulWidget {
 class _ScoreUserScreenState extends ConsumerState<ScoreUserScreen> {
   bool isLoading = true;
   String selectedScoreType = 'Kiểm tra 1';
-  final List<String> scoreTypes = ['Kiểm tra 1', 'Kiểm tra 2', 'Giữa khóa', 'Cuối khóa'];
+  final List<String> scoreTypes = [
+    'Kiểm tra 1',
+    'Kiểm tra 2',
+    'Giữa khóa',
+    'Cuối khóa'
+  ];
   List<Score> scores = [];
 
   @override
@@ -62,20 +63,20 @@ class _ScoreUserScreenState extends ConsumerState<ScoreUserScreen> {
       body: isLoading
           ? const Center(child: CircularProgressIndicator())
           : Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          children: [
-            _buildScoreTypeDropdown(),
-            const SizedBox(height: 16),
-            Expanded(child: _buildScoreTable()),
-          ],
-        ),
-      ),
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                children: [
+                  _buildScoreTypeDropdown(),
+                  const SizedBox(height: 16),
+                  Expanded(child: _buildScoreTable()),
+                ],
+              ),
+            ),
     );
   }
 
   Widget _buildScoreTypeDropdown() {
-    return  Row(
+    return Row(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         Container(
@@ -105,9 +106,9 @@ class _ScoreUserScreenState extends ConsumerState<ScoreUserScreen> {
               isExpanded: true,
               items: scoreTypes
                   .map((type) => DropdownMenuItem(
-                value: type,
-                child: Text(type),
-              ))
+                        value: type,
+                        child: Text(type),
+                      ))
                   .toList(),
               onChanged: (value) {
                 if (value != null) {
@@ -147,9 +148,21 @@ class _ScoreUserScreenState extends ConsumerState<ScoreUserScreen> {
             ),
             child: Row(
               children: const [
-                Expanded(flex: 1, child: Center(child: Text('STT', style: TextStyle(fontWeight: FontWeight.w600)))),
-                Expanded(flex: 5, child: Center(child: Text('Lớp học', style: TextStyle(fontWeight: FontWeight.w600)))),
-                Expanded(flex: 2, child: Center(child: Text('Điểm', style: TextStyle(fontWeight: FontWeight.w600)))),
+                Expanded(
+                    flex: 1,
+                    child: Center(
+                        child: Text('STT',
+                            style: TextStyle(fontWeight: FontWeight.w600)))),
+                Expanded(
+                    flex: 5,
+                    child: Center(
+                        child: Text('Lớp học',
+                            style: TextStyle(fontWeight: FontWeight.w600)))),
+                Expanded(
+                    flex: 2,
+                    child: Center(
+                        child: Text('Điểm',
+                            style: TextStyle(fontWeight: FontWeight.w600)))),
               ],
             ),
           ),
@@ -159,7 +172,8 @@ class _ScoreUserScreenState extends ConsumerState<ScoreUserScreen> {
               padding: const EdgeInsets.all(12.0),
               child: ListView.separated(
                 itemCount: scores.length,
-                separatorBuilder: (_, __) => Divider(color: Colors.grey.shade300),
+                separatorBuilder: (_, __) =>
+                    Divider(color: Colors.grey.shade300),
                 itemBuilder: (context, index) {
                   final score = scores[index];
 
@@ -184,9 +198,15 @@ class _ScoreUserScreenState extends ConsumerState<ScoreUserScreen> {
                     padding: const EdgeInsets.symmetric(vertical: 8),
                     child: Row(
                       children: [
-                        Expanded(flex: 1, child: Center(child: Text('${index + 1}'))),
-                        Expanded(flex: 5, child: Text(score.classA?.className ?? '')),
-                        Expanded(flex: 2, child: Center(child: Text(formatScore(value)))),
+                        Expanded(
+                            flex: 1,
+                            child: Center(child: Text('${index + 1}'))),
+                        Expanded(
+                            flex: 5,
+                            child: Text(score.classA?.className ?? '')),
+                        Expanded(
+                            flex: 2,
+                            child: Center(child: Text(formatScore(value)))),
                       ],
                     ),
                   );
@@ -205,4 +225,3 @@ class _ScoreUserScreenState extends ConsumerState<ScoreUserScreen> {
     return score.toString();
   }
 }
-

@@ -50,7 +50,6 @@ class Assignment{
     );
   }
 
-  // Từ object sang JSON (Map)
   Map<String, dynamic> toJson() {
     return {
       'id': id,

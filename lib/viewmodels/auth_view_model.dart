@@ -3,14 +3,13 @@ import 'dart:ui';
 import 'package:dio/dio.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 
-
 import '../resources/constains/constants.dart';
 import '../resources/utils/data_sources/dio_client.dart';
 import '../resources/utils/data_sources/local.dart';
 import '../resources/utils/helpers/helper_mixin.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-class AuthViewModel with HelperMixin {
 
+class AuthViewModel with HelperMixin {
   Future<String?> loginMobile({String? phone, String? password}) async {
     //temp
     final multiLang = await AppLocalizations.delegate
@@ -21,8 +20,10 @@ class AuthViewModel with HelperMixin {
         'password': password ?? '',
       };
       final response = await DioClient().postLogin(
-          "${ApiConstants.getBaseUrl}/api/auth/access-token", data: body);
-      if (response.statusCode == 200 && response.data?['accessToken'] != null &&
+          "${ApiConstants.getBaseUrl}/api/auth/access-token",
+          data: body);
+      if (response.statusCode == 200 &&
+          response.data?['accessToken'] != null &&
           response.data?['role'] != null) {
         final shared = await SharedPre.instance;
         await shared.setString(SharedPrefsConstants.ACCESS_TOKEN_KEY,
@@ -43,7 +44,8 @@ class AuthViewModel with HelperMixin {
         return null;
       } else {
         final data = response.data;
-        final message = (data is Map<String, dynamic>) ? data['message'] as String? : null;
+        final message =
+            (data is Map<String, dynamic>) ? data['message'] as String? : null;
 
         if (message != null) {
           if (message.contains('Số điện thoại không tồn tại')) {
@@ -57,7 +59,7 @@ class AuthViewModel with HelperMixin {
       }
     } catch (e) {
       print('Lỗi không xác định: $e');
-        return 'Lỗi không xác định: $e';
+      return 'Lỗi không xác định: $e';
     }
     return null;
   }
@@ -72,8 +74,10 @@ class AuthViewModel with HelperMixin {
         'password': password ?? '',
       };
       final response = await DioClient().postLogin(
-          "${ApiConstants.getBaseUrl}/api/auth/access-token", data: body);
-      if (response.statusCode == 200 && response.data?['accessToken'] != null &&
+          "${ApiConstants.getBaseUrl}/api/auth/access-token",
+          data: body);
+      if (response.statusCode == 200 &&
+          response.data?['accessToken'] != null &&
           response.data?['role'] != null) {
         final shared = await SharedPre.instance;
         await shared.setString(SharedPrefsConstants.ACCESS_TOKEN_KEY,
@@ -86,7 +90,8 @@ class AuthViewModel with HelperMixin {
         return null;
       } else {
         final data = response.data;
-        final message = (data is Map<String, dynamic>) ? data['message'] as String? : null;
+        final message =
+            (data is Map<String, dynamic>) ? data['message'] as String? : null;
 
         if (message != null) {
           if (message.contains('Số điện thoại không tồn tại')) {
@@ -115,11 +120,8 @@ class AuthViewModel with HelperMixin {
       await shared.remove(SharedPrefsConstants.ACCESS_TOKEN_KEY);
       await shared.remove(SharedPrefsConstants.USER_ROLE_KEY);
       await shared.remove(SharedPrefsConstants.REFRESH_TOKEN_KEY);
-
     } catch (e) {
       print("Logout error: $e");
-
     }
   }
-
 }

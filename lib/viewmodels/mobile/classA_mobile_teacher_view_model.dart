@@ -25,7 +25,7 @@ class ClassaMobileTeacherViewModel extends _$ClassaMobileTeacherViewModel {
     }
   }
 
-  // Call API getByTeacherID
+  /// Call API getByTeacherID
   Future<List<ClassA>> fetchClassATeacher({required String id}) async {
     final url = "${ApiConstants.getBaseUrl}/api/v1/class/getByTeacherID/$id";
 

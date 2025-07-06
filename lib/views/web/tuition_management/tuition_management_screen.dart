@@ -1,11 +1,9 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:study_pulse_edu/models/app/TuitionFee.dart';
 import 'package:study_pulse_edu/resources/constains/constants.dart';
 import 'package:study_pulse_edu/viewmodels/web/tuition_fee_view_model.dart';
@@ -118,7 +116,7 @@ class _TuitionManagementScreenState
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),
                       side: BorderSide(
-                        color: Colors.grey.withOpacity(0.4), // viền mờ
+                        color: Colors.grey.withOpacity(0.4),
                         width: 1,
                       ),
                     ),
@@ -140,7 +138,8 @@ class _TuitionManagementScreenState
                         await showConfirmDialogWeb(
                             context: context,
                             title: 'Thông báo',
-                            content: 'Bạn có muốn gửi thông báo đóng học phí đến phụ huynh?',
+                            content:
+                                'Bạn có muốn gửi thông báo đóng học phí đến phụ huynh?',
                             icon: Icons.notifications,
                             onConfirm: () async {
                               final viewModel = ref
@@ -159,8 +158,11 @@ class _TuitionManagementScreenState
                         // Xuất file mẫu
 
                         try {
-                          await ref.read(tuitionFeeViewModelProvider.notifier).exportTuitionFeeTemplate();
-                          showSuccessToastWeb(context, 'Đã xuất file mẫu thành công');
+                          await ref
+                              .read(tuitionFeeViewModelProvider.notifier)
+                              .exportTuitionFeeTemplate();
+                          showSuccessToastWeb(
+                              context, 'Đã xuất file mẫu thành công');
                         } catch (e) {
                           showErrorToastWeb(context, 'Lỗi xuất file: $e');
                         }
@@ -172,8 +174,9 @@ class _TuitionManagementScreenState
                           context: context,
                           barrierDismissible: false,
                           builder: (_) => ConfirmTuitionFeeWidget(
-                            onClose: (){
-                              showSuccessToastWeb(context, "Xác nhận trạng thái đóng học phí thành công");
+                            onClose: () {
+                              showSuccessToastWeb(context,
+                                  "Xác nhận trạng thái đóng học phí thành công");
                               _fetchPage(pageIndex: currentPageIndex);
                             },
                           ),
@@ -266,10 +269,13 @@ class _TuitionManagementScreenState
       child: const Row(
         children: [
           Expanded(flex: 0, child: Text('Mã HS')),
-          SizedBox(width: 30,),
+          SizedBox(
+            width: 30,
+          ),
           Expanded(flex: 1, child: Text('Họ tên')),
           Expanded(flex: 1, child: Center(child: Text('Tổng học phí (VND)'))),
-          Expanded(flex: 1, child: Center(child: Text('Học phí phải nộp (VND)'))),
+          Expanded(
+              flex: 1, child: Center(child: Text('Học phí phải nộp (VND)'))),
           Expanded(flex: 1, child: Center(child: Text('Trạng thái nộp'))),
           Expanded(flex: 1, child: Center(child: Text('Hành động'))),
         ],

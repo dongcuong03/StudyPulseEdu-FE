@@ -7,12 +7,17 @@ import '../../../../../resources/utils/helpers/helper_mixin.dart';
 import '../../../../../resources/widgets/botton_wavy_clipper.dart';
 import '../../../../../routes/route_const.dart';
 import '../../../../../viewmodels/mobile/chat_view_model.dart';
+
 class TeacherInforWidget extends ConsumerStatefulWidget {
   final BuildContext scaffoldContext;
   final String accountName;
   final String accountId;
-  const TeacherInforWidget({required this.scaffoldContext,required this.accountName,required this.accountId, super.key});
 
+  const TeacherInforWidget(
+      {required this.scaffoldContext,
+      required this.accountName,
+      required this.accountId,
+      super.key});
 
   @override
   ConsumerState createState() => _TeacherInforWidgetState();
@@ -20,7 +25,6 @@ class TeacherInforWidget extends ConsumerStatefulWidget {
 
 class _TeacherInforWidgetState extends ConsumerState<TeacherInforWidget>
     with HelperMixin {
-
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -49,7 +53,8 @@ class _TeacherInforWidgetState extends ConsumerState<TeacherInforWidget>
                 child: Container(
                   color: AppTheme.primaryColor,
                   height: 110.h,
-                  padding: EdgeInsets.symmetric(vertical: 30.h, horizontal: 10.w),
+                  padding:
+                      EdgeInsets.symmetric(vertical: 30.h, horizontal: 10.w),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -117,12 +122,15 @@ class _TeacherInforWidgetState extends ConsumerState<TeacherInforWidget>
       child: Row(
         children: [
           StreamBuilder<int>(
-            stream: ref.read(chatViewModelProvider.notifier).listenUnreadMessageCount(widget.accountId),
+            stream: ref
+                .read(chatViewModelProvider.notifier)
+                .listenUnreadMessageCount(widget.accountId),
             builder: (context, snapshot) {
               final unreadCount = snapshot.data ?? 0;
               return GestureDetector(
                 onTap: () {
-                  pushedName(context, RouteConstants.teacherMessageRouteName, extra: widget.accountId);
+                  pushedName(context, RouteConstants.teacherMessageRouteName,
+                      extra: widget.accountId);
                 },
                 child: Stack(
                   clipBehavior: Clip.none,
@@ -138,8 +146,10 @@ class _TeacherInforWidgetState extends ConsumerState<TeacherInforWidget>
                         right: -2.w,
                         child: Container(
                           padding: EdgeInsets.all(3.w),
-                          decoration: BoxDecoration(color: Colors.red, shape: BoxShape.circle),
-                          constraints: BoxConstraints(minWidth: 16.w, minHeight: 16.h),
+                          decoration: BoxDecoration(
+                              color: Colors.red, shape: BoxShape.circle),
+                          constraints:
+                              BoxConstraints(minWidth: 16.w, minHeight: 16.h),
                           child: Center(
                             child: Text(
                               unreadCount > 9 ? '9+' : '$unreadCount',
@@ -169,4 +179,3 @@ class _TeacherInforWidgetState extends ConsumerState<TeacherInforWidget>
     );
   }
 }
-

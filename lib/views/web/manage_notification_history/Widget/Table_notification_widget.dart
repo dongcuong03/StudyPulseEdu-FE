@@ -4,17 +4,9 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:study_pulse_edu/models/app/ClassA.dart';
 import 'package:study_pulse_edu/models/app/NotificationApp.dart';
 import 'package:study_pulse_edu/resources/constains/constants.dart';
-import 'package:study_pulse_edu/viewmodels/web/class_view_model.dart';
 import 'package:study_pulse_edu/viewmodels/web/notify_view_model.dart';
-import 'package:study_pulse_edu/views/web/class_management/widget/add_class_form_widget.dart';
-import 'package:study_pulse_edu/views/web/class_management/widget/class_row_widget.dart';
-import 'package:study_pulse_edu/views/web/class_management/widget/edit_class_form_widget.dart';
-import 'package:study_pulse_edu/views/web/class_management/widget/enroll_form_widget.dart';
-import 'package:study_pulse_edu/views/web/class_management/widget/view_class_widget.dart';
 import 'package:study_pulse_edu/views/web/manage_notification_history/Widget/Notify_row_widget.dart';
 
 import '../../../../models/app/PagingResponse.dart';
@@ -22,18 +14,19 @@ import '../../../../resources/utils/app/app_theme.dart';
 import '../../../../resources/utils/helpers/helper_mixin.dart';
 import '../../../../resources/widgets/pagination_widget.dart';
 
-
 class TableNotificationWidget extends ConsumerStatefulWidget {
   final NotificationType type;
   final bool? isAdmin;
-  const TableNotificationWidget({super.key, required this.type, required this.isAdmin});
+
+  const TableNotificationWidget(
+      {super.key, required this.type, required this.isAdmin});
 
   @override
   ConsumerState createState() => _TableNotificationWidgetState();
 }
 
-class _TableNotificationWidgetState extends ConsumerState<TableNotificationWidget>
-    with HelperMixin {
+class _TableNotificationWidgetState
+    extends ConsumerState<TableNotificationWidget> with HelperMixin {
   int currentPageIndex = 1;
 
   String? _selectedSenderId;
@@ -41,24 +34,29 @@ class _TableNotificationWidgetState extends ConsumerState<TableNotificationWidge
   DateTime? _startDate;
   DateTime? _endDate;
 
-
-  void _fetchPage({int? pageIndex, String? receiverId, String? senderId, NotificationType? type, DateTime? startDate, DateTime? endDate}) {
+  void _fetchPage(
+      {int? pageIndex,
+      String? receiverId,
+      String? senderId,
+      NotificationType? type,
+      DateTime? startDate,
+      DateTime? endDate}) {
     final viewModel = ref.read(notifyViewModelProvider.notifier);
 
     if ((receiverId != null && receiverId.isNotEmpty) ||
         (senderId != null && senderId.isNotEmpty) ||
-        (startDate != null) || (endDate != null)
-        ) {
+        (startDate != null) ||
+        (endDate != null)) {
       viewModel.fetchNotificationApps(
-        receiverId: receiverId,
-        senderId: senderId,
-        startDate : startDate,
-        endDate: endDate,
-        type: type
-      );
+          receiverId: receiverId,
+          senderId: senderId,
+          startDate: startDate,
+          endDate: endDate,
+          type: type);
     } else {
       // Nếu không tìm kiếm
-      viewModel.fetchNotificationApps(pageIndex: pageIndex ?? 1, type: widget.type);
+      viewModel.fetchNotificationApps(
+          pageIndex: pageIndex ?? 1, type: widget.type);
     }
     setState(() {
       currentPageIndex = pageIndex ?? 1;
@@ -69,7 +67,7 @@ class _TableNotificationWidgetState extends ConsumerState<TableNotificationWidge
   void initState() {
     super.initState();
     Future.microtask(() {
-      _fetchPage(pageIndex: 1,  type: widget.type);
+      _fetchPage(pageIndex: 1, type: widget.type);
     });
   }
 
@@ -120,11 +118,13 @@ class _TableNotificationWidgetState extends ConsumerState<TableNotificationWidge
     return Container(
       color: Colors.grey[300],
       padding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 8.w),
-      child:  Row(
+      child: Row(
         children: [
-          Expanded(flex: 1, child: (widget.isAdmin != null && widget.isAdmin == true)
-              ? const Text('Người gửi (Admin)')
-              : const Text('Người gửi (GV)')),
+          Expanded(
+              flex: 1,
+              child: (widget.isAdmin != null && widget.isAdmin == true)
+                  ? const Text('Người gửi (Admin)')
+                  : const Text('Người gửi (GV)')),
           Expanded(flex: 1, child: Center(child: Text('Người nhận (PH)'))),
           Expanded(flex: 1, child: Center(child: Text('Thời gian gửi'))),
           Expanded(flex: 1, child: Center(child: Text('Tiêu đề'))),
@@ -134,7 +134,8 @@ class _TableNotificationWidgetState extends ConsumerState<TableNotificationWidge
     );
   }
 
-  Widget _buildNotifyList(AsyncValue<PagingResponse<NotificationApp>?> pagingResponse) {
+  Widget _buildNotifyList(
+      AsyncValue<PagingResponse<NotificationApp>?> pagingResponse) {
     return Expanded(
       child: pagingResponse.when(
         data: (pagingResponse) {
@@ -164,7 +165,8 @@ class _TableNotificationWidgetState extends ConsumerState<TableNotificationWidge
     );
   }
 
-  Widget _buildPagination(AsyncValue<PagingResponse<NotificationApp>?> pagingResponse) {
+  Widget _buildPagination(
+      AsyncValue<PagingResponse<NotificationApp>?> pagingResponse) {
     return pagingResponse.when(
       data: (pagingResponse) {
         final totalElements = pagingResponse?.totalElements ?? 0;
@@ -172,7 +174,7 @@ class _TableNotificationWidgetState extends ConsumerState<TableNotificationWidge
         final pageSize = pageSizeRaw > 0 ? pageSizeRaw : 1;
 
         final totalPages =
-        totalElements == 0 ? 1 : (totalElements / pageSize).ceil();
+            totalElements == 0 ? 1 : (totalElements / pageSize).ceil();
         return PaginationWidget(
           currentPage: currentPageIndex,
           totalPages: totalPages,
@@ -186,9 +188,13 @@ class _TableNotificationWidgetState extends ConsumerState<TableNotificationWidge
     );
   }
 
-  void _showFilterDialog() async{
-    final senders = await ref.read(notifyViewModelProvider.notifier).fetchSenders(type: widget.type);
-    final receivers = await ref.read(notifyViewModelProvider.notifier).fetchReceivers(type: widget.type);
+  void _showFilterDialog() async {
+    final senders = await ref
+        .read(notifyViewModelProvider.notifier)
+        .fetchSenders(type: widget.type);
+    final receivers = await ref
+        .read(notifyViewModelProvider.notifier)
+        .fetchReceivers(type: widget.type);
 
     // Biến tạm lưu giá trị chọn
     String? tempSenderId = _selectedSenderId;
@@ -221,23 +227,29 @@ class _TableNotificationWidgetState extends ConsumerState<TableNotificationWidge
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Center(child: Text("Bộ lọc tìm kiếm", style: AppTheme.titleMedium)),
+                      Center(
+                          child: Text("Bộ lọc tìm kiếm",
+                              style: AppTheme.titleMedium)),
                       const SizedBox(height: 20),
-
-                      Text("Theo nguời gửi:", style: TextStyle(fontWeight: FontWeight.w500)),
+                      Text("Theo nguời gửi:",
+                          style: TextStyle(fontWeight: FontWeight.w500)),
                       const SizedBox(height: 12),
                       DropdownButtonHideUnderline(
                         child: DropdownButton2<String>(
                           isExpanded: true,
-                          hint: const Text("Chọn người gửi", style: TextStyle(fontWeight: FontWeight.normal)),
+                          hint: const Text("Chọn người gửi",
+                              style: TextStyle(fontWeight: FontWeight.normal)),
                           items: senders.map((account) {
                             return DropdownMenuItem<String>(
                               value: account.id,
-                              child: Text(account.teacher?.fullName ?? '', style: const TextStyle(fontWeight: FontWeight.normal)),
+                              child: Text(account.teacher?.fullName ?? '',
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.normal)),
                             );
                           }).toList(),
                           value: tempSenderId,
-                          onChanged: (value) => setState(() => tempSenderId = value),
+                          onChanged: (value) =>
+                              setState(() => tempSenderId = value),
                           buttonStyleData: ButtonStyleData(
                             height: 40,
                             padding: const EdgeInsets.symmetric(horizontal: 12),
@@ -248,7 +260,8 @@ class _TableNotificationWidgetState extends ConsumerState<TableNotificationWidge
                             ),
                           ),
                           iconStyleData: const IconStyleData(
-                            icon: Icon(Icons.arrow_drop_down, color: Colors.blueAccent),
+                            icon: Icon(Icons.arrow_drop_down,
+                                color: Colors.blueAccent),
                             iconSize: 24,
                           ),
                           dropdownStyleData: DropdownStyleData(
@@ -260,23 +273,26 @@ class _TableNotificationWidgetState extends ConsumerState<TableNotificationWidge
                           ),
                         ),
                       ),
-
                       const SizedBox(height: 20),
-
-                      Text("Theo nguời nhận:", style: TextStyle(fontWeight: FontWeight.w500)),
+                      Text("Theo nguời nhận:",
+                          style: TextStyle(fontWeight: FontWeight.w500)),
                       const SizedBox(height: 12),
                       DropdownButtonHideUnderline(
                         child: DropdownButton2<String>(
                           isExpanded: true,
-                          hint: const Text("Chọn người nhận", style: TextStyle(fontWeight: FontWeight.normal)),
+                          hint: const Text("Chọn người nhận",
+                              style: TextStyle(fontWeight: FontWeight.normal)),
                           items: receivers.map((account) {
                             return DropdownMenuItem<String>(
                               value: account.id,
-                              child: Text(account.parent?.fullName ?? '', style: const TextStyle(fontWeight: FontWeight.normal)),
+                              child: Text(account.parent?.fullName ?? '',
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.normal)),
                             );
                           }).toList(),
                           value: tempReceiverId,
-                          onChanged: (value) => setState(() => tempReceiverId = value),
+                          onChanged: (value) =>
+                              setState(() => tempReceiverId = value),
                           buttonStyleData: ButtonStyleData(
                             height: 40,
                             padding: const EdgeInsets.symmetric(horizontal: 12),
@@ -287,7 +303,8 @@ class _TableNotificationWidgetState extends ConsumerState<TableNotificationWidge
                             ),
                           ),
                           iconStyleData: const IconStyleData(
-                            icon: Icon(Icons.arrow_drop_down, color: Colors.blueAccent),
+                            icon: Icon(Icons.arrow_drop_down,
+                                color: Colors.blueAccent),
                             iconSize: 24,
                           ),
                           dropdownStyleData: DropdownStyleData(
@@ -300,9 +317,9 @@ class _TableNotificationWidgetState extends ConsumerState<TableNotificationWidge
                         ),
                       ),
                       const SizedBox(height: 30),
-                      Text("Khoảng thời gian gửi :", style: TextStyle(fontWeight: FontWeight.w500)),
+                      Text("Khoảng thời gian gửi :",
+                          style: TextStyle(fontWeight: FontWeight.w500)),
                       const SizedBox(height: 12),
-
                       Row(
                         children: [
                           Expanded(
@@ -313,13 +330,13 @@ class _TableNotificationWidgetState extends ConsumerState<TableNotificationWidge
                                   initialDate: tempStartDate ?? DateTime.now(),
                                   firstDate: DateTime(2000),
                                   lastDate: DateTime(2100),
-
                                 );
                                 if (picked != null) {
                                   setState(() => tempStartDate = picked);
                                 }
                               },
-                              child: _buildDateInput(tempStartDate, label: "Từ ngày"),
+                              child: _buildDateInput(tempStartDate,
+                                  label: "Từ ngày"),
                             ),
                           ),
                           const Padding(
@@ -339,12 +356,12 @@ class _TableNotificationWidgetState extends ConsumerState<TableNotificationWidge
                                   setState(() => tempEndDate = picked);
                                 }
                               },
-                              child: _buildDateInput(tempEndDate, label: "Đến ngày"),
+                              child: _buildDateInput(tempEndDate,
+                                  label: "Đến ngày"),
                             ),
                           ),
                         ],
                       ),
-
                       const Spacer(),
                       Row(
                         children: [
@@ -391,12 +408,11 @@ class _TableNotificationWidgetState extends ConsumerState<TableNotificationWidge
                                 _endDate = tempEndDate;
                                 Navigator.pop(context);
                                 _fetchPage(
-                                  receiverId: _selectedReceiverId,
-                                  senderId: _selectedSenderId,
-                                  startDate: _startDate,
-                                  endDate: _endDate,
-                                  type: widget.type
-                                );
+                                    receiverId: _selectedReceiverId,
+                                    senderId: _selectedSenderId,
+                                    startDate: _startDate,
+                                    endDate: _endDate,
+                                    type: widget.type);
                               },
                               child: const Text("Áp dụng"),
                             ),
@@ -418,19 +434,18 @@ class _TableNotificationWidgetState extends ConsumerState<TableNotificationWidge
     return InputDecorator(
       decoration: InputDecoration(
         isDense: true,
-        contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+        contentPadding:
+            const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
           borderSide: BorderSide(color: Colors.grey.shade300),
         ),
-        suffixIcon: const Icon(Icons.calendar_today, size: 20, color: Colors.blueAccent),
+        suffixIcon: const Icon(Icons.calendar_today,
+            size: 20, color: Colors.blueAccent),
       ),
       child: Text(
         date != null ? "${date.day}/${date.month}/${date.year}" : label,
       ),
     );
   }
-
-
-
 }

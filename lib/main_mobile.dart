@@ -1,9 +1,7 @@
-import 'dart:convert';
 import 'dart:io';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:flutter/foundation.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -12,8 +10,6 @@ import 'package:study_pulse_edu/resources/constains/constants.dart';
 import 'package:study_pulse_edu/resources/utils/app/app_theme.dart';
 import 'package:study_pulse_edu/resources/utils/data_sources/local.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:study_pulse_edu/resources/widgets/show_parent_verification_dialog.dart';
-import 'package:study_pulse_edu/routes/route_const.dart';
 import 'package:study_pulse_edu/routes/router_mobile.dart';
 import 'l10n/l10n.dart';
 import 'notification_service.dart';

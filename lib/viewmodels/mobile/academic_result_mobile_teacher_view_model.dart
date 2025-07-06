@@ -6,13 +6,14 @@ import 'package:study_pulse_edu/resources/utils/data_sources/dio_client.dart';
 part 'academic_result_mobile_teacher_view_model.g.dart';
 
 @riverpod
-class AcademicResultMobileTeacherViewModel extends _$AcademicResultMobileTeacherViewModel {
+class AcademicResultMobileTeacherViewModel
+    extends _$AcademicResultMobileTeacherViewModel {
   @override
   FutureOr<List<AcademicResult>> build(String classId) async {
     return await _fetchResults(classId);
   }
 
-  /// Gọi để lấy danh sách kết quả học tập theo lớp
+  /// fetch dữ liệu kết quả học tập theo lớp
   Future<void> fetch(String classId) async {
     state = const AsyncLoading();
     try {
@@ -23,7 +24,7 @@ class AcademicResultMobileTeacherViewModel extends _$AcademicResultMobileTeacher
     }
   }
 
-  /// Hàm xử lý gọi API
+  /// Call API lấy dữ liệu kết quả học tập theo classID
   Future<List<AcademicResult>> _fetchResults(String classId) async {
     final url = "${ApiConstants.getBaseUrl}/api/v1/academicResult/$classId";
 
@@ -41,7 +42,7 @@ class AcademicResultMobileTeacherViewModel extends _$AcademicResultMobileTeacher
     return [];
   }
 
-  /// Gửi danh sách kết quả học tập lên server
+  /// Call API lưu và gửi thông báo kết quả học tập
   Future<String?> saveAcademicResults(List<AcademicResult> results) async {
     final url = "${ApiConstants.getBaseUrl}/api/v1/academicResult/save";
 
@@ -59,5 +60,4 @@ class AcademicResultMobileTeacherViewModel extends _$AcademicResultMobileTeacher
       return "Lỗi khi lưu kết quả: ${e.toString()}";
     }
   }
-
 }

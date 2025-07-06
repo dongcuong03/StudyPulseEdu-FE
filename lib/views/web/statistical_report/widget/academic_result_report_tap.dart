@@ -14,10 +14,12 @@ class AcademicResultReportTab extends ConsumerStatefulWidget {
   const AcademicResultReportTab({super.key});
 
   @override
-  ConsumerState<AcademicResultReportTab> createState() => _AcademicResultReportTabState();
+  ConsumerState<AcademicResultReportTab> createState() =>
+      _AcademicResultReportTabState();
 }
 
-class _AcademicResultReportTabState extends ConsumerState<AcademicResultReportTab> {
+class _AcademicResultReportTabState
+    extends ConsumerState<AcademicResultReportTab> {
   DateTime? fromDate;
   DateTime? toDate;
   String? fromDateError;
@@ -58,7 +60,9 @@ class _AcademicResultReportTabState extends ConsumerState<AcademicResultReportTa
     });
 
     try {
-      final result = await ref.read(academicReportViewModelProvider.notifier).fetchReport(fromDate: fromDate!, toDate: toDate!);
+      final result = await ref
+          .read(academicReportViewModelProvider.notifier)
+          .fetchReport(fromDate: fromDate!, toDate: toDate!);
       setState(() {
         classData = result ?? [];
         hasFetched = true;
@@ -85,7 +89,8 @@ class _AcademicResultReportTabState extends ConsumerState<AcademicResultReportTa
   @override
   Widget build(BuildContext context) {
     final double chartMaxHeight = 240.h;
-    final int maxStudentCount = classData.map((e) => (e.totalStudents ?? 0)).fold(0, max);
+    final int maxStudentCount =
+        classData.map((e) => (e.totalStudents ?? 0)).fold(0, max);
     final double scaleFactor = chartMaxHeight / (maxStudentCount + 5);
     return SingleChildScrollView(
       padding: EdgeInsets.all(16.w),
@@ -106,7 +111,8 @@ class _AcademicResultReportTabState extends ConsumerState<AcademicResultReportTa
                           DatePickerFieldWidget(
                             label: 'Từ ngày',
                             initialDate: fromDate,
-                            onDateSelected: (date) => setState(() => fromDate = date),
+                            onDateSelected: (date) =>
+                                setState(() => fromDate = date),
                           ),
                           Padding(
                             padding: EdgeInsets.only(top: 4.h, left: 8.w),
@@ -114,9 +120,10 @@ class _AcademicResultReportTabState extends ConsumerState<AcademicResultReportTa
                               height: 20.h,
                               child: fromDateError != null
                                   ? Text(
-                                fromDateError!,
-                                style: TextStyle(color: Colors.red, fontSize: 12.sp),
-                              )
+                                      fromDateError!,
+                                      style: TextStyle(
+                                          color: Colors.red, fontSize: 12.sp),
+                                    )
                                   : null,
                             ),
                           ),
@@ -131,7 +138,8 @@ class _AcademicResultReportTabState extends ConsumerState<AcademicResultReportTa
                           DatePickerFieldWidget(
                             label: 'Đến ngày',
                             initialDate: toDate,
-                            onDateSelected: (date) => setState(() => toDate = date),
+                            onDateSelected: (date) =>
+                                setState(() => toDate = date),
                           ),
                           Padding(
                             padding: EdgeInsets.only(top: 4.h, left: 8.w),
@@ -139,9 +147,10 @@ class _AcademicResultReportTabState extends ConsumerState<AcademicResultReportTa
                               height: 20.h,
                               child: toDateError != null
                                   ? Text(
-                                toDateError!,
-                                style: TextStyle(color: Colors.red, fontSize: 12.sp),
-                              )
+                                      toDateError!,
+                                      style: TextStyle(
+                                          color: Colors.red, fontSize: 12.sp),
+                                    )
                                   : null,
                             ),
                           ),
@@ -190,24 +199,24 @@ class _AcademicResultReportTabState extends ConsumerState<AcademicResultReportTa
             ],
           ),
           SizedBox(height: 40.h),
-          if (isLoading)
-            const Center(child: CircularProgressIndicator()),
+          if (isLoading) const Center(child: CircularProgressIndicator()),
           if (!isLoading && hasFetched && classData.isEmpty)
             Padding(
               padding: EdgeInsets.symmetric(vertical: 80.h),
               child: Center(
                 child: Text(
                   'Không có dữ liệu thống kê trong thời gian này',
-                  style: TextStyle(fontSize: 16.sp, fontStyle: FontStyle.italic),
+                  style:
+                      TextStyle(fontSize: 16.sp, fontStyle: FontStyle.italic),
                 ),
               ),
             ),
           if (!isLoading && classData.isNotEmpty) ...[
-
             Card(
               elevation: 8,
               color: Colors.white,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.r)),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12.r)),
               child: Padding(
                 padding: EdgeInsets.all(16.w),
                 child: Column(
@@ -248,10 +257,12 @@ class _AcademicResultReportTabState extends ConsumerState<AcademicResultReportTa
                           barTouchData: BarTouchData(
                             enabled: true,
                             touchTooltipData: BarTouchTooltipData(
-                              getTooltipItem: (group, groupIndex, rod, rodIndex) {
+                              getTooltipItem:
+                                  (group, groupIndex, rod, rodIndex) {
                                 final report = classData[group.x.toInt()];
                                 final value = (rod.toY / scaleFactor).round();
-                                final label = rodIndex == 0 ? 'Đạt' : 'Không đạt';
+                                final label =
+                                    rodIndex == 0 ? 'Đạt' : 'Không đạt';
                                 return BarTooltipItem(
                                   '${report.className}\n$label: $value HS',
                                   const TextStyle(
@@ -270,7 +281,8 @@ class _AcademicResultReportTabState extends ConsumerState<AcademicResultReportTa
                                 reservedSize: 30.w,
                                 interval: 10 * scaleFactor,
                                 getTitlesWidget: (value, _) {
-                                  final realValue = (value / scaleFactor).round();
+                                  final realValue =
+                                      (value / scaleFactor).round();
                                   return Text(
                                     realValue.toString(),
                                     style: TextStyle(fontSize: 10.sp),
@@ -284,7 +296,8 @@ class _AcademicResultReportTabState extends ConsumerState<AcademicResultReportTa
                                 reservedSize: 40.h,
                                 getTitlesWidget: (value, _) {
                                   final index = value.toInt();
-                                  if (index < 0 || index >= classData.length) return const SizedBox();
+                                  if (index < 0 || index >= classData.length)
+                                    return const SizedBox();
                                   return Padding(
                                     padding: EdgeInsets.only(top: 8.h),
                                     child: Text(
@@ -320,7 +333,8 @@ class _AcademicResultReportTabState extends ConsumerState<AcademicResultReportTa
                     Center(
                       child: Text(
                         'Biểu đồ kết quả học tập của các lớp',
-                        style: TextStyle(fontSize: 16.sp, fontStyle: FontStyle.italic),
+                        style: TextStyle(
+                            fontSize: 16.sp, fontStyle: FontStyle.italic),
                       ),
                     ),
                     SizedBox(height: 30.h),
@@ -346,16 +360,21 @@ class _AcademicResultReportTabState extends ConsumerState<AcademicResultReportTa
                   child: Card(
                     color: Colors.white,
                     elevation: 6,
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.r)),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12.r)),
                     child: Padding(
                       padding: EdgeInsets.all(16.w),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text('Bảng kết quả học tập theo lớp', style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w600)),
+                          Text('Bảng kết quả học tập theo lớp',
+                              style: TextStyle(
+                                  fontSize: 16.sp,
+                                  fontWeight: FontWeight.w600)),
                           SizedBox(height: 20.h),
                           Container(
-                            padding: EdgeInsets.symmetric(vertical: 12.h, horizontal: 8.w),
+                            padding: EdgeInsets.symmetric(
+                                vertical: 12.h, horizontal: 8.w),
                             color: Colors.grey.shade200,
                             child: Row(
                               children: [
@@ -374,7 +393,8 @@ class _AcademicResultReportTabState extends ConsumerState<AcademicResultReportTa
                               child: ListView.separated(
                                 controller: _tableScrollController,
                                 itemCount: classData.length,
-                                separatorBuilder: (_, __) => Divider(height: 1.h),
+                                separatorBuilder: (_, __) =>
+                                    Divider(height: 1.h),
                                 itemBuilder: (context, index) {
                                   final report = classData[index];
                                   final total = report.totalStudents ?? 0;
@@ -382,11 +402,14 @@ class _AcademicResultReportTabState extends ConsumerState<AcademicResultReportTa
                                   final failed = total - passed;
 
                                   return Padding(
-                                    padding: EdgeInsets.symmetric(vertical: 12.h, horizontal: 8.w),
+                                    padding: EdgeInsets.symmetric(
+                                        vertical: 12.h, horizontal: 8.w),
                                     child: Row(
                                       children: [
-                                        _buildBodyCell(report.className ?? '', flex: 2),
-                                        _buildBodyCell(report.teacherName ?? ''),
+                                        _buildBodyCell(report.className ?? '',
+                                            flex: 2),
+                                        _buildBodyCell(
+                                            report.teacherName ?? ''),
                                         _buildBodyCell('$total', center: true),
                                         _buildBodyCell('$passed', center: true),
                                         _buildBodyCell('$failed', center: true),

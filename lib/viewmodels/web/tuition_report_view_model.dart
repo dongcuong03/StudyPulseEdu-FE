@@ -42,5 +42,4 @@ class TuitionReportViewModel extends _$TuitionReportViewModel {
       rethrow;
     }
   }
-
 }

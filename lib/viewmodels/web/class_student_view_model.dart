@@ -6,8 +6,9 @@ import '../../resources/constains/constants.dart';
 import '../../resources/utils/data_sources/dio_client.dart';
 
 part 'class_student_view_model.g.dart';
+
 @riverpod
-class ClassStudentViewModel  extends _$ClassStudentViewModel {
+class ClassStudentViewModel extends _$ClassStudentViewModel {
   static const int defaultPageSize = 10;
 
   int _currentPageIndex = 1;
@@ -18,41 +19,37 @@ class ClassStudentViewModel  extends _$ClassStudentViewModel {
         pageIndex: _currentPageIndex, pageSize: defaultPageSize);
   }
 
-  Future<void> fetchStudent({
-    int? pageIndex,
-    int pageSize = defaultPageSize,
-    String? studentCode,
-    String? classID
-  }) async {
+  Future<void> fetchStudent(
+      {int? pageIndex,
+      int pageSize = defaultPageSize,
+      String? studentCode,
+      String? classID}) async {
     state = const AsyncLoading();
 
     if (pageIndex != null) {
       _currentPageIndex = pageIndex;
     }
 
-
     try {
       final pagingResponse = await _fetchStudent(
           pageIndex: pageIndex,
           pageSize: pageSize,
           studentCode: studentCode,
-          classID: classID
-      );
+          classID: classID);
       state = AsyncData(pagingResponse);
     } catch (e, st) {
       state = AsyncError(e, st);
     }
   }
 
-  // Call API paging
-  Future<PagingResponse<Student>?> _fetchStudent({
-    int? pageIndex,
-    int pageSize = defaultPageSize,
-    String? studentCode,
-    String? classID
-  }) async {
-    final url = "${ApiConstants
-        .getBaseUrl}/api/v1/class/classEnroll/paging/$classID";
+  /// Call API paging
+  Future<PagingResponse<Student>?> _fetchStudent(
+      {int? pageIndex,
+      int pageSize = defaultPageSize,
+      String? studentCode,
+      String? classID}) async {
+    final url =
+        "${ApiConstants.getBaseUrl}/api/v1/class/classEnroll/paging/$classID";
 
     final data = <String, dynamic>{
       'pageSize': pageSize,
@@ -70,11 +67,11 @@ class ClassStudentViewModel  extends _$ClassStudentViewModel {
     if (response.data == null) return null;
     return PagingResponse<Student>.fromJson(
       response.data,
-          (json) => Student.fromJson(json),
+      (json) => Student.fromJson(json),
     );
   }
 
-  //Call API enrollStudents
+  ///Call API enrollStudents
   Future<String?> enrollStudents({
     required String classId,
     required List<String> studentIds,
@@ -112,7 +109,7 @@ class ClassStudentViewModel  extends _$ClassStudentViewModel {
     }
   }
 
-// Call API unenrollStudent
+  /// Call API unenrollStudent
   Future<String?> unenrollStudent({
     required String classId,
     required String studentId,
@@ -149,5 +146,4 @@ class ClassStudentViewModel  extends _$ClassStudentViewModel {
       return 'Lỗi không xác định: $e';
     }
   }
-
 }

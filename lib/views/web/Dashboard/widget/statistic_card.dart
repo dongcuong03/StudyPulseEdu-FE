@@ -8,14 +8,13 @@ class StatisticCard extends StatelessWidget {
   final Color color;
   final int size;
 
-  const StatisticCard({
-    super.key,
-    required this.title,
-    required this.value,
-    required this.imageUrl,
-    required this.color,
-    required this.size
-  });
+  const StatisticCard(
+      {super.key,
+      required this.title,
+      required this.value,
+      required this.imageUrl,
+      required this.color,
+      required this.size});
 
   @override
   Widget build(BuildContext context) {
@@ -59,8 +58,6 @@ class StatisticCard extends StatelessWidget {
                       color: color,
                       colorBlendMode: BlendMode.srcIn,
                     ),
-
-
                     SizedBox(width: 20.w),
                   ],
                 ),
@@ -79,7 +76,6 @@ class StatisticCard extends StatelessWidget {
           ),
         ],
       ),
-
     );
   }
 }

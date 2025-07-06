@@ -4,12 +4,12 @@ import 'package:flutter/foundation.dart';
 
 class ApiConstants {
   // //localhost
-  // static const String BASE_URL_MOBILE = 'http://10.0.3.2:8080'; //mạng máy ảo
-  // static const String BASE_URL_WEB = 'http://localhost:8080';
-  //
+  static const String BASE_URL_MOBILE = 'http://10.0.3.2:8082'; //mạng máy ảo
+  static const String BASE_URL_WEB = 'http://localhost:8082';
+
   //server
-  static const String BASE_URL_MOBILE = 'http://103.149.253.33:8082';
-  static const String BASE_URL_WEB = 'http://103.149.253.33:8082';
+  // static const String BASE_URL_MOBILE = 'http://103.149.253.33:8082';
+  // static const String BASE_URL_WEB = 'http://103.149.253.33:8082';
   static String get getBaseUrl {
     if (kIsWeb) return BASE_URL_WEB;
     if (Platform.isAndroid) return BASE_URL_MOBILE;
@@ -309,7 +309,7 @@ enum ClassStatus {
       case 'INACTIVE':
         return ClassStatus.INACTIVE;
       default:
-        return null; // hoặc throw ArgumentError('Unknown status: $value');
+        return null;
     }
   }
 

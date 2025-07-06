@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:study_pulse_edu/resources/utils/helpers/helper_mixin.dart';
 
@@ -24,10 +23,10 @@ class AttendanceTeacherTwoScreen extends ConsumerStatefulWidget {
 }
 
 class _AttendanceTeacherTwoScreenState
-    extends ConsumerState<AttendanceTeacherTwoScreen> with HelperMixin{
+    extends ConsumerState<AttendanceTeacherTwoScreen> with HelperMixin {
   late List<DateTime> attendedDates = [];
 
-  late  List<DateTime> scheduleDays;
+  late List<DateTime> scheduleDays;
   final _scrollController = ScrollController();
 
   @override
@@ -72,8 +71,6 @@ class _AttendanceTeacherTwoScreenState
     return dates;
   }
 
-
-
   void _scrollToLatestAttendance() {
     final lastIndex = scheduleDays.lastIndexWhere(
       (date) => attendedDates.any((d) => isSameDate(d, date)),
@@ -112,7 +109,10 @@ class _AttendanceTeacherTwoScreenState
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 16.0),
-            child: Text('${attendedDates.length}/${scheduleDays.length}', style: TextStyle(color: Colors.white, fontSize: 16),),
+            child: Text(
+              '${attendedDates.length}/${scheduleDays.length}',
+              style: TextStyle(color: Colors.white, fontSize: 16),
+            ),
           )
         ],
       ),
@@ -122,41 +122,40 @@ class _AttendanceTeacherTwoScreenState
             color: Colors.white,
             child: Column(
               children: [
-                SizedBox(height: 10,),
+                SizedBox(
+                  height: 10,
+                ),
                 Row(
                   children: [
                     Expanded(
                         child: Center(
-                          child: Text(
-                            widget.classA?.className ?? '',
-                            style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black54
-                            ),
-                          ),
-                        ))
+                      child: Text(
+                        widget.classA?.className ?? '',
+                        style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black54),
+                      ),
+                    ))
                   ],
                 ),
                 Row(
                   children: [
                     Expanded(
                         child: Center(
-                          child: Text(
-                            '${formatDate(widget.classA!.startDate.toString())} - ${formatDate(widget.classA!.endDate.toString())}',
-                            style: TextStyle(
-                                fontSize: 14,
-                              color: Colors.blue
-                            ),
-                          ),
-                        ))
+                      child: Text(
+                        '${formatDate(widget.classA!.startDate.toString())} - ${formatDate(widget.classA!.endDate.toString())}',
+                        style: TextStyle(fontSize: 14, color: Colors.blue),
+                      ),
+                    ))
                   ],
                 ),
-                SizedBox(height: 10,),
+                SizedBox(
+                  height: 10,
+                ),
               ],
             ),
           ),
-
           Expanded(
             child: Padding(
               padding: const EdgeInsets.all(16.0),
@@ -201,7 +200,9 @@ class _AttendanceTeacherTwoScreenState
                                   formatted,
                                   style: TextStyle(
                                     fontSize: 16,
-                                    color: isAttended || isToday ? Colors.black : Colors.grey,
+                                    color: isAttended || isToday
+                                        ? Colors.black
+                                        : Colors.grey,
                                   ),
                                 ),
                               ),
@@ -226,7 +227,6 @@ class _AttendanceTeacherTwoScreenState
                       ),
                     ),
                   );
-
                 },
               ),
             ),
@@ -237,23 +237,29 @@ class _AttendanceTeacherTwoScreenState
   }
 
   void _viewAttendance(DateTime date) {
-    pushedName(context, RouteConstants.teacherViewAttendanceRouteName,
+    pushedName(
+      context,
+      RouteConstants.teacherViewAttendanceRouteName,
       extra: {
-        "account":  widget.account,
+        "account": widget.account,
         "classA": widget.classA,
         "date": date,
-      },);
+      },
+    );
   }
 
   void _takeAttendance(DateTime date) {
-    pushedName(context, RouteConstants.teacherAttendanceThreeRouteName,
+    pushedName(
+      context,
+      RouteConstants.teacherAttendanceThreeRouteName,
       extra: {
-        "account":  widget.account,
+        "account": widget.account,
         "classA": widget.classA,
         "date": date,
-        "onClose": (){
+        "onClose": () {
           showSuccessToast("Ghi nhận điểm danh thành công");
         }
-      },);
+      },
+    );
   }
 }

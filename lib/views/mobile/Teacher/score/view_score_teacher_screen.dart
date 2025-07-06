@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:study_pulse_edu/models/app/Account.dart';
 import 'package:study_pulse_edu/models/app/ClassA.dart';
-import 'package:study_pulse_edu/models/app/Score.dart';
 import 'package:study_pulse_edu/models/app/Student.dart';
-import 'package:study_pulse_edu/resources/utils/app/app_theme.dart';
 import 'package:study_pulse_edu/viewmodels/mobile/score_mobile_teacher_view_model.dart';
 
 class ViewScoreTeacherScreen extends ConsumerStatefulWidget {
@@ -22,10 +19,16 @@ class ViewScoreTeacherScreen extends ConsumerStatefulWidget {
   ConsumerState createState() => _ViewScoreTeacherScreenState();
 }
 
-class _ViewScoreTeacherScreenState extends ConsumerState<ViewScoreTeacherScreen> {
+class _ViewScoreTeacherScreenState
+    extends ConsumerState<ViewScoreTeacherScreen> {
   bool isLoading = true;
   String selectedScoreType = 'Kiểm tra 1';
-  final List<String> scoreTypes = ['Kiểm tra 1', 'Kiểm tra 2', 'Giữa khóa', 'Cuối khóa'];
+  final List<String> scoreTypes = [
+    'Kiểm tra 1',
+    'Kiểm tra 2',
+    'Giữa khóa',
+    'Cuối khóa'
+  ];
   final Map<String, Map<String, double>> scoreData = {};
 
   @override
@@ -78,20 +81,20 @@ class _ViewScoreTeacherScreenState extends ConsumerState<ViewScoreTeacherScreen>
       body: isLoading
           ? const Center(child: CircularProgressIndicator())
           : Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          children: [
-            _buildScoreTypeDropdown(),
-            const SizedBox(height: 16),
-            Expanded(child: _buildScoreTable(students)),
-          ],
-        ),
-      ),
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                children: [
+                  _buildScoreTypeDropdown(),
+                  const SizedBox(height: 16),
+                  Expanded(child: _buildScoreTable(students)),
+                ],
+              ),
+            ),
     );
   }
 
   Widget _buildScoreTypeDropdown() {
-    return  Row(
+    return Row(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         Container(
@@ -121,9 +124,9 @@ class _ViewScoreTeacherScreenState extends ConsumerState<ViewScoreTeacherScreen>
               isExpanded: true,
               items: scoreTypes
                   .map((type) => DropdownMenuItem(
-                value: type,
-                child: Text(type),
-              ))
+                        value: type,
+                        child: Text(type),
+                      ))
                   .toList(),
               onChanged: (value) {
                 if (value != null) {
@@ -160,16 +163,31 @@ class _ViewScoreTeacherScreenState extends ConsumerState<ViewScoreTeacherScreen>
                   color: Colors.grey.withOpacity(0.5),
                   offset: const Offset(0, 2),
                   blurRadius: 2,
-
                 ),
               ],
             ),
             child: Row(
               children: const [
-                Expanded(flex: 1, child: Center(child: Text('STT', style: TextStyle(fontWeight: FontWeight.w600)))),
-                Expanded(flex: 2, child: Center(child: Text('Mã HS', style: TextStyle(fontWeight: FontWeight.w600)))),
-                Expanded(flex: 4, child: Center(child: Text('Họ tên', style: TextStyle(fontWeight: FontWeight.w600)))),
-                Expanded(flex: 2, child: Center(child: Text('Điểm', style: TextStyle(fontWeight: FontWeight.w600)))),
+                Expanded(
+                    flex: 1,
+                    child: Center(
+                        child: Text('STT',
+                            style: TextStyle(fontWeight: FontWeight.w600)))),
+                Expanded(
+                    flex: 2,
+                    child: Center(
+                        child: Text('Mã HS',
+                            style: TextStyle(fontWeight: FontWeight.w600)))),
+                Expanded(
+                    flex: 4,
+                    child: Center(
+                        child: Text('Họ tên',
+                            style: TextStyle(fontWeight: FontWeight.w600)))),
+                Expanded(
+                    flex: 2,
+                    child: Center(
+                        child: Text('Điểm',
+                            style: TextStyle(fontWeight: FontWeight.w600)))),
               ],
             ),
           ),
@@ -179,7 +197,8 @@ class _ViewScoreTeacherScreenState extends ConsumerState<ViewScoreTeacherScreen>
               padding: const EdgeInsets.all(12.0),
               child: ListView.separated(
                 itemCount: students.length,
-                separatorBuilder: (_, __) => Divider(color: Colors.grey.shade300),
+                separatorBuilder: (_, __) =>
+                    Divider(color: Colors.grey.shade300),
                 itemBuilder: (context, index) {
                   final student = students[index];
                   final double? score = currentScores[student.id];
@@ -188,8 +207,13 @@ class _ViewScoreTeacherScreenState extends ConsumerState<ViewScoreTeacherScreen>
                     padding: const EdgeInsets.symmetric(vertical: 8),
                     child: Row(
                       children: [
-                        Expanded(flex: 1, child: Center(child: Text('${index + 1}'))),
-                        Expanded(flex: 2, child: Center(child: Text(student.studentCode ?? ''))),
+                        Expanded(
+                            flex: 1,
+                            child: Center(child: Text('${index + 1}'))),
+                        Expanded(
+                            flex: 2,
+                            child:
+                                Center(child: Text(student.studentCode ?? ''))),
                         Expanded(flex: 4, child: Text(student.fullName ?? '')),
                         Expanded(
                           flex: 2,
@@ -200,7 +224,6 @@ class _ViewScoreTeacherScreenState extends ConsumerState<ViewScoreTeacherScreen>
                       ],
                     ),
                   );
-
                 },
               ),
             ),
@@ -217,5 +240,4 @@ class _ViewScoreTeacherScreenState extends ConsumerState<ViewScoreTeacherScreen>
     }
     return score.toString();
   }
-
 }

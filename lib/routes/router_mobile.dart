@@ -257,8 +257,8 @@ class MyRouterMobile {
               );
             }),
         GoRoute(
-          name: RouteConstants.teacherAcademicResultRouteName,
-          path: '/home_teacher/teacher_academic_result',
+            name: RouteConstants.teacherAcademicResultRouteName,
+            path: '/home_teacher/teacher_academic_result',
             pageBuilder: (context, state) {
               final account = state.extra as Account?;
               return MyRouterMobile.buildSlideTransitionPage(
@@ -267,7 +267,8 @@ class MyRouterMobile {
             }),
         GoRoute(
             name: RouteConstants.teacherViewAcademicResultRouteName,
-            path: '/home_teacher/teacher_academic_result/teacher_view_academic_result',
+            path:
+                '/home_teacher/teacher_academic_result/teacher_view_academic_result',
             pageBuilder: (context, state) {
               final classId = state.extra as String?;
               return MyRouterMobile.buildSlideTransitionPage(
@@ -275,8 +276,8 @@ class MyRouterMobile {
               );
             }),
         GoRoute(
-          name: RouteConstants.teacherMessageRouteName,
-          path: '/home_teacher/teacher_message',
+            name: RouteConstants.teacherMessageRouteName,
+            path: '/home_teacher/teacher_message',
             pageBuilder: (context, state) {
               final accountId = state.extra as String?;
               return MyRouterMobile.buildSlideTransitionPage(
@@ -284,9 +285,9 @@ class MyRouterMobile {
               );
             }),
         GoRoute(
-            name: RouteConstants.teacherMessageDetailRouteName,
-            path: '/home_teacher/teacher_message/teacher_message_detail',
-            pageBuilder: (context, state) {
+          name: RouteConstants.teacherMessageDetailRouteName,
+          path: '/home_teacher/teacher_message/teacher_message_detail',
+          pageBuilder: (context, state) {
             final map = state.extra as Map<String, dynamic>?;
             final accountId = map?['accountId'] as String?;
             final accountParentId = map?['accountParentId'] as String?;
@@ -300,7 +301,6 @@ class MyRouterMobile {
                     onClose: onClose));
           },
         ),
-
         GoRoute(
           name: RouteConstants.homeUserRouteName,
           path: '/home_user',

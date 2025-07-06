@@ -12,7 +12,6 @@ import '../../resources/constains/constants.dart';
 import '../../resources/utils/data_sources/dio_client.dart';
 import '../../views/mobile/user/assignment/widget/assignment_user_tab_widget.dart';
 
-
 part 'assignment_user_view_model.g.dart';
 
 @riverpod
@@ -33,21 +32,20 @@ class AssignmentUserViewModel extends _$AssignmentUserViewModel {
     return await fetchAssignments();
   }
 
-  Future<List<Assignment>?> fetchAssignments({
-    String? className,
-    String? studentId,
-    DateTime? formDate,
-    DateTime? toDate
-  }) async {
+  /// fetch dữ liệu bài tập và phân loại vào các list
+  Future<List<Assignment>?> fetchAssignments(
+      {String? className,
+      String? studentId,
+      DateTime? formDate,
+      DateTime? toDate}) async {
     state = const AsyncLoading();
 
     try {
       final assignments = await _fetchAssignments(
-        className: className,
-        studentId: studentId,
-        formDate: formDate,
-        toDate: toDate
-      );
+          className: className,
+          studentId: studentId,
+          formDate: formDate,
+          toDate: toDate);
 
       // Reset map
       for (var type in AssignmentTabType.values) {
@@ -58,7 +56,9 @@ class AssignmentUserViewModel extends _$AssignmentUserViewModel {
         for (final assignment in assignments) {
           _assignmentsByTab[AssignmentTabType.all]!.add(assignment);
 
-          final isSubmitted = assignment.submissions?.any((s) => s.studentId == studentId) ?? false;
+          final isSubmitted =
+              assignment.submissions?.any((s) => s.studentId == studentId) ??
+                  false;
           DateTime? dueDateTime;
           final dueDate = assignment.dueDate;
           final dueTimeStr = assignment.dueTime?.trim();
@@ -91,7 +91,6 @@ class AssignmentUserViewModel extends _$AssignmentUserViewModel {
           } else {
             _assignmentsByTab[AssignmentTabType.notSubmitted]!.add(assignment);
           }
-
         }
       }
 
@@ -103,12 +102,12 @@ class AssignmentUserViewModel extends _$AssignmentUserViewModel {
     }
   }
 
-  Future<List<Assignment>?> _fetchAssignments({
-    String? className,
-    String? studentId,
-    DateTime? formDate,
-    DateTime? toDate
-  }) async {
+  ///Call API trả về danh sách baì tập theo các tiêu chí
+  Future<List<Assignment>?> _fetchAssignments(
+      {String? className,
+      String? studentId,
+      DateTime? formDate,
+      DateTime? toDate}) async {
     final url =
         "${ApiConstants.getBaseUrl}/api/v1/assignment/getAllAssignmentUser";
 
@@ -128,7 +127,6 @@ class AssignmentUserViewModel extends _$AssignmentUserViewModel {
       data['toDate'] = toDate.toIso8601String();
     }
 
-
     final response = await DioClient().post(url, data: data);
 
     if (response.data == null) return null;
@@ -138,6 +136,7 @@ class AssignmentUserViewModel extends _$AssignmentUserViewModel {
         .toList();
   }
 
+  /// Call API nộp bài tập
   Future<String?> createSubmission({
     required Submission submission,
     List<File>? files,
@@ -193,14 +192,15 @@ class AssignmentUserViewModel extends _$AssignmentUserViewModel {
     return "Lỗi không xác định";
   }
 
+  /// Call API trả về bài nộp theo id
   Future<Submission?> fetchSubmissionByID({
     Submission? subission,
   }) async {
-    final url = "${ApiConstants.getBaseUrl}/api/v1/submission/getByStudentIdAndAssignmentId";
+    final url =
+        "${ApiConstants.getBaseUrl}/api/v1/submission/getByStudentIdAndAssignmentId";
 
     final response = await DioClient().post(url, data: subission?.toJson());
     if (response.data == null) return null;
     return Submission.fromJson(response.data);
   }
-
 }

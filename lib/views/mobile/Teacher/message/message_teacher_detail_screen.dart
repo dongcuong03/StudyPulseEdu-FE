@@ -59,10 +59,10 @@ class _MessageTeacherDetailScreenState
         print("File đã chọn: ${file.path}");
 
         await ref.read(chatViewModelProvider.notifier).uploadAndSendFileMessage(
-          senderId: widget.accountId!,
-          receiverId: widget.accountParentId!,
-          file: file,
-        );
+              senderId: widget.accountId!,
+              receiverId: widget.accountParentId!,
+              file: file,
+            );
       } else {
         print("Không lấy được path của file");
       }
@@ -70,7 +70,6 @@ class _MessageTeacherDetailScreenState
       print("Không có file nào được chọn");
     }
   }
-
 
   String _formatDate(DateTime date) => DateFormat('dd/MM/yyyy').format(date);
 
@@ -90,7 +89,6 @@ class _MessageTeacherDetailScreenState
           receiverId: widget.accountId!,
         );
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -171,37 +169,47 @@ class _MessageTeacherDetailScreenState
                         final fromMe = msg['senderId'] == widget.accountId;
                         final time = DateTime.parse(msg['timestamp']);
                         final attachmentUrl = msg['attachmentUrl'];
-                        final hasFile = attachmentUrl != null && attachmentUrl.toString().isNotEmpty;
+                        final hasFile = attachmentUrl != null &&
+                            attachmentUrl.toString().isNotEmpty;
 
                         return Align(
-                          alignment: fromMe ? Alignment.centerRight : Alignment.centerLeft,
+                          alignment: fromMe
+                              ? Alignment.centerRight
+                              : Alignment.centerLeft,
                           child: Row(
-                            mainAxisAlignment:
-                            fromMe ? MainAxisAlignment.end : MainAxisAlignment.start,
+                            mainAxisAlignment: fromMe
+                                ? MainAxisAlignment.end
+                                : MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               if (!fromMe)
                                 Padding(
-                                  padding: const EdgeInsets.only(right: 8.0, top: 8.0),
+                                  padding: const EdgeInsets.only(
+                                      right: 8.0, top: 8.0),
                                   child: CircleAvatar(
                                     radius: 16,
-                                    backgroundColor:Colors.blue.shade300,
+                                    backgroundColor: Colors.blue.shade300,
                                     child: Text(
                                       'PH',
-                                      style: TextStyle(color: Colors.white, fontSize: 12),
+                                      style: TextStyle(
+                                          color: Colors.white, fontSize: 12),
                                     ),
                                   ),
                                 ),
                               Flexible(
                                 child: Container(
-                                  margin: const EdgeInsets.symmetric(vertical: 4),
-                                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                                  margin:
+                                      const EdgeInsets.symmetric(vertical: 4),
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 12, vertical: 8),
                                   constraints: BoxConstraints(
-                                    maxWidth: MediaQuery.of(context).size.width * 0.7,
+                                    maxWidth:
+                                        MediaQuery.of(context).size.width * 0.7,
                                   ),
                                   decoration: BoxDecoration(
-                                    color:
-                                    fromMe ? Colors.blue.shade100 : Colors.grey.shade300,
+                                    color: fromMe
+                                        ? Colors.blue.shade100
+                                        : Colors.grey.shade300,
                                     borderRadius: BorderRadius.circular(12),
                                   ),
                                   child: Column(
@@ -209,18 +217,22 @@ class _MessageTeacherDetailScreenState
                                     children: [
                                       if (hasFile)
                                         InkWell(
-                                          onTap: () => downloadFile(attachmentUrl),
+                                          onTap: () =>
+                                              downloadFile(attachmentUrl),
                                           child: Row(
                                             mainAxisSize: MainAxisSize.min,
                                             children: [
-                                              const Icon(Icons.insert_drive_file, size: 18),
+                                              const Icon(
+                                                  Icons.insert_drive_file,
+                                                  size: 18),
                                               const SizedBox(width: 4),
                                               Flexible(
                                                 child: Text(
                                                   Uri.parse(attachmentUrl)
                                                       .pathSegments
                                                       .last,
-                                                  overflow: TextOverflow.ellipsis,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
                                                 ),
                                               ),
                                             ],
@@ -232,7 +244,8 @@ class _MessageTeacherDetailScreenState
                                       Text(
                                         _formatTime(time),
                                         style: TextStyle(
-                                            fontSize: 10, color: Colors.grey.shade600),
+                                            fontSize: 10,
+                                            color: Colors.grey.shade600),
                                       ),
                                     ],
                                   ),
@@ -241,7 +254,6 @@ class _MessageTeacherDetailScreenState
                             ],
                           ),
                         );
-
                       }).toList(),
                     ];
                   }).toList(),
@@ -281,6 +293,7 @@ class _MessageTeacherDetailScreenState
       ),
     );
   }
+
   void downloadFile(String url) async {
     final uri = Uri.parse(url.startsWith('http')
         ? url

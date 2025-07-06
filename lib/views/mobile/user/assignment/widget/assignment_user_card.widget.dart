@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -47,24 +45,23 @@ class AssignmentCard extends StatelessWidget with HelperMixin {
         ?.split(',')
         .map((e) => e.trim())
         .where((e) =>
-    !e.endsWith('.jpg') && !e.endsWith('.png') && !e.endsWith('.pdf'))
+            !e.endsWith('.jpg') && !e.endsWith('.png') && !e.endsWith('.pdf'))
         .toList();
 
     final now = DateTime.now();
     final dueDateTime =
-    (assignment.dueDate != null && assignment.dueTime != null)
-        ? DateTime(
-      assignment.dueDate!.year,
-      assignment.dueDate!.month,
-      assignment.dueDate!.day,
-      int.parse(assignment.dueTime!.split(":")[0]),
-      int.parse(assignment.dueTime!.split(":")[1]),
-    )
-        : null;
+        (assignment.dueDate != null && assignment.dueTime != null)
+            ? DateTime(
+                assignment.dueDate!.year,
+                assignment.dueDate!.month,
+                assignment.dueDate!.day,
+                int.parse(assignment.dueTime!.split(":")[0]),
+                int.parse(assignment.dueTime!.split(":")[1]),
+              )
+            : null;
     final isOverdue = dueDateTime != null && now.isAfter(dueDateTime);
-    final hasSubmitted = assignment.submissions
-        ?.any((s) => s.studentId == studentId) ??
-        false;
+    final hasSubmitted =
+        assignment.submissions?.any((s) => s.studentId == studentId) ?? false;
 
     return Card(
       color: Colors.white,
@@ -86,10 +83,10 @@ class AssignmentCard extends StatelessWidget with HelperMixin {
                   children: [
                     CircleAvatar(
                       radius: 24,
-                      backgroundImage:
-                      assignment.classA?.teacher?.avatarUrl != null
+                      backgroundImage: assignment.classA?.teacher?.avatarUrl !=
+                              null
                           ? NetworkImage(
-                          "${ApiConstants.getBaseUrl}/uploads/${assignment.classA?.teacher?.avatarUrl}")
+                              "${ApiConstants.getBaseUrl}/uploads/${assignment.classA?.teacher?.avatarUrl}")
                           : null,
                       onBackgroundImageError: (_, __) {},
                     ),
@@ -105,7 +102,7 @@ class AssignmentCard extends StatelessWidget with HelperMixin {
                         Text(
                           assignment.createdAt != null
                               ? DateFormat('HH:mm, dd/MM/yyyy')
-                              .format(assignment.createdAt!)
+                                  .format(assignment.createdAt!)
                               : '',
                           style: const TextStyle(
                             color: Colors.black54,
@@ -125,8 +122,7 @@ class AssignmentCard extends StatelessWidget with HelperMixin {
                         context: context,
                         barrierDismissible: true,
                         barrierLabel: "Menu",
-                        transitionDuration:
-                        const Duration(milliseconds: 300),
+                        transitionDuration: const Duration(milliseconds: 300),
                         pageBuilder: (context, _, __) {
                           return Align(
                             alignment: Alignment.bottomCenter,
@@ -147,7 +143,7 @@ class AssignmentCard extends StatelessWidget with HelperMixin {
                                         decoration: BoxDecoration(
                                           color: Colors.grey[300],
                                           borderRadius:
-                                          BorderRadius.circular(8),
+                                              BorderRadius.circular(8),
                                         ),
                                       ),
                                     ),
@@ -174,7 +170,7 @@ class AssignmentCard extends StatelessWidget with HelperMixin {
                                               "onClose": onSubmitted,
                                             },
                                           );
-                                        }else{
+                                        } else {
                                           context.pushNamed(
                                             RouteConstants
                                                 .userViewSubmissionRouteName,
@@ -182,7 +178,8 @@ class AssignmentCard extends StatelessWidget with HelperMixin {
                                               "studentId": studentId,
                                               "studentName": studentName,
                                               "studentCode": studentCode,
-                                              "className" : assignment.classA?.className,
+                                              "className":
+                                                  assignment.classA?.className,
                                               "title": assignment.title,
                                               "assignmentId": assignment.id,
                                               "onClose": onSubmitted,
@@ -200,7 +197,7 @@ class AssignmentCard extends StatelessWidget with HelperMixin {
                         transitionBuilder: (context, animation, _, child) {
                           return SlideTransition(
                             position: Tween(
-                                begin: const Offset(0, 1), end: Offset.zero)
+                                    begin: const Offset(0, 1), end: Offset.zero)
                                 .animate(animation),
                             child: child,
                           );
@@ -240,7 +237,8 @@ class AssignmentCard extends StatelessWidget with HelperMixin {
               ListTile(
                 contentPadding: EdgeInsets.zero,
                 leading: const Icon(Icons.image, color: Colors.blue),
-                title: Text(image.split('/').last, style: TextStyle(fontSize: 15)),
+                title:
+                    Text(image.split('/').last, style: TextStyle(fontSize: 15)),
                 onTap: () => showDialog(
                   context: context,
                   builder: (_) => ImageViewerDialog(
@@ -253,7 +251,8 @@ class AssignmentCard extends StatelessWidget with HelperMixin {
               ListTile(
                 contentPadding: EdgeInsets.zero,
                 leading: const Icon(Icons.picture_as_pdf, color: Colors.blue),
-                title: Text(pdf.split('/').last, style: TextStyle(fontSize: 15)),
+                title:
+                    Text(pdf.split('/').last, style: TextStyle(fontSize: 15)),
                 onTap: () => showDialog(
                   context: context,
                   builder: (_) => PDFViewerDialog(pdfUrl: pdf),
@@ -263,15 +262,17 @@ class AssignmentCard extends StatelessWidget with HelperMixin {
               ListTile(
                 contentPadding: EdgeInsets.zero,
                 leading:
-                const Icon(Icons.insert_drive_file, color: Colors.blue),
-                title: Text(file.split('/').last, style: TextStyle(fontSize: 15)),
+                    const Icon(Icons.insert_drive_file, color: Colors.blue),
+                title:
+                    Text(file.split('/').last, style: TextStyle(fontSize: 15)),
                 onTap: () => downloadFile(file),
               ),
             if (isOverdue && !hasSubmitted)
               const Padding(
                 padding: EdgeInsets.only(top: 40.0),
                 child: Center(
-                  child: Text("Đã quá hạn nộp bài", style: TextStyle(color: Colors.red)),
+                  child: Text("Đã quá hạn nộp bài",
+                      style: TextStyle(color: Colors.red)),
                 ),
               ),
           ],
@@ -280,28 +281,24 @@ class AssignmentCard extends StatelessWidget with HelperMixin {
     );
   }
 
-  Future<void> downloadFile(String url) async {
-    final uri = Uri.parse(
-      url.startsWith('http') ? url : "${ApiConstants.getBaseUrl}/uploads/$url",
-    );
-
+  void downloadFile(String url) async {
+    final uri = Uri.parse(url.startsWith('http')
+        ? url
+        : "${ApiConstants.getBaseUrl}/uploads/$url");
     try {
-      // Thư mục "Download" thật sự trên Android
-      final directory = Directory("/storage/emulated/0/Download");
+      // Lấy thư mục Downloads
+      final directory = await getExternalStorageDirectory();
+      if (directory != null) {
+        final filePath = "${directory.path}/${uri.pathSegments.last}";
 
-      // Đảm bảo thư mục tồn tại
-      if (!await directory.exists()) {
-        await directory.create(recursive: true);
+        // Tải tệp
+        await Dio().download(uri.toString(), filePath);
+        showSuccessToast("Tải File thành công: ");
+      } else {
+        showErrorToast("Không thể lấy thư mục lưu trữ.");
       }
-
-      final filePath = "${directory.path}/${uri.pathSegments.last}";
-
-      // Tải file về thư mục Download
-      await Dio().download(uri.toString(), filePath);
-
-      showSuccessToast("Đã tải file vào thư mục Download.");
     } catch (e) {
-      showErrorToast("Lỗi khi tải file: $e");
+      showErrorToast("Lỗi: $e");
     }
   }
 }

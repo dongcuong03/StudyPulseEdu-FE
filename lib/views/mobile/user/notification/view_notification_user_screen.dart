@@ -4,9 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:study_pulse_edu/models/app/NotificationApp.dart';
 
-import '../../../../models/app/Account.dart';
 import '../../../../resources/constains/constants.dart';
-import '../../../../viewmodels/mobile/notification_mobile_use_view_model.dart';
 
 class ViewNotificationUserScreen extends ConsumerStatefulWidget {
   final VoidCallback? onClose;
@@ -22,7 +20,8 @@ class ViewNotificationUserScreen extends ConsumerStatefulWidget {
   ConsumerState createState() => _ViewNotificationUserScreenState();
 }
 
-class _ViewNotificationUserScreenState extends ConsumerState<ViewNotificationUserScreen>
+class _ViewNotificationUserScreenState
+    extends ConsumerState<ViewNotificationUserScreen>
     with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
@@ -73,10 +72,7 @@ class _ViewNotificationUserScreenState extends ConsumerState<ViewNotificationUse
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 CircleAvatar(
-                  radius: 28.r,
-                  backgroundImage: NetworkImage(avatarUrl!)
-
-                ),
+                    radius: 28.r, backgroundImage: NetworkImage(avatarUrl!)),
                 SizedBox(width: 12.w),
                 Expanded(
                   child: Column(
@@ -92,12 +88,12 @@ class _ViewNotificationUserScreenState extends ConsumerState<ViewNotificationUse
                       SizedBox(height: 4.h),
                       Text(
                         createdAt,
-                        style: TextStyle(fontSize: 13.sp, color: Colors.grey[600]),
+                        style:
+                            TextStyle(fontSize: 13.sp, color: Colors.grey[600]),
                       ),
                     ],
                   ),
                 ),
-
               ],
             ),
 
@@ -106,7 +102,10 @@ class _ViewNotificationUserScreenState extends ConsumerState<ViewNotificationUse
             // Tiêu đề
             Text(
               title,
-              style: TextStyle(fontSize: 19.sp, fontWeight: FontWeight.w500, color: Colors.teal),
+              style: TextStyle(
+                  fontSize: 19.sp,
+                  fontWeight: FontWeight.w500,
+                  color: Colors.teal),
             ),
 
             SizedBox(height: 12.h),

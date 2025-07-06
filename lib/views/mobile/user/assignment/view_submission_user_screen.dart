@@ -5,7 +5,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:study_pulse_edu/models/app/Submission.dart';
-import 'package:study_pulse_edu/viewmodels/mobile/assignment_teacher_view_model.dart';
 import 'package:study_pulse_edu/viewmodels/mobile/assignment_user_view_model.dart';
 import '../../../../resources/constains/constants.dart';
 import '../../../../resources/utils/helpers/helper_mixin.dart';
@@ -25,8 +24,8 @@ class ViewSubmissionUserScreen extends ConsumerStatefulWidget {
       {required this.studentId,
       required this.studentName,
       required this.studentCode,
-        required this.className,
-        required this.title,
+      required this.className,
+      required this.title,
       required this.assignmentId,
       required this.onClose,
       super.key});
@@ -37,7 +36,6 @@ class ViewSubmissionUserScreen extends ConsumerStatefulWidget {
 
 class _ViewSubmissionUserScreenState
     extends ConsumerState<ViewSubmissionUserScreen> with HelperMixin {
-
   bool _isLoading = true;
   String? createdAt;
   String? description;
@@ -47,26 +45,28 @@ class _ViewSubmissionUserScreenState
   List<String>? images;
   List<String>? pdfs;
   List<String>? others;
+
   Future<void> _loadData(Submission submission) async {
     setState(() {
       _isLoading = true;
     });
     showLoading(context, show: true);
-    final response = await ref.read(assignmentUserViewModelProvider.notifier).fetchSubmissionByID(subission: submission);
+    final response = await ref
+        .read(assignmentUserViewModelProvider.notifier)
+        .fetchSubmissionByID(subission: submission);
     if (response == null) return;
 
     setState(() {
       createdAt = response.createdAt != null
-          ? DateFormat('HH:mm, dd/MM/yyyy')
-          .format(response.createdAt!)
-          : '' ;
+          ? DateFormat('HH:mm, dd/MM/yyyy').format(response.createdAt!)
+          : '';
       description = response.description ?? '';
       fileUrl = response.fileUrl ?? '';
       score = response.score != null
           ? double.parse(response.score!.toString())
-          .toString()
-          .replaceFirst(RegExp(r'\.0$'), '')
-          .replaceFirst(RegExp(r'(\.\d)0$'), r'\1')
+              .toString()
+              .replaceFirst(RegExp(r'\.0$'), '')
+              .replaceFirst(RegExp(r'(\.\d)0$'), r'\1')
           : '';
 
       feedback = response.feedback ?? '';
@@ -84,7 +84,7 @@ class _ViewSubmissionUserScreenState
           ?.split(',')
           .map((e) => e.trim())
           .where((e) =>
-      !e.endsWith('.jpg') && !e.endsWith('.png') && !e.endsWith('.pdf'))
+              !e.endsWith('.jpg') && !e.endsWith('.png') && !e.endsWith('.pdf'))
           .toList();
     });
     showLoading(context, show: false);
@@ -92,10 +92,12 @@ class _ViewSubmissionUserScreenState
       _isLoading = false;
     });
   }
+
   @override
   void initState() {
     super.initState();
-    _loadData(Submission(studentId: widget.studentId, assignmentId: widget.assignmentId));
+    _loadData(Submission(
+        studentId: widget.studentId, assignmentId: widget.assignmentId));
   }
 
   @override
@@ -105,7 +107,7 @@ class _ViewSubmissionUserScreenState
 
   @override
   Widget build(BuildContext context) {
-       return Scaffold(
+    return Scaffold(
       backgroundColor: Color(0xFFF5F5F5),
       appBar: AppBar(
         title: const Text('Xem bài nộp', style: TextStyle(color: Colors.white)),
@@ -113,9 +115,7 @@ class _ViewSubmissionUserScreenState
         iconTheme: const IconThemeData(color: Colors.white),
       ),
       body: SingleChildScrollView(
-        child: _isLoading
-            ? SizedBox.shrink()
-            :_buildForm(),
+        child: _isLoading ? SizedBox.shrink() : _buildForm(),
       ),
     );
   }
@@ -177,13 +177,13 @@ class _ViewSubmissionUserScreenState
           ),
           const SizedBox(height: 12),
           // Lớp
-           Text(
+          Text(
             'Lớp: ${widget.className ?? ''}',
             style: TextStyle(fontSize: 15),
           ),
           const SizedBox(height: 8),
           // Tiêu đề bài tập
-           Text(
+          Text(
             '${widget.title ?? ''}',
             style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600),
           ),
@@ -196,7 +196,8 @@ class _ViewSubmissionUserScreenState
             ListTile(
               contentPadding: EdgeInsets.zero,
               leading: const Icon(Icons.image, color: Colors.blue),
-              title: Text(image.split('/').last, style: TextStyle(fontSize: 15)),
+              title:
+                  Text(image.split('/').last, style: TextStyle(fontSize: 15)),
               onTap: () => showDialog(
                 context: context,
                 builder: (_) => ImageViewerDialog(
@@ -218,8 +219,7 @@ class _ViewSubmissionUserScreenState
           for (final file in others ?? [])
             ListTile(
               contentPadding: EdgeInsets.zero,
-              leading:
-              const Icon(Icons.insert_drive_file, color: Colors.blue),
+              leading: const Icon(Icons.insert_drive_file, color: Colors.blue),
               title: Text(file.split('/').last, style: TextStyle(fontSize: 15)),
               onTap: () => downloadFile(file),
             ),
@@ -309,7 +309,8 @@ class _ViewSubmissionUserScreenState
                   const SizedBox(height: 12),
                   Expanded(
                     child: Padding(
-                      padding: const EdgeInsets.only(top: 8.0, right: 12, bottom: 8, left: 12),
+                      padding: const EdgeInsets.only(
+                          top: 8.0, right: 12, bottom: 8, left: 12),
                       child: Text(
                         comment.isNotEmpty ? comment : '',
                         style: const TextStyle(
@@ -346,5 +347,4 @@ class _ViewSubmissionUserScreenState
       showErrorToast("Lỗi: $e");
     }
   }
-
 }

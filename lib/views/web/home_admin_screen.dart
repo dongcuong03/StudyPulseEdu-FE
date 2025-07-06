@@ -8,7 +8,6 @@ import 'package:study_pulse_edu/views/web/manage_notification_history/notificati
 import 'package:study_pulse_edu/views/web/statistical_report/statistical_report_screen.dart';
 import 'package:study_pulse_edu/views/web/tuition_management/tuition_management_screen.dart';
 
-import '../../resources/utils/app/app_theme.dart';
 import '../../resources/utils/helpers/helper_mixin.dart';
 import '../../routes/route_const.dart';
 import '../../viewmodels/auth_view_model.dart';
@@ -88,10 +87,12 @@ class _HomeAdminScreenState extends ConsumerState<HomeAdminScreen>
                 final isSelected = index == selectedIndex;
                 final isHovering = hoveringMenuIndex == index;
 
-                final iconColor =
-                (isSelected || isHovering) ? Colors.white : Colors.grey[300];
-                final textColor =
-                (isSelected || isHovering) ? Colors.white : Colors.grey[300];
+                final iconColor = (isSelected || isHovering)
+                    ? Colors.white
+                    : Colors.grey[300];
+                final textColor = (isSelected || isHovering)
+                    ? Colors.white
+                    : Colors.grey[300];
 
                 return MouseRegion(
                   onEnter: (_) => setState(() => hoveringMenuIndex = index),
@@ -118,8 +119,7 @@ class _HomeAdminScreenState extends ConsumerState<HomeAdminScreen>
                             selectedIndex = index;
                           });
                         },
-                        contentPadding:
-                        EdgeInsets.symmetric(horizontal: 16.w),
+                        contentPadding: EdgeInsets.symmetric(horizontal: 16.w),
                       ),
                     ),
                   ),
@@ -195,9 +195,7 @@ class _HomeAdminScreenState extends ConsumerState<HomeAdminScreen>
                           goName(context, RouteConstants.loginWebRouteName);
                         },
                       );
-
                     },
-
                     child: Padding(
                       padding: EdgeInsets.symmetric(
                           horizontal: 12.w, vertical: 12.h),

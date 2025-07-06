@@ -75,7 +75,6 @@ class _AppInputSecondState extends State<AppInputSecond> {
             onTap: widget.onTap,
             maxLines: widget.maxLines ?? 1,
             decoration: InputDecoration(
-
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(20.r),
                 borderSide: BorderSide.none,
@@ -98,19 +97,19 @@ class _AppInputSecondState extends State<AppInputSecond> {
               prefixIcon: widget.prefixIcon,
               suffixIcon: widget.isPasswordField == true
                   ? GestureDetector(
-                onTap: () {
-                  setState(() {
-                    _obscureText = !_obscureText;
-                  });
-                },
-                child: Icon(
-                  _obscureText ? Icons.visibility_off : Icons.visibility,
-                  color: Colors.grey,
-
-                ),
-              )
+                      onTap: () {
+                        setState(() {
+                          _obscureText = !_obscureText;
+                        });
+                      },
+                      child: Icon(
+                        _obscureText ? Icons.visibility_off : Icons.visibility,
+                        color: Colors.grey,
+                      ),
+                    )
                   : null,
-              contentPadding: EdgeInsets.symmetric(vertical: 12.h, horizontal: 16.w),
+              contentPadding:
+                  EdgeInsets.symmetric(vertical: 12.h, horizontal: 16.w),
               isDense: true,
             ),
             onFieldSubmitted: widget.onFieldSubmitted,

@@ -1,17 +1,13 @@
 import 'dart:convert';
-import 'dart:typed_data';
-
 import 'package:dio/dio.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-
 import '../../models/app/Account.dart';
 import '../../models/app/PagingResponse.dart';
-import '../../models/app/Parent.dart';
-import '../../models/app/Teacher.dart';
 import '../../resources/constains/constants.dart';
 import '../../resources/utils/data_sources/dio_client.dart';
 import 'dart:html' as html;
 import 'package:http_parser/http_parser.dart';
+
 part 'account_view_model.g.dart';
 
 @riverpod
@@ -22,7 +18,8 @@ class AccountViewModel extends _$AccountViewModel {
 
   @override
   FutureOr<PagingResponse<Account>?> build() async {
-    return await _fetchAccounts(pageIndex: _currentPageIndex, pageSize: defaultPageSize);
+    return await _fetchAccounts(
+        pageIndex: _currentPageIndex, pageSize: defaultPageSize);
   }
 
   Future<void> fetchAccounts({
@@ -37,27 +34,21 @@ class AccountViewModel extends _$AccountViewModel {
       _currentPageIndex = pageIndex;
     }
 
-
     try {
       final pagingResponse = await _fetchAccounts(
-        pageIndex: pageIndex,
-        pageSize: pageSize,
-        phone: phone,
-        role: role
-      );
+          pageIndex: pageIndex, pageSize: pageSize, phone: phone, role: role);
       state = AsyncData(pagingResponse);
     } catch (e, st) {
       state = AsyncError(e, st);
     }
   }
 
-  // Call API paging
-  Future<PagingResponse<Account>?> _fetchAccounts({
-    int? pageIndex,
-    int pageSize = defaultPageSize,
-    String? phone,
-    Role? role
-  }) async {
+  /// Call API paging
+  Future<PagingResponse<Account>?> _fetchAccounts(
+      {int? pageIndex,
+      int pageSize = defaultPageSize,
+      String? phone,
+      Role? role}) async {
     final url = "${ApiConstants.getBaseUrl}/api/v1/account/paging";
 
     final data = <String, dynamic>{
@@ -79,12 +70,11 @@ class AccountViewModel extends _$AccountViewModel {
     if (response.data == null) return null;
     return PagingResponse<Account>.fromJson(
       response.data,
-          (json) => Account.fromJson(json),
+      (json) => Account.fromJson(json),
     );
-
   }
 
-  //Call API disableAccount
+  ///Call API disableAccount
   Future<bool> disableAccount(String id) async {
     final url = "${ApiConstants.getBaseUrl}/api/v1/account/disableAccount/$id";
 
@@ -99,7 +89,7 @@ class AccountViewModel extends _$AccountViewModel {
     return false;
   }
 
-  //Call API enableAccount
+  ///Call API enableAccount
   Future<bool> enableAccount(String id) async {
     final url = "${ApiConstants.getBaseUrl}/api/v1/account/enableAccount/$id";
 
@@ -114,7 +104,7 @@ class AccountViewModel extends _$AccountViewModel {
     return false;
   }
 
-//Call API createAccount
+  ///Call API createAccount
 
   Future<String?> createAccount({
     required Account account,
@@ -131,7 +121,6 @@ class AccountViewModel extends _$AccountViewModel {
           contentType: MediaType('application', 'json'),
         ),
       };
-
 
       if (avatarFile != null) {
         final reader = html.FileReader();
@@ -152,7 +141,7 @@ class AccountViewModel extends _$AccountViewModel {
 
         formMap['file'] = multipartFile;
 
-      formMap['file'] = multipartFile;
+        formMap['file'] = multipartFile;
       }
       print("formMap: $formMap");
       final formData = FormData.fromMap(formMap);
@@ -167,7 +156,8 @@ class AccountViewModel extends _$AccountViewModel {
       }
     } catch (e) {
       if (e is DioException) {
-        final message = e.response?.data['message'] ?? 'Đã xảy ra lỗi không xác định';
+        final message =
+            e.response?.data['message'] ?? 'Đã xảy ra lỗi không xác định';
         return message;
       } else {
         return 'Lỗi không xác định: $e';
@@ -175,8 +165,7 @@ class AccountViewModel extends _$AccountViewModel {
     }
   }
 
-
-  //Call Api updateAcount
+  ///Call Api updateAcount
   Future<String?> updateAccount({
     required String accountId,
     required Account account,
@@ -219,13 +208,14 @@ class AccountViewModel extends _$AccountViewModel {
         data: formData,
         isMultipart: true,
       );
-     print(response);
+
       if (response.statusCode == 200) {
         return null;
       }
     } catch (e) {
       if (e is DioException) {
-        final message = e.response?.data['message'] ?? 'Đã xảy ra lỗi không xác định';
+        final message =
+            e.response?.data['message'] ?? 'Đã xảy ra lỗi không xác định';
         return message;
       } else {
         return 'Lỗi không xác định: $e';
@@ -234,8 +224,7 @@ class AccountViewModel extends _$AccountViewModel {
     return 'Cập nhật thất bại';
   }
 
-
-  //Call Api getAccountById
+  ///Call Api getAccountById
   Future<Account?> getAccountById(String id) async {
     final url = "${ApiConstants.getBaseUrl}/api/v1/account/$id";
     try {
@@ -250,9 +239,10 @@ class AccountViewModel extends _$AccountViewModel {
     return null;
   }
 
-  // Call API getAllAccountTeacher
+  /// Call API getAllAccountTeacher
   Future<List<Account>> getAllAccountTeacher() async {
-    final url = "${ApiConstants.getBaseUrl}/api/v1/account/getAllAccountTeacher";
+    final url =
+        "${ApiConstants.getBaseUrl}/api/v1/account/getAllAccountTeacher";
 
     try {
       final response = await DioClient().get(url);

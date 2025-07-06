@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:study_pulse_edu/models/app/Account.dart';
@@ -58,7 +57,6 @@ class _HomeTeacherScreenState extends ConsumerState<HomeTeacherScreen>
     });
   }
 
-
   @override
   void initState() {
     super.initState();
@@ -98,7 +96,7 @@ class _HomeTeacherScreenState extends ConsumerState<HomeTeacherScreen>
                   content: 'Bạn có muốn đăng xuất?',
                   icon: Icons.warning,
                   confirmColor: Colors.blue,
-                  onConfirm: () async{
+                  onConfirm: () async {
                     await _authViewModel.logout();
                     goName(context, RouteConstants.loginMobileRouteName);
                   },
@@ -114,7 +112,10 @@ class _HomeTeacherScreenState extends ConsumerState<HomeTeacherScreen>
               ? SizedBox.shrink()
               : Column(
                   children: [
-                    TeacherInforWidget(scaffoldContext: context, accountName: accountName.toString(), accountId: accountId),
+                    TeacherInforWidget(
+                        scaffoldContext: context,
+                        accountName: accountName.toString(),
+                        accountId: accountId),
                     SizedBox(height: 40.h),
                     Image.asset(
                       'assets/images/trang_chu_giao_vien.png',
@@ -123,7 +124,9 @@ class _HomeTeacherScreenState extends ConsumerState<HomeTeacherScreen>
                       width: 0.8.sw,
                     ),
                     SizedBox(height: 40.h),
-                    ListFunctionTeacherWidget(account: account,)
+                    ListFunctionTeacherWidget(
+                      account: account,
+                    )
                   ],
                 ),
         ),

@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
 import 'package:study_pulse_edu/viewmodels/mobile/classA_mobile_teacher_view_model.dart';
 
 import '../../../../models/app/Account.dart';
-import '../../../../resources/utils/app/app_theme.dart';
 import '../../../../resources/utils/helpers/helper_mixin.dart';
 import '../../../../routes/route_const.dart';
 
@@ -50,7 +48,8 @@ class _ScoreTeacherScreenState extends ConsumerState<ScoreTeacherScreen>
       ),
       body: classListAsync.when(
         loading: () => const Center(child: CircularProgressIndicator()),
-        error: (error, _) => Center(child: Text('Lỗi: $error', style: TextStyle(fontSize: 14.sp))),
+        error: (error, _) => Center(
+            child: Text('Lỗi: $error', style: TextStyle(fontSize: 14.sp))),
         data: (classes) {
           return ListView.builder(
             padding: EdgeInsets.all(20.w),
@@ -84,7 +83,8 @@ class _ScoreTeacherScreenState extends ConsumerState<ScoreTeacherScreen>
                         showModalBottomSheet(
                           context: context,
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.vertical(top: Radius.circular(24.r)),
+                            borderRadius: BorderRadius.vertical(
+                                top: Radius.circular(24.r)),
                           ),
                           builder: (context) {
                             return SizedBox(
@@ -92,7 +92,8 @@ class _ScoreTeacherScreenState extends ConsumerState<ScoreTeacherScreen>
                               child: Padding(
                                 padding: EdgeInsets.all(24.w),
                                 child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceAround,
                                   children: [
                                     buildMenuItem(
                                       icon: Icons.rate_review,
@@ -101,12 +102,14 @@ class _ScoreTeacherScreenState extends ConsumerState<ScoreTeacherScreen>
                                         Navigator.pop(context);
                                         pushedName(
                                           context,
-                                          RouteConstants.teacherEnterScoreRouteName,
+                                          RouteConstants
+                                              .teacherEnterScoreRouteName,
                                           extra: {
                                             "account": widget.account,
                                             "classA": classItem,
                                             "onClose": () {
-                                              showSuccessToast('Nhập điểm thành công');
+                                              showSuccessToast(
+                                                  'Nhập điểm thành công');
                                             }
                                           },
                                         );
@@ -119,7 +122,8 @@ class _ScoreTeacherScreenState extends ConsumerState<ScoreTeacherScreen>
                                         Navigator.pop(context);
                                         pushedName(
                                           context,
-                                          RouteConstants.teacherViewScoreRouteName,
+                                          RouteConstants
+                                              .teacherViewScoreRouteName,
                                           extra: {
                                             "account": widget.account,
                                             "classA": classItem,

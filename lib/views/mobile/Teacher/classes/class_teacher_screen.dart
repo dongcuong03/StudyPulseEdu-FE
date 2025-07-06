@@ -1,27 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:study_pulse_edu/viewmodels/mobile/classA_mobile_teacher_view_model.dart';
 
 import '../../../../models/app/Account.dart';
-import '../../../../resources/utils/app/app_theme.dart';
 import '../../../../resources/utils/helpers/helper_mixin.dart';
 import '../../../../routes/route_const.dart';
 
-
 class ClassTeacherScreen extends ConsumerStatefulWidget {
   final Account? account;
-  const ClassTeacherScreen({required this.account ,super.key});
+
+  const ClassTeacherScreen({required this.account, super.key});
 
   @override
   ConsumerState createState() => _ClassTeacherScreenState();
 }
 
-class _ClassTeacherScreenState extends ConsumerState<ClassTeacherScreen> with HelperMixin {
-
+class _ClassTeacherScreenState extends ConsumerState<ClassTeacherScreen>
+    with HelperMixin {
   void _fetch(String id) async {
     await ref.read(classaMobileTeacherViewModelProvider.notifier).fetch(id: id);
-   }
+  }
 
   @override
   void initState() {
@@ -35,13 +33,15 @@ class _ClassTeacherScreenState extends ConsumerState<ClassTeacherScreen> with He
   Widget build(BuildContext context) {
     final classListAsync = ref.watch(classaMobileTeacherViewModelProvider);
 
-
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Lớp học', style: TextStyle(color: Colors.white),),
+        title: const Text(
+          'Lớp học',
+          style: TextStyle(color: Colors.white),
+        ),
         backgroundColor: Colors.blue,
         iconTheme: const IconThemeData(
-          color: Colors.white, // màu của nút quay lại
+          color: Colors.white,
         ),
       ),
       body: classListAsync.when(
@@ -64,12 +64,15 @@ class _ClassTeacherScreenState extends ConsumerState<ClassTeacherScreen> with He
                   padding: const EdgeInsets.all(12.0),
                   child: ListTile(
                     title: Text(classItem.className.toString(),
-                        style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.teal)),
+                        style: const TextStyle(
+                            fontWeight: FontWeight.bold, color: Colors.teal)),
                     subtitle: Text(
                         'Từ ${formatDate(classItem.startDate.toString())} đến ${formatDate(classItem.endDate.toString())}'),
                     trailing: const Icon(Icons.arrow_forward_ios),
                     onTap: () {
-                      pushedName(context, RouteConstants.teacherViewClassRouteName, extra: classItem.id);
+                      pushedName(
+                          context, RouteConstants.teacherViewClassRouteName,
+                          extra: classItem.id);
                     },
                     splashColor: Colors.transparent,
                   ),

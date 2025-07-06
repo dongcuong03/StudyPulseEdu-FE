@@ -6,7 +6,6 @@ import 'package:http_parser/http_parser.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:study_pulse_edu/models/app/Assignment.dart';
 
-import '../../models/app/PagingResponse.dart';
 import '../../models/app/Submission.dart';
 import '../../resources/constains/constants.dart';
 import '../../resources/utils/data_sources/dio_client.dart';
@@ -39,6 +38,7 @@ class AssignmentTeacherViewModel extends _$AssignmentTeacherViewModel {
     }
   }
 
+  /// Call API paging bài tập theo các tiêu chí
   Future<List<Assignment>?> _fetchAssignments(
       {String? className,
       String? teacherId,
@@ -72,6 +72,7 @@ class AssignmentTeacherViewModel extends _$AssignmentTeacherViewModel {
         .toList();
   }
 
+  /// Call API tạo bài tập
   Future<String?> createAssignment({
     required Assignment assignment,
     List<File>? files,
@@ -131,7 +132,7 @@ class AssignmentTeacherViewModel extends _$AssignmentTeacherViewModel {
     return "Lỗi không xác định";
   }
 
-  // Call APi chấm bài tập
+  /// Call APi chấm bài tập
   Future<String?> gradeSubission(
       Submission submission, String submissionId) async {
     final url =

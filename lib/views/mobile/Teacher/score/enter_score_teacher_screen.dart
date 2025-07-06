@@ -150,8 +150,7 @@ class _EnterScoreTeacherScreenState
               showErrorToast("Lỗi không xác định: $e");
               showLoading(context, show: false);
             }
-          }
-      );
+          });
     }
   }
 
@@ -254,7 +253,7 @@ class _EnterScoreTeacherScreenState
                             child: DropdownButton<String>(
                               value: mode,
                               icon: const Icon(Icons.arrow_drop_down),
-                              style:  TextStyle(
+                              style: TextStyle(
                                 color: Colors.black,
                                 fontWeight: FontWeight.normal,
                                 fontSize: 16.sp,
@@ -344,7 +343,7 @@ class _EnterScoreTeacherScreenState
             ),
             Container(
               width: 155.w,
-              padding:  EdgeInsets.symmetric(horizontal: 14.w, vertical: 5.h),
+              padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 5.h),
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(15.r),
@@ -360,7 +359,7 @@ class _EnterScoreTeacherScreenState
               child: DropdownButtonHideUnderline(
                 child: DropdownButton<String>(
                   value: selectedScoreType,
-                  style:  TextStyle(
+                  style: TextStyle(
                     color: Colors.black,
                     fontWeight: FontWeight.normal,
                     fontSize: 16.sp,
@@ -398,7 +397,7 @@ class _EnterScoreTeacherScreenState
             ),
           ],
         ),
-         SizedBox(height: 25.h),
+        SizedBox(height: 25.h),
 
         Card(
           color: Colors.white,
@@ -407,12 +406,12 @@ class _EnterScoreTeacherScreenState
             borderRadius: BorderRadius.circular(12.r),
           ),
           child: Padding(
-            padding:  EdgeInsets.all(12.w),
+            padding: EdgeInsets.all(12.w),
             child: Column(
               children: [
                 // Header bảng
                 Container(
-                  padding:  EdgeInsets.symmetric(vertical: 8.h),
+                  padding: EdgeInsets.symmetric(vertical: 8.h),
                   child: LayoutBuilder(
                     builder: (context, constraints) {
                       final sttW = constraints.maxWidth * 0.13;

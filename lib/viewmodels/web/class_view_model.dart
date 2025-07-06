@@ -10,58 +10,56 @@ import '../../resources/constains/constants.dart';
 import '../../resources/utils/data_sources/dio_client.dart';
 
 part 'class_view_model.g.dart';
+
 @riverpod
-class ClassViewModel  extends _$ClassViewModel {
+class ClassViewModel extends _$ClassViewModel {
   static const int defaultPageSize = 10;
 
   int _currentPageIndex = 1;
 
   final dateFormat = DateFormat('yyyy-MM-dd');
+
   @override
   FutureOr<PagingResponse<ClassA>?> build() async {
     return await _fetchClasses(
         pageIndex: _currentPageIndex, pageSize: defaultPageSize);
   }
 
-  Future<void> fetchClasses({
-    int? pageIndex,
-    int pageSize = defaultPageSize,
-    String? className,
-    String? teacherName,
-    DateTime? startDate,
-    DateTime? endDate
-  }) async {
+  Future<void> fetchClasses(
+      {int? pageIndex,
+      int pageSize = defaultPageSize,
+      String? className,
+      String? teacherName,
+      DateTime? startDate,
+      DateTime? endDate}) async {
     state = const AsyncLoading();
 
     if (pageIndex != null) {
       _currentPageIndex = pageIndex;
     }
 
-
     try {
       final pagingResponse = await _fetchClasses(
-        pageIndex: pageIndex,
-        pageSize: pageSize,
-        className: className,
-        teacherName:teacherName,
-          startDate:startDate,
-          endDate: endDate
-      );
+          pageIndex: pageIndex,
+          pageSize: pageSize,
+          className: className,
+          teacherName: teacherName,
+          startDate: startDate,
+          endDate: endDate);
       state = AsyncData(pagingResponse);
     } catch (e, st) {
       state = AsyncError(e, st);
     }
   }
 
-  // Call API paging
-  Future<PagingResponse<ClassA>?> _fetchClasses({
-    int? pageIndex,
-    int pageSize = defaultPageSize,
-    String? className,
-    String? teacherName,
-    DateTime? startDate,
-    DateTime? endDate
-  }) async {
+  /// Call API paging
+  Future<PagingResponse<ClassA>?> _fetchClasses(
+      {int? pageIndex,
+      int pageSize = defaultPageSize,
+      String? className,
+      String? teacherName,
+      DateTime? startDate,
+      DateTime? endDate}) async {
     final url = "${ApiConstants.getBaseUrl}/api/v1/class/paging";
 
     final data = <String, dynamic>{
@@ -89,11 +87,11 @@ class ClassViewModel  extends _$ClassViewModel {
     if (response.data == null) return null;
     return PagingResponse<ClassA>.fromJson(
       response.data,
-          (json) => ClassA.fromJson(json),
+      (json) => ClassA.fromJson(json),
     );
   }
 
-  //Call API disableClass
+  ///Call API disableClass
   Future<bool> disableClass(String id) async {
     final url = "${ApiConstants.getBaseUrl}/api/v1/class/disableClass/$id";
 
@@ -108,7 +106,7 @@ class ClassViewModel  extends _$ClassViewModel {
     return false;
   }
 
-  //Call API enableClass
+  ///Call API enableClass
   Future<bool> enableClass(String id) async {
     final url = "${ApiConstants.getBaseUrl}/api/v1/class/enableClass/$id";
 
@@ -123,7 +121,7 @@ class ClassViewModel  extends _$ClassViewModel {
     return false;
   }
 
-  // Call Api createClass
+  /// Call Api createClass
   Future<String?> createClass(ClassA classA) async {
     final url = "${ApiConstants.getBaseUrl}/api/v1/class/create";
 
@@ -134,9 +132,8 @@ class ClassViewModel  extends _$ClassViewModel {
         return null;
       }
       final data = response.data;
-      final message = (data is Map<String, dynamic>)
-          ? data['message'] as String?
-          : null;
+      final message =
+          (data is Map<String, dynamic>) ? data['message'] as String? : null;
 
       if (message != null) {
         if (message.contains('Tên lớp học đã tồn tại')) {
@@ -152,7 +149,7 @@ class ClassViewModel  extends _$ClassViewModel {
     }
   }
 
-  // Call API updateClass
+  /// Call API updateClass
   Future<String?> updateClass(ClassA classA, String classID) async {
     final url = "${ApiConstants.getBaseUrl}/api/v1/class/update/$classID";
 
@@ -163,9 +160,8 @@ class ClassViewModel  extends _$ClassViewModel {
         return null;
       }
       final data = response.data;
-      final message = (data is Map<String, dynamic>)
-          ? data['message'] as String?
-          : null;
+      final message =
+          (data is Map<String, dynamic>) ? data['message'] as String? : null;
 
       if (message != null) {
         if (message.contains('Tên lớp học đã tồn tại')) {
@@ -181,7 +177,7 @@ class ClassViewModel  extends _$ClassViewModel {
     }
   }
 
-  //Call Api getClassById
+  ///Call Api getClassById
   Future<ClassA?> getClassById(String id) async {
     final url = "${ApiConstants.getBaseUrl}/api/v1/class/$id";
     try {
@@ -195,6 +191,4 @@ class ClassViewModel  extends _$ClassViewModel {
     }
     return null;
   }
-
-
 }

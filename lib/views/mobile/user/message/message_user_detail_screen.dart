@@ -32,8 +32,8 @@ class MessageUserDetailScreen extends ConsumerStatefulWidget {
   ConsumerState createState() => _MessageUserDetailScreenState();
 }
 
-class _MessageUserDetailScreenState extends ConsumerState<MessageUserDetailScreen> with HelperMixin{
-
+class _MessageUserDetailScreenState
+    extends ConsumerState<MessageUserDetailScreen> with HelperMixin {
   final TextEditingController messageController = TextEditingController();
   final ScrollController _scrollController = ScrollController();
 
@@ -41,14 +41,13 @@ class _MessageUserDetailScreenState extends ConsumerState<MessageUserDetailScree
     final text = messageController.text.trim();
     if (text.isNotEmpty) {
       await ref.read(chatViewModelProvider.notifier).sendMessage(
-        senderId: widget.accountId!,
-        receiverId: widget.accountTeacherId!,
-        content: text,
-      );
+            senderId: widget.accountId!,
+            receiverId: widget.accountTeacherId!,
+            content: text,
+          );
       messageController.clear();
     }
   }
-
 
   void _pickFile() async {
     final result = await FilePicker.platform.pickFiles(
@@ -60,12 +59,11 @@ class _MessageUserDetailScreenState extends ConsumerState<MessageUserDetailScree
       if (path != null) {
         final file = File(path);
 
-
         await ref.read(chatViewModelProvider.notifier).uploadAndSendFileMessage(
-          senderId: widget.accountId!,
-          receiverId: widget.accountTeacherId!,
-          file: file,
-        );
+              senderId: widget.accountId!,
+              receiverId: widget.accountTeacherId!,
+              file: file,
+            );
       } else {
         print("Không lấy được path từ file đã chọn");
       }
@@ -73,8 +71,6 @@ class _MessageUserDetailScreenState extends ConsumerState<MessageUserDetailScree
       print("Không chọn file nào");
     }
   }
-
-
 
   String _formatDate(DateTime date) {
     return DateFormat('dd/MM/yyyy').format(date);
@@ -89,23 +85,25 @@ class _MessageUserDetailScreenState extends ConsumerState<MessageUserDetailScree
     super.initState();
     Future.microtask(() {
       // Đánh dấu đang chat với user nào
-      ref.read(chatViewModelProvider.notifier).setCurrentChatUser(myAccountId: widget.accountId!, chattingWithId: widget.accountTeacherId);
+      ref.read(chatViewModelProvider.notifier).setCurrentChatUser(
+          myAccountId: widget.accountId!,
+          chattingWithId: widget.accountTeacherId);
     });
     ref.read(chatViewModelProvider.notifier).markAllMessagesAsRead(
-      senderId: widget.accountTeacherId!,
-      receiverId: widget.accountId!,
-    );
+          senderId: widget.accountTeacherId!,
+          receiverId: widget.accountId!,
+        );
   }
 
   @override
   Widget build(BuildContext context) {
-    final stream = ref
-        .watch(chatViewModelProvider.notifier)
-        .listenMessages(userId1: widget.accountId!, userId2: widget.accountTeacherId!);
+    final stream = ref.watch(chatViewModelProvider.notifier).listenMessages(
+        userId1: widget.accountId!, userId2: widget.accountTeacherId!);
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.teacherName ?? '', style: const TextStyle(color: Colors.white)),
+        title: Text(widget.teacherName ?? '',
+            style: const TextStyle(color: Colors.white)),
         backgroundColor: Colors.blue,
         iconTheme: const IconThemeData(color: Colors.white),
         leading: IconButton(
@@ -125,17 +123,21 @@ class _MessageUserDetailScreenState extends ConsumerState<MessageUserDetailScree
                 final messages = snapshot.data ?? [];
 
                 final unreadFromParent = messages.any((msg) =>
-                msg['senderId'] == widget.accountTeacherId && (msg['isRead'] != true));
+                    msg['senderId'] == widget.accountTeacherId &&
+                    (msg['isRead'] != true));
 
                 if (unreadFromParent) {
-                  ref.read(chatViewModelProvider.notifier).markAllMessagesAsRead(
-                    senderId: widget.accountTeacherId!,
-                    receiverId: widget.accountId!,
-                  );
+                  ref
+                      .read(chatViewModelProvider.notifier)
+                      .markAllMessagesAsRead(
+                        senderId: widget.accountTeacherId!,
+                        receiverId: widget.accountId!,
+                      );
                 }
                 WidgetsBinding.instance.addPostFrameCallback((_) {
                   if (_scrollController.hasClients) {
-                    _scrollController.jumpTo(_scrollController.position.maxScrollExtent);
+                    _scrollController
+                        .jumpTo(_scrollController.position.maxScrollExtent);
                   }
                 });
                 final Map<String, List<Map<String, dynamic>>> grouped = {};
@@ -146,9 +148,9 @@ class _MessageUserDetailScreenState extends ConsumerState<MessageUserDetailScree
                 }
 
                 final groupedEntries = grouped.entries.toList()
-                  ..sort((a, b) =>
-                      DateFormat('dd/MM/yyyy').parse(a.key).compareTo(DateFormat('dd/MM/yyyy').parse(b.key)));
-
+                  ..sort((a, b) => DateFormat('dd/MM/yyyy')
+                      .parse(a.key)
+                      .compareTo(DateFormat('dd/MM/yyyy').parse(b.key)));
 
                 return ListView(
                   controller: _scrollController,
@@ -171,36 +173,50 @@ class _MessageUserDetailScreenState extends ConsumerState<MessageUserDetailScree
                         final fromMe = msg['senderId'] == widget.accountId;
                         final time = DateTime.parse(msg['timestamp']);
                         final attachmentUrl = msg['attachmentUrl'];
-                        final hasFile = attachmentUrl != null && attachmentUrl.toString().isNotEmpty;
+                        final hasFile = attachmentUrl != null &&
+                            attachmentUrl.toString().isNotEmpty;
                         return Align(
-                          alignment: fromMe ? Alignment.centerRight : Alignment.centerLeft,
+                          alignment: fromMe
+                              ? Alignment.centerRight
+                              : Alignment.centerLeft,
                           child: Row(
-                            mainAxisAlignment: fromMe ? MainAxisAlignment.end : MainAxisAlignment.start,
+                            mainAxisAlignment: fromMe
+                                ? MainAxisAlignment.end
+                                : MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               if (!fromMe)
                                 Padding(
-                                  padding: const EdgeInsets.only(right: 8.0, top: 8.0),
+                                  padding: const EdgeInsets.only(
+                                      right: 8.0, top: 8.0),
                                   child: CircleAvatar(
                                     radius: 16,
                                     backgroundColor: Colors.grey.shade200,
-                                    backgroundImage: widget.avatarUrl != null && widget.avatarUrl!.isNotEmpty
+                                    backgroundImage: widget.avatarUrl != null &&
+                                            widget.avatarUrl!.isNotEmpty
                                         ? NetworkImage(widget.avatarUrl!)
                                         : null,
-                                    child: (widget.avatarUrl == null || widget.avatarUrl!.isEmpty)
-                                        ? const Icon(Icons.person, size: 16, color: Colors.grey)
+                                    child: (widget.avatarUrl == null ||
+                                            widget.avatarUrl!.isEmpty)
+                                        ? const Icon(Icons.person,
+                                            size: 16, color: Colors.grey)
                                         : null,
                                   ),
                                 ),
                               Flexible(
                                 child: Container(
-                                  margin: const EdgeInsets.symmetric(vertical: 4),
-                                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                                  margin:
+                                      const EdgeInsets.symmetric(vertical: 4),
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 12, vertical: 8),
                                   constraints: BoxConstraints(
-                                    maxWidth: MediaQuery.of(context).size.width * 0.7,
+                                    maxWidth:
+                                        MediaQuery.of(context).size.width * 0.7,
                                   ),
                                   decoration: BoxDecoration(
-                                    color: fromMe ? Colors.blue.shade100 : Colors.grey.shade300,
+                                    color: fromMe
+                                        ? Colors.blue.shade100
+                                        : Colors.grey.shade300,
                                     borderRadius: BorderRadius.circular(12),
                                   ),
                                   child: Column(
@@ -208,16 +224,22 @@ class _MessageUserDetailScreenState extends ConsumerState<MessageUserDetailScree
                                     children: [
                                       if (hasFile)
                                         InkWell(
-                                          onTap: () => downloadFile(attachmentUrl),
+                                          onTap: () =>
+                                              downloadFile(attachmentUrl),
                                           child: Row(
                                             mainAxisSize: MainAxisSize.min,
                                             children: [
-                                              const Icon(Icons.insert_drive_file, size: 18),
+                                              const Icon(
+                                                  Icons.insert_drive_file,
+                                                  size: 18),
                                               const SizedBox(width: 4),
                                               Flexible(
                                                 child: Text(
-                                                  Uri.parse(attachmentUrl).pathSegments.last,
-                                                  overflow: TextOverflow.ellipsis,
+                                                  Uri.parse(attachmentUrl)
+                                                      .pathSegments
+                                                      .last,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
                                                 ),
                                               ),
                                             ],
@@ -228,7 +250,9 @@ class _MessageUserDetailScreenState extends ConsumerState<MessageUserDetailScree
                                       const SizedBox(height: 4),
                                       Text(
                                         _formatTime(time),
-                                        style: TextStyle(fontSize: 10, color: Colors.grey.shade600),
+                                        style: TextStyle(
+                                            fontSize: 10,
+                                            color: Colors.grey.shade600),
                                       ),
                                     ],
                                   ),
@@ -237,7 +261,6 @@ class _MessageUserDetailScreenState extends ConsumerState<MessageUserDetailScree
                             ],
                           ),
                         );
-
                       }).toList()
                     ];
                   }).toList(),

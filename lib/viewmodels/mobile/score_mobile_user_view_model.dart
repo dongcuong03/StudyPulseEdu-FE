@@ -4,7 +4,6 @@ import 'package:dio/dio.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-
 import '../../models/app/Score.dart';
 import '../../resources/constains/constants.dart';
 import '../../resources/utils/data_sources/dio_client.dart';
@@ -31,7 +30,8 @@ class ScoreMobileUserViewModel extends _$ScoreMobileUserViewModel {
 
   /// Gọi GET /api/v1/score/getByStudentId/{id}
   Future<List<Score>> fetchScoresByStudentId(String studentId) async {
-    final url = "${ApiConstants.getBaseUrl}/api/v1/score/getByStudentId/$studentId";
+    final url =
+        "${ApiConstants.getBaseUrl}/api/v1/score/getByStudentId/$studentId";
     try {
       final response = await DioClient().get(url);
       if (response.statusCode == 200 && response.data != null) {
@@ -45,5 +45,4 @@ class ScoreMobileUserViewModel extends _$ScoreMobileUserViewModel {
       rethrow;
     }
   }
-
 }

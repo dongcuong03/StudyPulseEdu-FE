@@ -10,7 +10,7 @@ import '../../resources/utils/helpers/helper_mixin.dart';
 import '../../resources/widgets/app_input.dart';
 import '../../routes/route_const.dart';
 import '../../viewmodels/auth_view_model.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 class LoginMobileScreen extends ConsumerStatefulWidget {
   const LoginMobileScreen({super.key});
 
@@ -26,15 +26,14 @@ class _LoginMobileScreenState extends ConsumerState<LoginMobileScreen>
 
   final _authViewModel = AuthViewModel();
 
-  void _submit() async{
+  void _submit() async {
     if (_formKey.currentState!.validate()) {
       final phone = _phoneController.text;
       final password = _passwordController.text;
 
       showLoading(context, show: true);
-      final message = await _authViewModel.loginMobile(
-          phone: phone,
-          password: password);
+      final message =
+          await _authViewModel.loginMobile(phone: phone, password: password);
       showLoading(context, show: false);
       if (message == null) {
         final shared = await SharedPre.instance;
@@ -55,6 +54,7 @@ class _LoginMobileScreenState extends ConsumerState<LoginMobileScreen>
       }
     }
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -106,7 +106,8 @@ class _LoginMobileScreenState extends ConsumerState<LoginMobileScreen>
             Center(
                 child: Text("ĐĂNG NHẬP",
                     style: AppTheme.titleLarge.copyWith(
-                        color: AppTheme.headerLineBackground2, fontSize: 24.sp))),
+                        color: AppTheme.headerLineBackground2,
+                        fontSize: 24.sp))),
             SizedBox(height: 80.h),
             _buildPhoneField(),
             SizedBox(height: 20.h),
@@ -155,6 +156,7 @@ class _LoginMobileScreenState extends ConsumerState<LoginMobileScreen>
       },
     );
   }
+
   Widget _buildLoginButton() {
     return SizedBox(
       width: 180.w,
@@ -162,11 +164,7 @@ class _LoginMobileScreenState extends ConsumerState<LoginMobileScreen>
       child: DecoratedBox(
         decoration: BoxDecoration(
           gradient: LinearGradient(
-            colors: [
-              Color(0xFF3E61FC),
-              Color(0xFF5EBAD7)
-
-            ],
+            colors: [Color(0xFF3E61FC), Color(0xFF5EBAD7)],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
@@ -192,5 +190,4 @@ class _LoginMobileScreenState extends ConsumerState<LoginMobileScreen>
       ),
     );
   }
-
 }

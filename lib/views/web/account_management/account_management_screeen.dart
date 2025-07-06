@@ -4,7 +4,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:study_pulse_edu/views/web/account_management/widget/account_row_widget.dart';
 import 'package:study_pulse_edu/views/web/account_management/widget/add_account_form_widget.dart';
 import 'package:study_pulse_edu/views/web/account_management/widget/edit_account_parent_form_widget.dart';
@@ -39,11 +38,9 @@ class _AccountManagementScreeenState
   void _fetchPage({int? pageIndex, String? phone, Role? role}) {
     final viewModel = ref.read(accountViewModelProvider.notifier);
 
-    if (phone != null && phone.isNotEmpty || role != null ){
-
+    if (phone != null && phone.isNotEmpty || role != null) {
       viewModel.fetchAccounts(phone: phone, role: role);
     } else {
-
       viewModel.fetchAccounts(pageIndex: pageIndex ?? 1);
     }
     setState(() {
@@ -180,7 +177,9 @@ class _AccountManagementScreeenState
                 ),
               ),
             ),
-            SizedBox(width: 20.w,),
+            SizedBox(
+              width: 20.w,
+            ),
             GestureDetector(
               onTap: _showFilterDialog,
               behavior: HitTestBehavior.translucent,
@@ -355,24 +354,32 @@ class _AccountManagementScreeenState
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Center(child: Text("Bộ lọc tìm kiếm", style: AppTheme.titleMedium)),
+                      Center(
+                          child: Text("Bộ lọc tìm kiếm",
+                              style: AppTheme.titleMedium)),
                       const SizedBox(height: 20),
-
-                      Text("Theo vai trò:", style: TextStyle(fontWeight: FontWeight.w500)),
+                      Text("Theo vai trò:",
+                          style: TextStyle(fontWeight: FontWeight.w500)),
                       const SizedBox(height: 12),
                       DropdownButtonHideUnderline(
                         child: DropdownButton2<Role>(
                           isExpanded: true,
-                          hint: const Text("Chọn vai trò", style: TextStyle(fontWeight: FontWeight.normal)),
+                          hint: const Text("Chọn vai trò",
+                              style: TextStyle(fontWeight: FontWeight.normal)),
                           items: Role.values
                               .where((role) => role != Role.ADMIN)
                               .map((role) => DropdownMenuItem<Role>(
-                            value: role,
-                            child: Text(role.displayName,style: TextStyle(fontWeight: FontWeight.normal),),
-                          ))
+                                    value: role,
+                                    child: Text(
+                                      role.displayName,
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.normal),
+                                    ),
+                                  ))
                               .toList(),
                           value: tempSelectedRole,
-                          onChanged: (value) => setState(() => tempSelectedRole = value),
+                          onChanged: (value) =>
+                              setState(() => tempSelectedRole = value),
                           buttonStyleData: ButtonStyleData(
                             height: 40,
                             padding: const EdgeInsets.symmetric(horizontal: 12),
@@ -383,7 +390,8 @@ class _AccountManagementScreeenState
                             ),
                           ),
                           iconStyleData: const IconStyleData(
-                            icon: Icon(Icons.arrow_drop_down, color: Colors.blueAccent),
+                            icon: Icon(Icons.arrow_drop_down,
+                                color: Colors.blueAccent),
                             iconSize: 24,
                           ),
                           dropdownStyleData: DropdownStyleData(
@@ -395,7 +403,6 @@ class _AccountManagementScreeenState
                           ),
                         ),
                       ),
-
                       const Spacer(),
                       Row(
                         children: [
@@ -448,4 +455,3 @@ class _AccountManagementScreeenState
     );
   }
 }
-
