@@ -1,5 +1,5 @@
 import '../../resources/constains/constants.dart';
-import 'ClassA.dart';
+import 'ClassRoom.dart';
 import 'Parent.dart';
 
 class Student {

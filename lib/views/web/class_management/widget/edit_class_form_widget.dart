@@ -5,7 +5,7 @@ import 'package:flutter_multi_formatter/formatters/money_input_enums.dart';
 import 'package:flutter_multi_formatter/formatters/money_input_formatter.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:study_pulse_edu/models/app/ClassA.dart';
+import 'package:study_pulse_edu/models/app/ClassRoom.dart';
 import 'package:study_pulse_edu/resources/utils/app/app_theme.dart';
 import 'package:study_pulse_edu/viewmodels/web/class_view_model.dart';
 import '../../../../models/app/Account.dart';
@@ -74,27 +74,27 @@ class _EditClassFormWidgetState extends ConsumerState<EditClassFormWidget>
       _isLoading = true;
     });
     showLoading(context, show: true);
-    final classA =
+    final ClassRoom =
         await ref.read(classViewModelProvider.notifier).getClassById(classId);
-    if (classA == null) return;
+    if (ClassRoom == null) return;
 
     setState(() {
-      _studentMaxController.text = classA.maxStudents?.toString() ?? '';
-      _tuitionController.text = classA.tuitionFee?.toString() ?? '';
-      _descriptionController.text = classA.description ?? '';
+      _studentMaxController.text = ClassRoom.maxStudents?.toString() ?? '';
+      _tuitionController.text = ClassRoom.tuitionFee?.toString() ?? '';
+      _descriptionController.text = ClassRoom.description ?? '';
 
-      _startDate = classA.startDate;
-      _endDate = classA.endDate;
+      _startDate = ClassRoom.startDate;
+      _endDate = ClassRoom.endDate;
 
-      if (classA.teacher?.id != null) {
+      if (ClassRoom.teacher?.id != null) {
         _selectedTeacher = _listTeacher.firstWhere(
-          (teacher) => teacher.teacher?.id == classA.teacher?.id,
+          (teacher) => teacher.teacher?.id == ClassRoom.teacher?.id,
           orElse: () => Account(),
         );
       }
 
       schedules = DayOfWeek.values.map((day) {
-        final existing = classA.schedules?.firstWhere(
+        final existing = ClassRoom.schedules?.firstWhere(
           (sch) => sch.dayOfWeek == day,
           orElse: () => Schedule(dayOfWeek: day),
         );
@@ -223,7 +223,7 @@ class _EditClassFormWidgetState extends ConsumerState<EditClassFormWidget>
             selectedSchedules.add(schedules[i]);
           }
         }
-        final classA = ClassA(
+        final classRoom = ClassRoom(
           maxStudents: int.tryParse(_studentMaxController.text) ?? 0,
           tuitionFee:
               double.tryParse(_tuitionController.text.replaceAll(',', '')) ?? 0,
@@ -236,7 +236,7 @@ class _EditClassFormWidgetState extends ConsumerState<EditClassFormWidget>
         showLoading(context, show: true);
         final message = await ref
             .read(classViewModelProvider.notifier)
-            .updateClass(classA, widget.classID);
+            .updateClass(classRoom, widget.classID);
         showLoading(context, show: false);
         if (message != null) {
           showErrorToastWeb(context, message);

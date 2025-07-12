@@ -52,8 +52,8 @@ class _ViewTuitionDetailWidgetState
 
       tuitionDetails = result.map((fee) {
         return {
-          "className": fee.classA?.className ?? '',
-          "tuitionFee": fee.classA?.tuitionFee?.toDouble() ?? 0,
+          "className": fee.classRoom?.className ?? '',
+          "tuitionFee": fee.classRoom?.tuitionFee?.toDouble() ?? 0,
           "status": fee.status?.displayName,
         };
       }).toList();

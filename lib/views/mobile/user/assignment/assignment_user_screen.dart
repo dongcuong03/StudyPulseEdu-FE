@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:study_pulse_edu/viewmodels/mobile/assignment_user_view_model.dart';
-import 'package:study_pulse_edu/viewmodels/mobile/classA_mobile_user_view_model.dart';
 import 'package:study_pulse_edu/resources/widgets/assignment_filter_widget.dart';
 import 'package:study_pulse_edu/views/mobile/user/assignment/widget/assignment_user_tab_widget.dart';
 import '../../../../resources/utils/helpers/helper_mixin.dart';
+import '../../../../viewmodels/mobile/classRoom_mobile_user_view_model.dart';
 
 class AssignmentUserScreen extends ConsumerStatefulWidget {
   final String? studentId;
@@ -74,8 +74,8 @@ class _AssignmentUserScreenState extends ConsumerState<AssignmentUserScreen>
                 icon: const Icon(Icons.filter_list_alt, size: 30),
                 onPressed: () async {
                   final classList = await ref
-                      .read(classaMobileUserViewModelProvider.notifier)
-                      .fetchClassAUser(id: widget.studentId.toString());
+                      .read(classRoomMobileUserViewModelProvider.notifier)
+                      .fetchClassRoomUser(id: widget.studentId.toString());
                   final classNames = classList.map((e) => e.className).toList();
 
                   showModalBottomSheet(

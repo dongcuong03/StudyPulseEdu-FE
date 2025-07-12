@@ -75,4 +75,39 @@ class AccountMobileViewModel extends _$AccountMobileViewModel {
     }
     return [];
   }
+
+  ///Call API lấy tất cả danh sách tài khoản giáo viên dạy lớp con mình
+  Future<List<Account>> getTeachersOfMyChildren(String id) async {
+    final url =
+        "${ApiConstants.getBaseUrl}/api/v1/account/getTeachersOfMyChildren/$id";
+
+    try {
+      final response = await DioClient().get(url);
+
+      if (response.statusCode == 200 && response.data != null) {
+        final List<dynamic> jsonList = response.data;
+        return jsonList.map((json) => Account.fromJson(json)).toList();
+      }
+    } catch (e) {
+      print("Error getTeachersOfMyChildren: $e");
+    }
+    return [];
+  }
+
+  ///Call API lấy tất cả danh sách tài khoản phụ huynh của học sinh lớp mình
+  Future<List<Account>> getParentsOfMyStudents(String id) async {
+    final url = "${ApiConstants.getBaseUrl}/api/v1/account/getParentsOfMyStudents/$id";
+
+    try {
+      final response = await DioClient().get(url);
+
+      if (response.statusCode == 200 && response.data != null) {
+        final List<dynamic> jsonList = response.data;
+        return jsonList.map((json) => Account.fromJson(json)).toList();
+      }
+    } catch (e) {
+      print("Error getParentsOfMyStudents: $e");
+    }
+    return [];
+  }
 }

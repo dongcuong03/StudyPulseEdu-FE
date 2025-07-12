@@ -1,16 +1,16 @@
 import 'dart:async';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import '../../models/app/ClassA.dart';
+import '../../models/app/ClassRoom.dart';
 import '../../resources/constains/constants.dart';
 import '../../resources/utils/data_sources/dio_client.dart';
 
-part 'classA_mobile_teacher_view_model.g.dart';
+part 'classRoom_mobile_teacher_view_model.g.dart';
 
 @riverpod
-class ClassaMobileTeacherViewModel extends _$ClassaMobileTeacherViewModel {
+class ClassRoomMobileTeacherViewModel extends _$ClassRoomMobileTeacherViewModel {
   @override
-  FutureOr<List<ClassA>> build() async {
+  FutureOr<List<ClassRoom>> build() async {
     return [];
   }
 
@@ -18,7 +18,7 @@ class ClassaMobileTeacherViewModel extends _$ClassaMobileTeacherViewModel {
     state = const AsyncLoading();
 
     try {
-      final classes = await fetchClassATeacher(id: id);
+      final classes = await fetchClassRoomTeacher(id: id);
       state = AsyncData(classes);
     } catch (e, st) {
       state = AsyncError(e, st);
@@ -26,7 +26,7 @@ class ClassaMobileTeacherViewModel extends _$ClassaMobileTeacherViewModel {
   }
 
   /// Call API getByTeacherID
-  Future<List<ClassA>> fetchClassATeacher({required String id}) async {
+  Future<List<ClassRoom>> fetchClassRoomTeacher({required String id}) async {
     final url = "${ApiConstants.getBaseUrl}/api/v1/class/getByTeacherID/$id";
 
     try {
@@ -34,12 +34,12 @@ class ClassaMobileTeacherViewModel extends _$ClassaMobileTeacherViewModel {
 
       if (response.statusCode == 200 && response.data != null) {
         final List data = response.data as List;
-        return data.map((e) => ClassA.fromJson(e)).toList();
+        return data.map((e) => ClassRoom.fromJson(e)).toList();
       } else {
         return [];
       }
     } catch (e) {
-      print('Error fetchClassATeacher: $e');
+      print('Error fetchClassRoomTeacher: $e');
       rethrow;
     }
   }

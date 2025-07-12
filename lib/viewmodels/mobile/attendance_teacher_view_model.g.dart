@@ -7,7 +7,7 @@ part of 'attendance_teacher_view_model.dart';
 // **************************************************************************
 
 String _$attendanceTeacherViewModelHash() =>
-    r'4747e44c88e1b6315cb41f0ff71e7ad6f6735b90';
+    r'b56affa18b12616948cdaaa66760490dc29b3b18';
 
 /// See also [AttendanceTeacherViewModel].
 @ProviderFor(AttendanceTeacherViewModel)

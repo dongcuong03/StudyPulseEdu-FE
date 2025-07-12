@@ -7,7 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:study_pulse_edu/models/app/Account.dart';
-import 'package:study_pulse_edu/models/app/ClassA.dart';
+import 'package:study_pulse_edu/models/app/ClassRoom.dart';
 import 'package:study_pulse_edu/models/app/Student.dart';
 import 'package:study_pulse_edu/resources/utils/helpers/helper_mixin.dart';
 
@@ -20,12 +20,12 @@ import '../../../../viewmodels/mobile/score_mobile_teacher_view_model.dart';
 
 class EnterScoreTeacherScreen extends ConsumerStatefulWidget {
   final Account? account;
-  final ClassA? classA;
+  final ClassRoom? classRoom;
   final VoidCallback? onClose;
 
   const EnterScoreTeacherScreen({
     required this.account,
-    required this.classA,
+    required this.classRoom,
     required this.onClose,
     super.key,
   });
@@ -56,8 +56,8 @@ class _EnterScoreTeacherScreenState
 
   List<Score> buildScoreList() {
     final List<Score> scores = [];
-    final classId = widget.classA?.id;
-    final classA = widget.classA;
+    final classId = widget.classRoom?.id;
+    final classRoom = widget.classRoom;
 
     if (classId == null) return scores;
 
@@ -70,7 +70,7 @@ class _EnterScoreTeacherScreenState
 
     for (final studentId in allStudentIds) {
       final score = Score(
-        classA: classA,
+        classRoom: classRoom,
         student: Student(id: studentId),
         scoreTest1: scoreData['Kiểm tra 1']?[studentId],
         scoreTest2: scoreData['Kiểm tra 2']?[studentId],
@@ -136,7 +136,7 @@ class _EnterScoreTeacherScreenState
               showLoading(context, show: true);
               final error = await ref
                   .read(scoreMobileTeacherViewModelProvider.notifier)
-                  .importScoreExcel(selectedFile!, widget.classA!.id!);
+                  .importScoreExcel(selectedFile!, widget.classRoom!.id!);
 
               showLoading(context, show: false);
 
@@ -161,7 +161,7 @@ class _EnterScoreTeacherScreenState
   }
 
   void _loadScores() async {
-    final classId = widget.classA?.id;
+    final classId = widget.classRoom?.id;
     if (classId == null) {
       setState(() {
         isLoading = false;
@@ -210,8 +210,8 @@ class _EnterScoreTeacherScreenState
 
   @override
   Widget build(BuildContext context) {
-    final List<Student> students = widget.classA?.students ?? [];
-    print(widget.classA);
+    final List<Student> students = widget.classRoom?.students ?? [];
+    print(widget.classRoom);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Nhập điểm', style: TextStyle(color: Colors.white)),
@@ -624,7 +624,7 @@ class _EnterScoreTeacherScreenState
 
                   await ref
                       .read(scoreMobileTeacherViewModelProvider.notifier)
-                      .exportScoreTemplate(widget.classA?.id ?? '');
+                      .exportScoreTemplate(widget.classRoom?.id ?? '');
                   showLoading(context, show: false);
                   showSuccessToast("Xuất file mẫu điểm thành công");
                 } catch (e) {

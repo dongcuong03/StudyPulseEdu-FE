@@ -47,7 +47,7 @@ class _MessageTeacherScreenState extends ConsumerState<MessageTeacherScreen>
   void _fetchParents() async {
     final result = await ref
         .read(accountMobileViewModelProvider.notifier)
-        .getAllAccountParent();
+        .getParentsOfMyStudents(widget.accountId ?? '');
     setState(() {
       parents = result
           .map((account) => {

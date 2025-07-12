@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:study_pulse_edu/viewmodels/mobile/classA_mobile_teacher_view_model.dart';
 
 import '../../../../models/app/Account.dart';
 import '../../../../resources/utils/helpers/helper_mixin.dart';
 import '../../../../routes/route_const.dart';
+import '../../../../viewmodels/mobile/classRoom_mobile_teacher_view_model.dart';
 
 class ScoreTeacherScreen extends ConsumerStatefulWidget {
   final Account? account;
@@ -19,7 +19,7 @@ class ScoreTeacherScreen extends ConsumerStatefulWidget {
 class _ScoreTeacherScreenState extends ConsumerState<ScoreTeacherScreen>
     with HelperMixin {
   void _fetch(String id) async {
-    await ref.read(classaMobileTeacherViewModelProvider.notifier).fetch(id: id);
+    await ref.read(classRoomMobileTeacherViewModelProvider.notifier).fetch(id: id);
   }
 
   @override
@@ -32,7 +32,7 @@ class _ScoreTeacherScreenState extends ConsumerState<ScoreTeacherScreen>
 
   @override
   Widget build(BuildContext context) {
-    final classListAsync = ref.watch(classaMobileTeacherViewModelProvider);
+    final classListAsync = ref.watch(classRoomMobileTeacherViewModelProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -106,7 +106,7 @@ class _ScoreTeacherScreenState extends ConsumerState<ScoreTeacherScreen>
                                               .teacherEnterScoreRouteName,
                                           extra: {
                                             "account": widget.account,
-                                            "classA": classItem,
+                                            "ClassRoom": classItem,
                                             "onClose": () {
                                               showSuccessToast(
                                                   'Nhập điểm thành công');
@@ -126,7 +126,7 @@ class _ScoreTeacherScreenState extends ConsumerState<ScoreTeacherScreen>
                                               .teacherViewScoreRouteName,
                                           extra: {
                                             "account": widget.account,
-                                            "classA": classItem,
+                                            "ClassRoom": classItem,
                                           },
                                         );
                                       },

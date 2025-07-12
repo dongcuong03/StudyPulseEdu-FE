@@ -1,13 +1,13 @@
 import 'package:study_pulse_edu/models/app/Submission.dart';
 import 'package:study_pulse_edu/resources/constains/constants.dart';
 
-import 'ClassA.dart';
+import 'ClassRoom.dart';
 import 'Student.dart';
 import 'Teacher.dart';
 
 class Attendance{
   final String? id;
-  final ClassA? classA;
+  final ClassRoom? classRoom;
   final Student? student;
   final Teacher? teacher;
   final AttendanceStatus? status;
@@ -16,7 +16,7 @@ class Attendance{
   final bool? notified;
   Attendance({
     this.id,
-    this.classA,
+    this.classRoom,
     this.student,
     this.teacher,
     this.status,
@@ -27,7 +27,7 @@ class Attendance{
   factory Attendance.fromJson(Map<String, dynamic> json) {
     return Attendance(
       id: json['id'] as String?,
-      classA: ClassA(
+      classRoom: ClassRoom(
           id: json['classId'],
           className: json['className'],
           teacher: Teacher(
@@ -55,7 +55,7 @@ class Attendance{
   Map<String, dynamic> toJson() {
     return {
       'id': id,
-      'classA': classA?.toJson(),
+      'classRoom': classRoom?.toJson(),
       'teacher': teacher?.toJson(),
       'student': student?.toJson(),
       'status': status?.toJson(),

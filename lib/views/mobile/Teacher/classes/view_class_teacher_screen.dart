@@ -63,28 +63,28 @@ class _ViewClassTeacherScreenState extends ConsumerState<ViewClassTeacherScreen>
       _isLoading = true;
     });
     showLoading(context, show: true);
-    final classA =
+    final ClassRoom =
         await ref.read(classViewModelProvider.notifier).getClassById(classId);
-    if (classA == null) return;
+    if (ClassRoom == null) return;
 
     setState(() {
-      _studentMaxController.text = classA.maxStudents?.toString() ?? '';
+      _studentMaxController.text = ClassRoom.maxStudents?.toString() ?? '';
       _tuitionController.text =
-          NumberFormat("#,##0", "en_US").format(classA.tuitionFee);
-      _descriptionController.text = classA.description ?? '';
+          NumberFormat("#,##0", "en_US").format(ClassRoom.tuitionFee);
+      _descriptionController.text = ClassRoom.description ?? '';
 
-      _startDateController.text = classA.startDate != null
+      _startDateController.text = ClassRoom.startDate != null
           ? DateFormat('dd/MM/yyyy')
-              .format(DateTime.parse(classA.startDate.toString()))
+              .format(DateTime.parse(ClassRoom.startDate.toString()))
           : '';
-      _endDateController.text = classA.endDate != null
+      _endDateController.text = ClassRoom.endDate != null
           ? DateFormat('dd/MM/yyyy')
-              .format(DateTime.parse(classA.endDate.toString()))
+              .format(DateTime.parse(ClassRoom.endDate.toString()))
           : '';
-      _nameTeacherController.text = classA.teacher!.fullName.toString();
-      _nameClassController.text = classA.className.toString();
-      students = classA.students ?? [];
-      schedules = (classA.schedules ?? [])
+      _nameTeacherController.text = ClassRoom.teacher!.fullName.toString();
+      _nameClassController.text = ClassRoom.className.toString();
+      students = ClassRoom.students ?? [];
+      schedules = (ClassRoom.schedules ?? [])
           .where((sch) => sch.startTime != null && sch.endTime != null)
           .map((sch) => Schedule(
                 dayOfWeek: sch.dayOfWeek,

@@ -215,7 +215,7 @@ class _GradeTwoAssignmentTeacherScreenState
             const SizedBox(height: 12),
             // Lớp
             Text(
-              'Lớp: ${widget.assignment?.classA?.className ?? ''}',
+              'Lớp: ${widget.assignment?.classRoom?.className ?? ''}',
               style: TextStyle(fontSize: 15),
             ),
             const SizedBox(height: 8),

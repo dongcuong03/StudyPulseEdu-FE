@@ -1,16 +1,16 @@
 import 'dart:async';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import '../../models/app/ClassA.dart';
+import '../../models/app/ClassRoom.dart';
 import '../../resources/constains/constants.dart';
 import '../../resources/utils/data_sources/dio_client.dart';
 
-part 'classA_mobile_user_view_model.g.dart';
+part 'classRoom_mobile_user_view_model.g.dart';
 
 @riverpod
-class ClassaMobileUserViewModel extends _$ClassaMobileUserViewModel {
+class ClassRoomMobileUserViewModel extends _$ClassRoomMobileUserViewModel {
   @override
-  FutureOr<List<ClassA>> build() async {
+  FutureOr<List<ClassRoom>> build() async {
     return [];
   }
 
@@ -18,7 +18,7 @@ class ClassaMobileUserViewModel extends _$ClassaMobileUserViewModel {
     state = const AsyncLoading();
 
     try {
-      final classes = await fetchClassAUser(id: id);
+      final classes = await fetchClassRoomUser(id: id);
       state = AsyncData(classes);
     } catch (e, st) {
       state = AsyncError(e, st);
@@ -26,7 +26,7 @@ class ClassaMobileUserViewModel extends _$ClassaMobileUserViewModel {
   }
 
   /// Call API trả về danh sách lơp học theo studentID
-  Future<List<ClassA>> fetchClassAUser({required String id}) async {
+  Future<List<ClassRoom>> fetchClassRoomUser({required String id}) async {
     final url = "${ApiConstants.getBaseUrl}/api/v1/class/getByStudentID/$id";
 
     try {
@@ -34,12 +34,12 @@ class ClassaMobileUserViewModel extends _$ClassaMobileUserViewModel {
 
       if (response.statusCode == 200 && response.data != null) {
         final List data = response.data as List;
-        return data.map((e) => ClassA.fromJson(e)).toList();
+        return data.map((e) => ClassRoom.fromJson(e)).toList();
       } else {
         return [];
       }
     } catch (e) {
-      print('Error fetchClassATeacher: $e');
+      print('Error fetchClassRoomTeacher: $e');
       rethrow;
     }
   }

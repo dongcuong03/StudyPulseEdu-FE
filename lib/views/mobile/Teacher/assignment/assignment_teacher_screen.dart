@@ -6,7 +6,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:study_pulse_edu/resources/widgets/PDF_view_dialog_widget.dart';
 import 'package:study_pulse_edu/resources/widgets/image_view_dialog_widget.dart';
-import 'package:study_pulse_edu/viewmodels/mobile/classA_mobile_teacher_view_model.dart';
 
 import '../../../../models/app/Account.dart';
 
@@ -16,6 +15,7 @@ import '../../../../routes/route_const.dart';
 import 'package:path_provider/path_provider.dart';
 import '../../../../resources/utils/helpers/helper_mixin.dart';
 import '../../../../viewmodels/mobile/assignment_teacher_view_model.dart';
+import '../../../../viewmodels/mobile/classRoom_mobile_teacher_view_model.dart';
 
 class AssignmentTeacherScreen extends ConsumerStatefulWidget {
   final Account? account;
@@ -80,8 +80,8 @@ class _AssignmentTeacherScreenState
                     icon: const Icon(Icons.filter_list_alt, size: 30),
                     onPressed: () async {
                       final classList = await ref
-                          .read(classaMobileTeacherViewModelProvider.notifier)
-                          .fetchClassATeacher(id: widget.account?.teacher?.id ?? '');
+                          .read(classRoomMobileTeacherViewModelProvider.notifier)
+                          .fetchClassRoomTeacher(id: widget.account?.teacher?.id ?? '');
                       final classNames = classList.map((e) => e.className).toList();
 
                       showModalBottomSheet(
@@ -211,7 +211,7 @@ class _AssignmentTeacherScreenState
 
                       const SizedBox(height: 10),
                       Text(
-                        "Lớp: ${assignment.classA?.className ?? ''}",
+                        "Lớp: ${assignment.classRoom?.className ?? ''}",
                         style: TextStyle(fontSize: 14),
                       ),
                       const SizedBox(height: 8),

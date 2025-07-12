@@ -1,10 +1,10 @@
-import 'package:study_pulse_edu/models/app/ClassA.dart';
+import 'package:study_pulse_edu/models/app/ClassRoom.dart';
 import 'package:study_pulse_edu/models/app/Student.dart';
 import 'package:study_pulse_edu/resources/constains/constants.dart';
 
 class AcademicResult{
   final Student? student;
-  final ClassA? classA;
+  final ClassRoom? classRoom;
   final double? testScore;
   final double? assignmentScore;
   final double? attendanceScore;
@@ -14,7 +14,7 @@ class AcademicResult{
 
   AcademicResult({
     required this.student,
-    required this.classA,
+    required this.classRoom,
     required this.testScore,
     required this.assignmentScore,
     required this.attendanceScore,
@@ -26,7 +26,7 @@ class AcademicResult{
   factory AcademicResult.fromJson(Map<String, dynamic> json) {
     return AcademicResult(
       student: json['student'] != null ? Student.fromJson(json['student']) : null,
-      classA: json['classA'] != null ? ClassA.fromJson(json['classA']) : null,
+      classRoom: json['classRoom'] != null ? ClassRoom.fromJson(json['classRoom']) : null,
       testScore: (json['testScore'] ?? 0).toDouble(),
       assignmentScore: (json['assignmentScore'] ?? 0).toDouble(),
       attendanceScore: (json['attendanceScore'] ?? 0).toDouble(),
@@ -39,7 +39,7 @@ class AcademicResult{
   Map<String, dynamic> toJson() {
     return {
       'student': student?.toJson(),
-      'classA': classA?.toJson(),
+      'classRoom': classRoom?.toJson(),
       'testScore': testScore,
       'assignmentScore': assignmentScore,
       'attendanceScore': attendanceScore,

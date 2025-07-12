@@ -1,10 +1,10 @@
-import 'package:study_pulse_edu/models/app/ClassA.dart';
+import 'package:study_pulse_edu/models/app/ClassRoom.dart';
 import 'package:study_pulse_edu/models/app/Student.dart';
 
 class Score{
   final String? id;
   final Student? student;
-  final ClassA? classA;
+  final ClassRoom? classRoom;
   final double? scoreTest1;
   final double? scoreTest2;
   final double? scoreMidterm;
@@ -13,7 +13,7 @@ class Score{
   Score({
     this.id,
     this.student,
-    this.classA,
+    this.classRoom,
     this.scoreTest1,
     this.scoreTest2,
     this.scoreMidterm,
@@ -23,7 +23,7 @@ class Score{
   factory Score.fromJson(Map<String, dynamic> json) => Score(
     id: json['id'],
     student:  json['student'] != null ? Student.fromJson(json['student']) : null,
-    classA:  json['classA'] != null ? ClassA.fromJson(json['classA']) : null,
+    classRoom:  json['classRoom'] != null ? ClassRoom.fromJson(json['classRoom']) : null,
     scoreTest1: (json['scoreTest1'] as num?)?.toDouble(),
     scoreTest2: (json['scoreTest2'] as num?)?.toDouble(),
     scoreMidterm: (json['scoreMidterm'] as num?)?.toDouble(),
@@ -32,7 +32,7 @@ class Score{
 
   Map<String, dynamic> toJson() => {
     'studentId': student?.id,
-    'classId': classA?.id,
+    'classId': classRoom?.id,
     'scoreTest1': scoreTest1,
     'scoreTest2': scoreTest2,
     'scoreMidterm': scoreMidterm,

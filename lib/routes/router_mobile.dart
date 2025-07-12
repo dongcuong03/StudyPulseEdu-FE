@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:go_router/go_router.dart';
 import 'package:study_pulse_edu/models/app/Assignment.dart';
-import 'package:study_pulse_edu/models/app/ClassA.dart';
 import 'package:study_pulse_edu/resources/constains/constants.dart';
 import 'package:study_pulse_edu/resources/utils/data_sources/local.dart';
 import 'package:study_pulse_edu/views/mobile/Teacher/academic_result/view_academic_result_teacher_screen.dart';
@@ -37,6 +36,7 @@ import 'package:study_pulse_edu/views/mobile/user/schedule/schedule_user_screen.
 import 'package:study_pulse_edu/views/mobile/user/score/score_user_screen.dart';
 
 import '../models/app/Account.dart';
+import '../models/app/ClassRoom.dart';
 import '../models/app/NotificationApp.dart';
 import '../models/app/Student.dart';
 import '../views/mobile/Teacher/assignment/assign_assignment_teacher_screen.dart';
@@ -179,12 +179,12 @@ class MyRouterMobile {
             pageBuilder: (context, state) {
               final map = state.extra as Map<String, dynamic>?;
               final account = map?['account'] as Account?;
-              final classA = map?['classA'] as ClassA?;
+              final classRoom = map?['ClassRoom'] as ClassRoom?;
               final onClose = map?['onClose'] as VoidCallback?;
               return MyRouterMobile.buildSlideTransitionPage(
                 EnterScoreTeacherScreen(
                   account: account,
-                  classA: classA,
+                  classRoom: classRoom,
                   onClose: onClose,
                 ),
               );
@@ -195,9 +195,9 @@ class MyRouterMobile {
             pageBuilder: (context, state) {
               final map = state.extra as Map<String, dynamic>?;
               final account = map?['account'] as Account?;
-              final classA = map?['classA'] as ClassA?;
+              final classRoom = map?['ClassRoom'] as ClassRoom?;
               return MyRouterMobile.buildSlideTransitionPage(
-                ViewScoreTeacherScreen(account: account, classA: classA),
+                ViewScoreTeacherScreen(account: account, classRoom: classRoom),
               );
             }),
         GoRoute(
@@ -215,9 +215,9 @@ class MyRouterMobile {
             pageBuilder: (context, state) {
               final map = state.extra as Map<String, dynamic>?;
               final account = map?['account'] as Account?;
-              final classA = map?['classA'] as ClassA?;
+              final classRoom = map?['ClassRoom'] as ClassRoom?;
               return MyRouterMobile.buildSlideTransitionPage(
-                AttendanceTeacherTwoScreen(account: account, classA: classA),
+                AttendanceTeacherTwoScreen(account: account, classRoom: classRoom),
               );
             }),
         GoRoute(
@@ -227,13 +227,13 @@ class MyRouterMobile {
             pageBuilder: (context, state) {
               final map = state.extra as Map<String, dynamic>?;
               final account = map?['account'] as Account?;
-              final classA = map?['classA'] as ClassA?;
+              final classRoom = map?['ClassRoom'] as ClassRoom?;
               final date = map?['date'] as DateTime?;
               final onClose = map?['onClose'] as VoidCallback?;
               return MyRouterMobile.buildSlideTransitionPage(
                 AttendanceTeacherThreeScreen(
                   account: account,
-                  classA: classA,
+                  classRoom: classRoom,
                   date: date,
                   onClose: onClose,
                 ),
@@ -246,12 +246,12 @@ class MyRouterMobile {
             pageBuilder: (context, state) {
               final map = state.extra as Map<String, dynamic>?;
               final account = map?['account'] as Account?;
-              final classA = map?['classA'] as ClassA?;
+              final classRoom = map?['ClassRoom'] as ClassRoom?;
               final date = map?['date'] as DateTime?;
               return MyRouterMobile.buildSlideTransitionPage(
                 ViewAttendanceTeacherScreen(
                   account: account,
-                  classA: classA,
+                  classRoom: classRoom,
                   date: date,
                 ),
               );

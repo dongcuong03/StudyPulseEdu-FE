@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:study_pulse_edu/models/app/Assignment.dart';
-import 'package:study_pulse_edu/models/app/ClassA.dart';
+import 'package:study_pulse_edu/models/app/ClassRoom.dart';
 import 'package:study_pulse_edu/models/app/Student.dart';
 
 import '../../../../models/app/Account.dart';
@@ -26,7 +26,7 @@ class GradeAssignmentTeacherScreen extends ConsumerStatefulWidget {
 
 class _GradeAssignmentTeacherScreenState
     extends ConsumerState<GradeAssignmentTeacherScreen> with HelperMixin {
-  ClassA? classA;
+  ClassRoom? classRoom;
   bool _isLoading = false;
 
   @override
@@ -40,10 +40,10 @@ class _GradeAssignmentTeacherScreenState
     showLoading(context, show: true);
     final result = await ref
         .read(classViewModelProvider.notifier)
-        .getClassById(widget.assignment?.classA?.id ?? '');
+        .getClassById(widget.assignment?.classRoom?.id ?? '');
     showLoading(context, show: false);
     setState(() {
-      classA = result;
+      classRoom = result;
       _isLoading = false;
     });
   }
@@ -55,12 +55,12 @@ class _GradeAssignmentTeacherScreenState
             .toList() ??
         [];
 
-    final submittedStudents = classA?.students
+    final submittedStudents = classRoom?.students
             ?.where((s) => submittedStudentIds.contains(s.id))
             .toList() ??
         [];
 
-    final notSubmittedStudents = classA?.students
+    final notSubmittedStudents = classRoom?.students
             ?.where((s) => !submittedStudentIds.contains(s.id))
             .toList() ??
         [];

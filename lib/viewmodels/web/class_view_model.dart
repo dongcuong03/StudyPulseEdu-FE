@@ -3,7 +3,7 @@ import 'dart:math';
 import 'package:dio/dio.dart';
 import 'package:intl/intl.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:study_pulse_edu/models/app/ClassA.dart';
+import 'package:study_pulse_edu/models/app/ClassRoom.dart';
 
 import '../../models/app/PagingResponse.dart';
 import '../../resources/constains/constants.dart';
@@ -20,7 +20,7 @@ class ClassViewModel extends _$ClassViewModel {
   final dateFormat = DateFormat('yyyy-MM-dd');
 
   @override
-  FutureOr<PagingResponse<ClassA>?> build() async {
+  FutureOr<PagingResponse<ClassRoom>?> build() async {
     return await _fetchClasses(
         pageIndex: _currentPageIndex, pageSize: defaultPageSize);
   }
@@ -53,7 +53,7 @@ class ClassViewModel extends _$ClassViewModel {
   }
 
   /// Call API paging
-  Future<PagingResponse<ClassA>?> _fetchClasses(
+  Future<PagingResponse<ClassRoom>?> _fetchClasses(
       {int? pageIndex,
       int pageSize = defaultPageSize,
       String? className,
@@ -85,9 +85,9 @@ class ClassViewModel extends _$ClassViewModel {
 
     final response = await DioClient().post(url, data: data);
     if (response.data == null) return null;
-    return PagingResponse<ClassA>.fromJson(
+    return PagingResponse<ClassRoom>.fromJson(
       response.data,
-      (json) => ClassA.fromJson(json),
+      (json) => ClassRoom.fromJson(json),
     );
   }
 
@@ -122,11 +122,11 @@ class ClassViewModel extends _$ClassViewModel {
   }
 
   /// Call Api createClass
-  Future<String?> createClass(ClassA classA) async {
+  Future<String?> createClass(ClassRoom ClassRoom) async {
     final url = "${ApiConstants.getBaseUrl}/api/v1/class/create";
 
     try {
-      final response = await DioClient().post(url, data: classA.toJson());
+      final response = await DioClient().post(url, data: ClassRoom.toJson());
 
       if (response.statusCode == 200 || response.statusCode == 201) {
         return null;
@@ -150,11 +150,11 @@ class ClassViewModel extends _$ClassViewModel {
   }
 
   /// Call API updateClass
-  Future<String?> updateClass(ClassA classA, String classID) async {
+  Future<String?> updateClass(ClassRoom ClassRoom, String classID) async {
     final url = "${ApiConstants.getBaseUrl}/api/v1/class/update/$classID";
 
     try {
-      final response = await DioClient().put(url, data: classA.toJson());
+      final response = await DioClient().put(url, data: ClassRoom.toJson());
 
       if (response.statusCode == 200 || response.statusCode == 201) {
         return null;
@@ -178,13 +178,13 @@ class ClassViewModel extends _$ClassViewModel {
   }
 
   ///Call Api getClassById
-  Future<ClassA?> getClassById(String id) async {
+  Future<ClassRoom?> getClassById(String id) async {
     final url = "${ApiConstants.getBaseUrl}/api/v1/class/$id";
     try {
       final response = await DioClient().get(url);
       if (response.statusCode == 200) {
         final data = response.data;
-        return ClassA.fromJson(data);
+        return ClassRoom.fromJson(data);
       }
     } catch (e) {
       print('Error getAccountById: $e');

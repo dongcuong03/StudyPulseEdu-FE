@@ -5,10 +5,10 @@ import 'package:flutter_multi_formatter/formatters/money_input_enums.dart';
 import 'package:flutter_multi_formatter/formatters/money_input_formatter.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:study_pulse_edu/models/app/ClassA.dart';
 import 'package:study_pulse_edu/resources/utils/app/app_theme.dart';
 import 'package:study_pulse_edu/viewmodels/web/class_view_model.dart';
 import '../../../../models/app/Account.dart';
+import '../../../../models/app/ClassRoom.dart';
 import '../../../../models/app/Schedule.dart';
 import '../../../../models/app/Teacher.dart';
 import '../../../../resources/constains/constants.dart';
@@ -158,7 +158,7 @@ class _AddClassFormWidgetState extends ConsumerState<AddClassFormWidget>
             selectedSchedules.add(schedules[i]);
           }
         }
-        final classA = ClassA(
+        final classRoom = ClassRoom(
           className: _nameClassController.text,
           maxStudents: int.tryParse(_studentMaxController.text) ?? 0,
           tuitionFee:
@@ -171,7 +171,7 @@ class _AddClassFormWidgetState extends ConsumerState<AddClassFormWidget>
         );
         showLoading(context, show: true);
         final message =
-            await ref.read(classViewModelProvider.notifier).createClass(classA);
+            await ref.read(classViewModelProvider.notifier).createClass(classRoom);
         showLoading(context, show: false);
         if (message != null) {
           showErrorToastWeb(context, message);

@@ -4,17 +4,17 @@ import 'package:intl/intl.dart';
 import 'package:study_pulse_edu/resources/utils/helpers/helper_mixin.dart';
 
 import '../../../../models/app/Account.dart';
-import '../../../../models/app/ClassA.dart';
+import '../../../../models/app/ClassRoom.dart';
 import '../../../../routes/route_const.dart';
 import '../../../../viewmodels/mobile/attendance_teacher_view_model.dart';
 
 class AttendanceTeacherTwoScreen extends ConsumerStatefulWidget {
   final Account? account;
-  final ClassA? classA;
+  final ClassRoom? classRoom;
 
   const AttendanceTeacherTwoScreen({
     required this.account,
-    required this.classA,
+    required this.classRoom,
     super.key,
   });
 
@@ -36,7 +36,7 @@ class _AttendanceTeacherTwoScreenState
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       final dates = await ref
           .read(attendanceTeacherViewModelProvider.notifier)
-          .getAttendanceByClass(widget.classA!.id!);
+          .getAttendanceByClass(widget.classRoom!.id!);
       if (dates != null) {
         setState(() {
           attendedDates = dates;
@@ -49,9 +49,9 @@ class _AttendanceTeacherTwoScreenState
   List<DateTime> _generateScheduleDates() {
     List<DateTime> dates = [];
 
-    final startDate = widget.classA!.startDate!;
-    final endDate = widget.classA!.endDate!;
-    final scheduleWeekdays = widget.classA!.schedules
+    final startDate = widget.classRoom!.startDate!;
+    final endDate = widget.classRoom!.endDate!;
+    final scheduleWeekdays = widget.classRoom!.schedules
         ?.map((e) => e.dayOfWeek?.weekdayNumber)
         .toList();
 
@@ -130,7 +130,7 @@ class _AttendanceTeacherTwoScreenState
                     Expanded(
                         child: Center(
                       child: Text(
-                        widget.classA?.className ?? '',
+                        widget.classRoom?.className ?? '',
                         style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
@@ -144,7 +144,7 @@ class _AttendanceTeacherTwoScreenState
                     Expanded(
                         child: Center(
                       child: Text(
-                        '${formatDate(widget.classA!.startDate.toString())} - ${formatDate(widget.classA!.endDate.toString())}',
+                        '${formatDate(widget.classRoom!.startDate.toString())} - ${formatDate(widget.classRoom!.endDate.toString())}',
                         style: TextStyle(fontSize: 14, color: Colors.blue),
                       ),
                     ))
@@ -242,7 +242,7 @@ class _AttendanceTeacherTwoScreenState
       RouteConstants.teacherViewAttendanceRouteName,
       extra: {
         "account": widget.account,
-        "classA": widget.classA,
+        "ClassRoom": widget.classRoom,
         "date": date,
       },
     );
@@ -254,7 +254,7 @@ class _AttendanceTeacherTwoScreenState
       RouteConstants.teacherAttendanceThreeRouteName,
       extra: {
         "account": widget.account,
-        "classA": widget.classA,
+        "ClassRoom": widget.classRoom,
         "date": date,
         "onClose": () {
           showSuccessToast("Ghi nhận điểm danh thành công");

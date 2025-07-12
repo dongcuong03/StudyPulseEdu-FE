@@ -4,11 +4,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:intl/intl.dart';
 
-import 'package:study_pulse_edu/viewmodels/mobile/classA_mobile_user_view_model.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 import '../../../../resources/utils/app/app_theme.dart';
 import '../../../../resources/utils/helpers/helper_mixin.dart';
+import '../../../../viewmodels/mobile/classRoom_mobile_user_view_model.dart';
 
 class ScheduleUserScreen extends ConsumerStatefulWidget {
   final String? studentId;
@@ -29,8 +29,8 @@ class _ScheduleUserScreenState extends ConsumerState<ScheduleUserScreen>
   void _fetchAndMapSchedule(String studentId) async {
     showLoading(context, show: true);
     final response = await ref
-        .read(classaMobileUserViewModelProvider.notifier)
-        .fetchClassAUser(id: studentId);
+        .read(classRoomMobileUserViewModelProvider.notifier)
+        .fetchClassRoomUser(id: studentId);
 
     final Map<DateTime, List<String>> scheduleMap = {};
 

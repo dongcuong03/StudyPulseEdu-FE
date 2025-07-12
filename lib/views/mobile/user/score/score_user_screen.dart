@@ -203,7 +203,7 @@ class _ScoreUserScreenState extends ConsumerState<ScoreUserScreen> {
                             child: Center(child: Text('${index + 1}'))),
                         Expanded(
                             flex: 5,
-                            child: Text(score.classA?.className ?? '')),
+                            child: Text(score.classRoom?.className ?? '')),
                         Expanded(
                             flex: 2,
                             child: Center(child: Text(formatScore(value)))),

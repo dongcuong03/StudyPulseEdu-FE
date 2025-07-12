@@ -6,7 +6,7 @@ part of 'notify_view_model.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$notifyViewModelHash() => r'b702cd3f892231ceb55960805bdd51a8061b7bfe';
+String _$notifyViewModelHash() => r'd84493303b9b8132657c3c9675a509118f572596';
 
 /// See also [NotifyViewModel].
 @ProviderFor(NotifyViewModel)

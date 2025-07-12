@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../models/app/Account.dart';
 import '../../../../resources/utils/helpers/helper_mixin.dart';
 import '../../../../routes/route_const.dart';
-import '../../../../viewmodels/mobile/classA_mobile_teacher_view_model.dart';
+import '../../../../viewmodels/mobile/classRoom_mobile_teacher_view_model.dart';
 
 class AttendanceTeacherScreen extends ConsumerStatefulWidget {
   final Account? account;
@@ -18,7 +18,7 @@ class AttendanceTeacherScreen extends ConsumerStatefulWidget {
 class _AttendanceTeacherScreenState
     extends ConsumerState<AttendanceTeacherScreen> with HelperMixin {
   void _fetch(String id) async {
-    await ref.read(classaMobileTeacherViewModelProvider.notifier).fetch(id: id);
+    await ref.read(classRoomMobileTeacherViewModelProvider.notifier).fetch(id: id);
   }
 
   @override
@@ -31,7 +31,7 @@ class _AttendanceTeacherScreenState
 
   @override
   Widget build(BuildContext context) {
-    final classListAsync = ref.watch(classaMobileTeacherViewModelProvider);
+    final classListAsync = ref.watch(classRoomMobileTeacherViewModelProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -75,7 +75,7 @@ class _AttendanceTeacherScreenState
                         RouteConstants.teacherAttendanceTwoRouteName,
                         extra: {
                           "account": widget.account,
-                          "classA": classItem,
+                          "ClassRoom": classItem,
                         },
                       );
                     },

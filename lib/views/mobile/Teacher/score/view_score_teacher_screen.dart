@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:study_pulse_edu/models/app/Account.dart';
-import 'package:study_pulse_edu/models/app/ClassA.dart';
+import 'package:study_pulse_edu/models/app/ClassRoom.dart';
 import 'package:study_pulse_edu/models/app/Student.dart';
 import 'package:study_pulse_edu/viewmodels/mobile/score_mobile_teacher_view_model.dart';
 
 class ViewScoreTeacherScreen extends ConsumerStatefulWidget {
   final Account? account;
-  final ClassA? classA;
+  final ClassRoom? classRoom;
 
   const ViewScoreTeacherScreen({
     super.key,
     required this.account,
-    required this.classA,
+    required this.classRoom,
   });
 
   @override
@@ -38,7 +38,7 @@ class _ViewScoreTeacherScreenState
   }
 
   void _loadScores() async {
-    final classId = widget.classA?.id;
+    final classId = widget.classRoom?.id;
     if (classId == null) return;
 
     try {
@@ -70,7 +70,7 @@ class _ViewScoreTeacherScreenState
 
   @override
   Widget build(BuildContext context) {
-    final List<Student> students = widget.classA?.students ?? [];
+    final List<Student> students = widget.classRoom?.students ?? [];
 
     return Scaffold(
       appBar: AppBar(

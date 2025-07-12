@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import 'package:study_pulse_edu/models/app/ClassA.dart';
+import 'package:study_pulse_edu/models/app/ClassRoom.dart';
 import 'package:study_pulse_edu/resources/constains/constants.dart';
 import 'package:study_pulse_edu/viewmodels/web/class_view_model.dart';
 import 'package:study_pulse_edu/views/web/class_management/widget/add_class_form_widget.dart';
@@ -223,7 +223,7 @@ class _ClassManagementScreenState extends ConsumerState<ClassManagementScreen>
     );
   }
 
-  Widget _buildClassList(AsyncValue<PagingResponse<ClassA>?> pagingResponse) {
+  Widget _buildClassList(AsyncValue<PagingResponse<ClassRoom>?> pagingResponse) {
     return Expanded(
       child: pagingResponse.when(
         data: (pagingResponse) {
@@ -232,25 +232,25 @@ class _ClassManagementScreenState extends ConsumerState<ClassManagementScreen>
             itemCount: classes.length,
             separatorBuilder: (_, __) => Divider(height: 0),
             itemBuilder: (context, index) {
-              final classA = classes[index];
+              final ClassRoom = classes[index];
               return ClassRowWidget(
-                className: classA.className ?? '',
-                nameTeacher: classA.teacher?.fullName ?? '',
-                startDate: classA.startDate ?? DateTime.now(),
-                endDate: classA.endDate ?? DateTime.now(),
-                numberStudent: classA.students?.length ?? 0,
-                maxStudent: classA.maxStudents ?? 0,
-                status: classA.status ?? ClassStatus.ACTIVE,
+                className: ClassRoom.className ?? '',
+                nameTeacher: ClassRoom.teacher?.fullName ?? '',
+                startDate: ClassRoom.startDate ?? DateTime.now(),
+                endDate: ClassRoom.endDate ?? DateTime.now(),
+                numberStudent: ClassRoom.students?.length ?? 0,
+                maxStudent: ClassRoom.maxStudents ?? 0,
+                status: ClassRoom.status ?? ClassStatus.ACTIVE,
                 onToggle: () async {
                   bool success;
-                  if (classA.status == ClassStatus.ACTIVE) {
+                  if (ClassRoom.status == ClassStatus.ACTIVE) {
                     success = await ref
                         .read(classViewModelProvider.notifier)
-                        .disableClass(classA.id.toString());
+                        .disableClass(ClassRoom.id.toString());
                   } else {
                     success = await ref
                         .read(classViewModelProvider.notifier)
-                        .enableClass(classA.id.toString());
+                        .enableClass(ClassRoom.id.toString());
                   }
                   if (success) {
                     _fetchPage(pageIndex: currentPageIndex);
@@ -262,7 +262,7 @@ class _ClassManagementScreenState extends ConsumerState<ClassManagementScreen>
                     context: context,
                     barrierDismissible: false,
                     builder: (_) => ViewClassWidget(
-                      classID: classA.id.toString(),
+                      classID: ClassRoom.id.toString(),
                       onClose: () {
                         Navigator.of(context).pop();
                       },
@@ -274,7 +274,7 @@ class _ClassManagementScreenState extends ConsumerState<ClassManagementScreen>
                     context: context,
                     barrierDismissible: false,
                     builder: (_) => EditClassFormWidget(
-                      classID: classA.id.toString(),
+                      classID: ClassRoom.id.toString(),
                       onClose: () {
                         Navigator.of(context).pop();
                         _fetchPage(pageIndex: currentPageIndex);
@@ -287,7 +287,7 @@ class _ClassManagementScreenState extends ConsumerState<ClassManagementScreen>
                     context: context,
                     barrierDismissible: false,
                     builder: (_) => EnrollFormWidget(
-                      classID: classA.id.toString(),
+                      classID: ClassRoom.id.toString(),
                       onClose: () {
                         Navigator.of(context).pop();
                         _fetchPage(pageIndex: currentPageIndex);
@@ -309,7 +309,7 @@ class _ClassManagementScreenState extends ConsumerState<ClassManagementScreen>
     );
   }
 
-  Widget _buildPagination(AsyncValue<PagingResponse<ClassA>?> pagingResponse) {
+  Widget _buildPagination(AsyncValue<PagingResponse<ClassRoom>?> pagingResponse) {
     return pagingResponse.when(
       data: (pagingResponse) {
         final totalElements = pagingResponse?.totalElements ?? 0;

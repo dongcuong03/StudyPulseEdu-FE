@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:study_pulse_edu/viewmodels/mobile/classA_mobile_teacher_view_model.dart';
 
 import '../../../../models/app/Account.dart';
 import '../../../../resources/utils/helpers/helper_mixin.dart';
 import '../../../../routes/route_const.dart';
+import '../../../../viewmodels/mobile/classRoom_mobile_teacher_view_model.dart';
 
 class ClassTeacherScreen extends ConsumerStatefulWidget {
   final Account? account;
@@ -18,7 +18,7 @@ class ClassTeacherScreen extends ConsumerStatefulWidget {
 class _ClassTeacherScreenState extends ConsumerState<ClassTeacherScreen>
     with HelperMixin {
   void _fetch(String id) async {
-    await ref.read(classaMobileTeacherViewModelProvider.notifier).fetch(id: id);
+    await ref.read(classRoomMobileTeacherViewModelProvider.notifier).fetch(id: id);
   }
 
   @override
@@ -31,7 +31,7 @@ class _ClassTeacherScreenState extends ConsumerState<ClassTeacherScreen>
 
   @override
   Widget build(BuildContext context) {
-    final classListAsync = ref.watch(classaMobileTeacherViewModelProvider);
+    final classListAsync = ref.watch(classRoomMobileTeacherViewModelProvider);
 
     return Scaffold(
       appBar: AppBar(

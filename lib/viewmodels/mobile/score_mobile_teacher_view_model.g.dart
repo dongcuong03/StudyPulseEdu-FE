@@ -7,7 +7,7 @@ part of 'score_mobile_teacher_view_model.dart';
 // **************************************************************************
 
 String _$scoreMobileTeacherViewModelHash() =>
-    r'0b35ce1b5c561db4c2ed4f74e2abd5104e9b6022';
+    r'19a8c1ac98ab65282951d24be0fbdf2838f3bb1c';
 
 /// See also [ScoreMobileTeacherViewModel].
 @ProviderFor(ScoreMobileTeacherViewModel)

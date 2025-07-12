@@ -7,7 +7,7 @@ import 'package:table_calendar/table_calendar.dart';
 import '../../../../models/app/Account.dart';
 import '../../../../resources/utils/app/app_theme.dart';
 import '../../../../resources/utils/helpers/helper_mixin.dart';
-import '../../../../viewmodels/mobile/classA_mobile_teacher_view_model.dart';
+import '../../../../viewmodels/mobile/classRoom_mobile_teacher_view_model.dart';
 
 class ScheduleTeacherScreen extends ConsumerStatefulWidget {
   final Account? account;
@@ -28,8 +28,8 @@ class _ScheduleTeacherScreenState extends ConsumerState<ScheduleTeacherScreen>
   void _fetchAndMapSchedule(String teacherId) async {
     showLoading(context, show: true);
     final response = await ref
-        .read(classaMobileTeacherViewModelProvider.notifier)
-        .fetchClassATeacher(id: teacherId);
+        .read(classRoomMobileTeacherViewModelProvider.notifier)
+        .fetchClassRoomTeacher(id: teacherId);
 
     final Map<DateTime, List<String>> scheduleMap = {};
 

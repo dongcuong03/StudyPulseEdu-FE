@@ -1,11 +1,11 @@
 import 'package:study_pulse_edu/models/app/Submission.dart';
 
-import 'ClassA.dart';
+import 'ClassRoom.dart';
 import 'Teacher.dart';
 
 class Assignment{
   final String? id;
-  final ClassA? classA;
+  final ClassRoom? classRoom;
   final String? title;
   final String? description;
   final DateTime? dueDate;
@@ -16,7 +16,7 @@ class Assignment{
   final int? totalStudentOfClass;
   Assignment({
     this.id,
-    this.classA,
+    this.classRoom,
     this.title,
     this.description,
     this.dueDate,
@@ -29,7 +29,7 @@ class Assignment{
   factory Assignment.fromJson(Map<String, dynamic> json) {
     return Assignment(
       id: json['id'] as String?,
-      classA: ClassA(
+      classRoom: ClassRoom(
         id: json['classId'],
         className: json['className'],
         teacher: Teacher(
@@ -53,7 +53,7 @@ class Assignment{
   Map<String, dynamic> toJson() {
     return {
       'id': id,
-      'classA': classA?.toJson(),
+      'classRoom': classRoom?.toJson(),
       'title': title,
       'description': description,
       'dueDate': dueDate?.toIso8601String().split('T').first,

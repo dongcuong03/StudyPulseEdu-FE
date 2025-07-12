@@ -6,18 +6,18 @@ import 'package:study_pulse_edu/resources/constains/constants.dart';
 
 import '../../../../models/app/Account.dart';
 import '../../../../models/app/Attendance.dart';
-import '../../../../models/app/ClassA.dart';
+import '../../../../models/app/ClassRoom.dart';
 import '../../../../resources/utils/helpers/helper_mixin.dart';
 import '../../../../viewmodels/mobile/attendance_teacher_view_model.dart';
 
 class ViewAttendanceTeacherScreen extends ConsumerStatefulWidget {
   final Account? account;
-  final ClassA? classA;
+  final ClassRoom? classRoom;
   final DateTime? date;
 
   const ViewAttendanceTeacherScreen({
     required this.account,
-    required this.classA,
+    required this.classRoom,
     required this.date,
     super.key,
   });
@@ -46,16 +46,16 @@ class _ViewAttendanceTeacherScreenState
   }
 
   Future<void> _loadDataAttendace() async {
-    final classId = widget.classA?.id;
+    final classId = widget.classRoom?.id;
     final date = widget.date;
 
     if (classId == null || date == null) return;
 
     final response = await ref
         .read(attendanceTeacherViewModelProvider.notifier)
-        .getAttendanceByClassAndDate(classId: classId, date: date);
+        .getAttendanceByClassRoomndDate(classId: classId, date: date);
 
-    final students = widget.classA?.students ?? [];
+    final students = widget.classRoom?.students ?? [];
 
     if (response != null && response.isNotEmpty) {
       // Có dữ liệu điểm danh từ API
@@ -132,7 +132,7 @@ class _ViewAttendanceTeacherScreenState
                           Column(
                             children: [
                               Text(
-                                widget.classA?.className ?? '',
+                                widget.classRoom?.className ?? '',
                                 style: const TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.w600,
@@ -162,7 +162,7 @@ class _ViewAttendanceTeacherScreenState
                         children: [
                           _buildStatColumn(
                               'Sĩ số',
-                              widget.classA!.students!.length.toString(),
+                              widget.classRoom!.students!.length.toString(),
                               Colors.blue),
                           _buildVerticalDivider(),
                           _buildStatColumn(
@@ -181,9 +181,9 @@ class _ViewAttendanceTeacherScreenState
                 child: Padding(
                   padding: const EdgeInsets.all(20.0),
                   child: ListView.builder(
-                    itemCount: widget.classA?.students?.length ?? 0,
+                    itemCount: widget.classRoom?.students?.length ?? 0,
                     itemBuilder: (context, index) {
-                      final student = widget.classA!.students![index];
+                      final student = widget.classRoom!.students![index];
                       final studentId = student.id!;
                       final status = _attendanceStatus[studentId];
                       final controller = _noteControllers[studentId];

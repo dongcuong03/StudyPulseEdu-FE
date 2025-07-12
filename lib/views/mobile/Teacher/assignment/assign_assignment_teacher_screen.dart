@@ -12,12 +12,12 @@ import 'package:study_pulse_edu/models/app/Assignment.dart';
 import 'package:study_pulse_edu/viewmodels/mobile/assignment_teacher_view_model.dart';
 
 import '../../../../models/app/Account.dart';
-import '../../../../models/app/ClassA.dart';
+import '../../../../models/app/ClassRoom.dart';
 import '../../../../resources/constains/constants.dart';
 import '../../../../resources/utils/app/app_theme.dart';
 import '../../../../resources/utils/helpers/helper_mixin.dart';
 import '../../../../resources/widgets/app_input_second.dart';
-import '../../../../viewmodels/mobile/classA_mobile_teacher_view_model.dart';
+import '../../../../viewmodels/mobile/classRoom_mobile_teacher_view_model.dart';
 
 class AssignAssignmentTeacherScreen extends ConsumerStatefulWidget {
   final Account? account;
@@ -99,10 +99,10 @@ class _AssignAssignmentTeacherScreenState
 
   void fetchClassList(String id) async {
     final fetchedList = await ref
-        .read(classaMobileTeacherViewModelProvider.notifier)
-        .fetchClassATeacher(id: id);
+        .read(classRoomMobileTeacherViewModelProvider.notifier)
+        .fetchClassRoomTeacher(id: id);
     setState(() {
-      classList = fetchedList.map((classA) => classA.className).toList();
+      classList = fetchedList.map((ClassRoom) => ClassRoom.className).toList();
     });
   }
 
@@ -480,7 +480,7 @@ class _AssignAssignmentTeacherScreenState
     if (isValidForm) {
       final viewModel = ref.read(assignmentTeacherViewModelProvider.notifier);
       Assignment assignment = Assignment(
-          classA: ClassA(
+          classRoom: ClassRoom(
             className: selectedClass,
             teacher: widget.account?.teacher,
           ),

@@ -83,10 +83,10 @@ class AssignmentCard extends StatelessWidget with HelperMixin {
                   children: [
                     CircleAvatar(
                       radius: 24,
-                      backgroundImage: assignment.classA?.teacher?.avatarUrl !=
+                      backgroundImage: assignment.classRoom?.teacher?.avatarUrl !=
                               null
                           ? NetworkImage(
-                              "${ApiConstants.getBaseUrl}/uploads/${assignment.classA?.teacher?.avatarUrl}")
+                              "${ApiConstants.getBaseUrl}/uploads/${assignment.classRoom?.teacher?.avatarUrl}")
                           : null,
                       onBackgroundImageError: (_, __) {},
                     ),
@@ -95,7 +95,7 @@ class AssignmentCard extends StatelessWidget with HelperMixin {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          assignment.classA?.teacher?.fullName ?? '',
+                          assignment.classRoom?.teacher?.fullName ?? '',
                           style: const TextStyle(
                               fontSize: 16, fontWeight: FontWeight.bold),
                         ),
@@ -179,7 +179,7 @@ class AssignmentCard extends StatelessWidget with HelperMixin {
                                               "studentName": studentName,
                                               "studentCode": studentCode,
                                               "className":
-                                                  assignment.classA?.className,
+                                                  assignment.classRoom?.className,
                                               "title": assignment.title,
                                               "assignmentId": assignment.id,
                                               "onClose": onSubmitted,
@@ -209,7 +209,7 @@ class AssignmentCard extends StatelessWidget with HelperMixin {
             ),
 
             const SizedBox(height: 10),
-            Text("Lớp: ${assignment.classA?.className ?? ''}"),
+            Text("Lớp: ${assignment.classRoom?.className ?? ''}"),
             const SizedBox(height: 8),
             Text(
               (assignment.dueDate != null && assignment.dueTime != null)

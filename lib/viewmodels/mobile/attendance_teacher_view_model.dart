@@ -66,8 +66,8 @@ class AttendanceTeacherViewModel extends _$AttendanceTeacherViewModel {
     }
   }
 
-  /// call API getAttendanceByClassAndDate
-  Future<List<Attendance>?> getAttendanceByClassAndDate({
+  /// call API getAttendanceByClassRoomndDate
+  Future<List<Attendance>?> getAttendanceByClassRoomndDate({
     required String classId,
     required DateTime date,
   }) async {
@@ -87,7 +87,7 @@ class AttendanceTeacherViewModel extends _$AttendanceTeacherViewModel {
         return null;
       }
     } catch (e) {
-      print("Lỗi khi gọi API getAttendanceByClassAndDate: $e");
+      print("Lỗi khi gọi API getAttendanceByClassRoomndDate: $e");
       return null;
     }
   }

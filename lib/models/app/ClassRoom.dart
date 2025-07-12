@@ -5,7 +5,7 @@ import 'Assignment.dart';
 import 'Student.dart';
 import 'Teacher.dart';
 
-class ClassA{
+class ClassRoom{
   final String? id;
   final String? className;
   final String? description;
@@ -19,7 +19,7 @@ class ClassA{
   final List<Student>? students;
   final List<Assignment>? assignments;
 
-  ClassA({
+  ClassRoom({
     this.id,
     this.className,
     this.description,
@@ -34,8 +34,8 @@ class ClassA{
     this.assignments,
   });
 
-  factory ClassA.fromJson(Map<String, dynamic> json) {
-    return ClassA(
+  factory ClassRoom.fromJson(Map<String, dynamic> json) {
+    return ClassRoom(
       id: json['id'] as String?,
       className: json['className'] as String?,
       description: json['description'] as String?,
